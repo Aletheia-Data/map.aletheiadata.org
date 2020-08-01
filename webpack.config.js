@@ -25,7 +25,6 @@
 const resolve = require('path').resolve;
 const join = require('path').join;
 const webpack = require('webpack');
-const HtmlWebPackPlugin = require("html-webpack-plugin");
 const CopyPlugin = require('copy-webpack-plugin');
 
 require('dotenv').config()
@@ -83,10 +82,6 @@ const CONFIG = {
       patterns: [
         { from: 'public', to: './' },
       ],
-    }),
-    new HtmlWebPackPlugin({
-      template: "./build/index.html",
-      filename: "./index.html"
     })
   ]
 };
