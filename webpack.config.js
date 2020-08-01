@@ -38,7 +38,7 @@ const CONFIG = {
   output: {
     path: resolve(__dirname, 'build'),
     filename: 'bundle.js',
-    publicPath: '/'
+    publicPath: '/public'
   },
 
   devtool: 'source-map',
