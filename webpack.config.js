@@ -25,7 +25,8 @@
 const resolve = require('path').resolve;
 const join = require('path').join;
 const webpack = require('webpack');
-require('dotenv').config();
+const HtmlWebPackPlugin = require("html-webpack-plugin");
+require('dotenv').config()
 
 const CONFIG = {
   // bundle app.js and everything it imports, recursively.
@@ -47,6 +48,14 @@ const CONFIG = {
         loader: 'babel-loader',
         include: [join(__dirname, 'src')],
         exclude: [/node_modules/]
+      },
+      {
+        test: /\.html$/,
+        use: [
+          {
+            loader: "html-loader"
+          }
+        ]
       }
     ]
   },
@@ -67,7 +76,11 @@ const CONFIG = {
       'DropboxClientId',
       'MapboxExportToken',
       'CartoClientId'
-    ])
+    ]),
+    new HtmlWebPackPlugin({
+      template: "./src/index.html",
+      filename: "./index.html"
+    })
   ]
 };
 
