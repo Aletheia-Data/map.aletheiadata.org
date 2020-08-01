@@ -20,7 +20,7 @@
 
 import {IndexRoute, Route} from 'react-router';
 import React from 'react';
-import Demo from '../app';
+import Demo from '../app.js';
 import {getCloudProvider, DEFAULT_CLOUD_PROVIDER} from '../cloud-providers';
 
 export function onAuthEnterCallback(nextState, replace, callback) {
