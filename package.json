@@ -40,6 +40,7 @@
     "@babel/preset-env": "^7.0.0",
     "@babel/preset-react": "^7.0.0",
     "babel-loader": "^8.0.0",
+    "copy-webpack-plugin": "^6.0.3",
     "html-loader": "^1.1.0",
     "html-webpack-plugin": "^4.3.0",
     "webpack": "^4.44.1",

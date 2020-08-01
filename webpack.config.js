@@ -26,6 +26,8 @@ const resolve = require('path').resolve;
 const join = require('path').join;
 const webpack = require('webpack');
 const HtmlWebPackPlugin = require("html-webpack-plugin");
+const CopyPlugin = require('copy-webpack-plugin');
+
 require('dotenv').config()
 
 const CONFIG = {
@@ -77,8 +79,13 @@ const CONFIG = {
       'MapboxExportToken',
       'CartoClientId'
     ]),
+    new CopyPlugin({
+      patterns: [
+        { from: 'public', to: './' },
+      ],
+    }),
     new HtmlWebPackPlugin({
-      template: "./src/index.html",
+      template: "./build/index.html",
       filename: "./index.html"
     })
   ]
