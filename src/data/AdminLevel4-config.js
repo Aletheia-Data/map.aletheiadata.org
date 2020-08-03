@@ -28,6 +28,67 @@ const config = {
           id: 'ze2p6id',
           type: 'geojson',
           config: {
+            dataId: 'provinces',
+            label: 'Provincias',
+            color: [151, 14, 45],
+            columns: {
+              geojson: '_geojson'
+            },
+            isVisible: true,
+            visConfig: {
+              opacity: 0.8,
+              thickness: 0.5,
+              strokeColor: [77, 193, 156],
+              colorRange: {
+                name: 'Global Warming',
+                type: 'sequential',
+                category: 'Uber',
+                colors: ['#5A1846', '#900C3F', '#C70039', '#E3611C', '#F1920E', '#FFC300']
+              },
+              strokeColorRange: {
+                name: 'Global Warming',
+                type: 'sequential',
+                category: 'Uber',
+                colors: ['#5A1846', '#900C3F', '#C70039', '#E3611C', '#F1920E', '#FFC300']
+              },
+              radius: 22.5,
+              sizeRange: [0, 10],
+              radiusRange: [0, 50],
+              heightRange: [0, 500],
+              elevationScale: 5,
+              stroked: true,
+              filled: true,
+              enable3d: false,
+              wireframe: false
+            },
+            textLabel: [
+              {
+                field: null,
+                color: [255, 255, 255],
+                size: 18,
+                offset: [0, 0],
+                anchor: 'start',
+                alignment: 'center'
+              }
+            ]
+          },
+          visualChannels: {
+            colorField: null,
+            colorScale: 'quantile',
+            sizeField: null,
+            sizeScale: 'linear',
+            strokeColorField: null,
+            strokeColorScale: 'quantile',
+            heightField: null,
+            heightScale: 'linear',
+            radiusField: null,
+            radiusScale: 'linear'
+          }
+        },
+        /*{
+          id: 'ze2p6id',
+          type: 'geojson',
+          config: {
             dataId: 'area-1',
             label: 'Municipalities',
             color: [151, 14, 45],
@@ -450,7 +511,7 @@ const config = {
             radiusField: null,
             radiusScale: 'linear'
           }
-        }
+        }*/
       ],
       interactionConfig: {
         tooltip: {

@@ -56,6 +56,8 @@ const KeplerGl = require('kepler.gl/components').injectComponents([
 // config
 import AdminLevel4Config from './data/AdminLevel4-config';
 // cities
+import Provincies from './data/map/provincies.js';
+/*
 import Cities1 from './data/map/cities1';
 import Cities2 from './data/map/cities2';
 import Cities3 from './data/map/cities3';
@@ -63,6 +65,7 @@ import Cities4 from './data/map/cities4';
 import Cities5 from './data/map/cities5';
 import Cities6 from './data/map/cities6';
 import Cities7 from './data/map/cities7';
+*/
 
 //import sampleH3Data, {config as h3MapConfig} from './data/sample-hex-id-csv';
 //import sampleS2Data, {config as s2MapConfig, dataId as s2DataId} from './data/sample-s2-data';
@@ -320,6 +323,10 @@ class App extends Component {
       addDataToMap({
         datasets: [
           {
+            info: {label: 'Provincias', id: 'provinces'},
+            data: processGeojson(Provincies)
+          }
+          /*{
             info: {label: 'Area 1', id: 'area-1'},
             data: processGeojson(Cities1)
           },
@@ -346,7 +353,7 @@ class App extends Component {
           {
             info: {label: 'Area 7', id: 'area-7'},
             data: processGeojson(Cities7)
-          }
+          }*/
         ],
         options: {
           keepExistingConfig: false
