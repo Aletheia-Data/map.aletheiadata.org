@@ -48,14 +48,26 @@ const KeplerGl = require('kepler.gl/components').injectComponents([
 
 // Sample data
 /* eslint-disable no-unused-vars */
-import sampleTripData, {testCsvData, sampleTripDataConfig} from './data/sample-trip-data';
-import sampleGeojson from './data/sample-small-geojson';
-import sampleGeojsonPoints from './data/sample-geojson-points';
-import sampleGeojsonConfig from './data/sample-geojson-config';
-import sampleH3Data, {config as h3MapConfig} from './data/sample-hex-id-csv';
-import sampleS2Data, {config as s2MapConfig, dataId as s2DataId} from './data/sample-s2-data';
-import sampleAnimateTrip from './data/sample-animate-trip-data';
-import sampleIconCsv, {config as savedMapConfig} from './data/sample-icon-csv';
+//import sampleTripData, {testCsvData, sampleTripDataConfig} from './data/sample-trip-data';
+//import sampleGeojson from './data/sample-small-geojson';
+//import sampleGeojsonPoints from './data/sample-geojson-points';
+//import sampleGeojsonConfig from './data/sample-geojson-config';
+//
+// config
+import AdminLevel4Config from './data/AdminLevel4-config';
+// cities
+import Cities1 from './data/map/cities1';
+import Cities2 from './data/map/cities2';
+import Cities3 from './data/map/cities3';
+import Cities4 from './data/map/cities4';
+import Cities5 from './data/map/cities5';
+import Cities6 from './data/map/cities6';
+import Cities7 from './data/map/cities7';
+
+//import sampleH3Data, {config as h3MapConfig} from './data/sample-hex-id-csv';
+//import sampleS2Data, {config as s2MapConfig, dataId as s2DataId} from './data/sample-s2-data';
+//import sampleAnimateTrip from './data/sample-animate-trip-data';
+//import sampleIconCsv, {config as savedMapConfig} from './data/sample-icon-csv';
 import {addDataToMap, addNotification} from 'kepler.gl/actions';
 import {processCsvData, processGeojson} from 'kepler.gl/processors';
 /* eslint-enable no-unused-vars */
@@ -130,16 +142,17 @@ class App extends Component {
 
     // delay zs to show the banner
     if (!window.localStorage.getItem(BannerKey)) {
-      window.setTimeout(this._showBanner, 3000);
+      //window.setTimeout(this._showBanner, 3000);
     }
     // load sample data
-    // this._loadSampleData();
+    this._loadSampleData();
 
     // Notifications
     // this._loadMockNotifications();
   }
 
   _showBanner = () => {
+    // disable banner
     this.setState({showBanner: true});
   };
 
@@ -175,15 +188,17 @@ class App extends Component {
   }
 
   _loadSampleData() {
-    this._loadPointData();
-    // this._loadGeojsonData();
-    // this._loadTripGeoJson();
+    //this._loadPointData();
+    //this._loadGeojsonData();
+    this._loadDRData();
+    //this._loadTripGeoJson();
     // this._loadIconData();
-    // this._loadH3HexagonData();
+    //this._loadH3HexagonData();
     // this._loadS2Data();
     // this._loadScenegraphLayer();
   }
 
+  /*
   _loadPointData() {
     this.props.dispatch(
       addDataToMap({
@@ -202,7 +217,9 @@ class App extends Component {
       })
     );
   }
+  */
 
+  /*
   _loadScenegraphLayer() {
     this.props.dispatch(
       addDataToMap({
@@ -236,7 +253,9 @@ class App extends Component {
       })
     );
   }
+  */
 
+  /*
   _loadIconData() {
     // load icon data and config and process csv file
     this.props.dispatch(
@@ -253,7 +272,10 @@ class App extends Component {
       })
     );
   }
+  */
 
+
+  /*
   _loadTripGeoJson() {
     this.props.dispatch(
       addDataToMap({
@@ -266,7 +288,9 @@ class App extends Component {
       })
     );
   }
+  */
 
+  /*
   _loadGeojsonData() {
     // load geojson
     this.props.dispatch(
@@ -288,7 +312,51 @@ class App extends Component {
       })
     );
   }
+  */
 
+  _loadDRData() {
+    // load geojson
+    this.props.dispatch(
+      addDataToMap({
+        datasets: [
+          {
+            info: {label: 'Area 1', id: 'area-1'},
+            data: processGeojson(Cities1)
+          },
+          {
+            info: {label: 'Area 2', id: 'area-2'},
+            data: processGeojson(Cities2)
+          },
+          {
+            info: {label: 'Area 3', id: 'area-3'},
+            data: processGeojson(Cities3)
+          },
+          {
+            info: {label: 'Area 4', id: 'area-4'},
+            data: processGeojson(Cities4)
+          },
+          {
+            info: {label: 'Area 5', id: 'area-5'},
+            data: processGeojson(Cities5)
+          },
+          {
+            info: {label: 'Area 6', id: 'area-6'},
+            data: processGeojson(Cities6)
+          },
+          {
+            info: {label: 'Area 7', id: 'area-7'},
+            data: processGeojson(Cities7)
+          }
+        ],
+        options: {
+          keepExistingConfig: false
+        },
+        config: AdminLevel4Config
+      })
+    );
+  }
+
+  /*
   _loadH3HexagonData() {
     // load h3 hexagon
     this.props.dispatch(
@@ -309,7 +377,9 @@ class App extends Component {
       })
     );
   }
+  */
 
+  /*
   _loadS2Data() {
     // load s2
     this.props.dispatch(
@@ -330,6 +400,7 @@ class App extends Component {
       })
     );
   }
+  */
 
   _toggleCloudModal = () => {
     // TODO: this lives only in the demo hence we use the state for now

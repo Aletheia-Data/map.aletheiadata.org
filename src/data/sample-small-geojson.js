@@ -18,11 +18,15 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+// import map 
+import cities1 from './map/cities-1.json';
 export default {
   type: 'FeatureCollection',
   features: [
+    cities1
+    /*
     {
-      type: 'Feature',
+      type: 'Feature', 
       properties: {OBJECTID: 1, ZIP_CODE: 94107, ID: 94107},
       geometry: {
         type: 'Polygon',
@@ -11041,6 +11045,6 @@ export default {
           ]
         ]
       }
-    }
+    }*/
   ]
 };
