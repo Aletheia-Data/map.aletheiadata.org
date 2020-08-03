@@ -56,7 +56,7 @@ const KeplerGl = require('kepler.gl/components').injectComponents([
 // config
 import AdminLevel4Config from './data/AdminLevel4-config';
 // cities
-import Provincies from './data/map/provincies.js';
+//import Provincies from './data/map/provincies.js';
 /*
 import Cities1 from './data/map/cities1';
 import Cities2 from './data/map/cities2';
@@ -317,50 +317,64 @@ class App extends Component {
   }
   */
 
-  _loadDRData() {
-    // load geojson
-    this.props.dispatch(
-      addDataToMap({
-        datasets: [
-          {
-            info: {label: 'Provincias', id: 'provinces'},
-            data: processGeojson(Provincies)
-          }
-          /*{
-            info: {label: 'Area 1', id: 'area-1'},
-            data: processGeojson(Cities1)
+  async _loadDRData( ) {
+    await fetch('https://s3.amazonaws.com/map.aletheiadata.org/maps/administrative-level4.geojson', {
+      mode: 'cors',
+      cache: 'no-cache',
+      headers: {
+        'Access-Control-Allow-Origin':'*',
+        "Content-Type": "application/json"
+      }
+    })
+    .then(res => res.json() )
+    .then(async data =>{
+      console.log(data);
+      // load geojson
+      this.props.dispatch(
+        addDataToMap({
+          datasets: [
+            {
+              info: {label: 'Provincias', id: 'provinces'},
+              data: await processGeojson(data)
+            }
+            /*{
+              info: {label: 'Area 1', id: 'area-1'},
+              data: processGeojson(Cities1)
+            },
+            {
+              info: {label: 'Area 2', id: 'area-2'},
+              data: processGeojson(Cities2)
+            },
+            {
+              info: {label: 'Area 3', id: 'area-3'},
+              data: processGeojson(Cities3)
+            },
+            {
+              info: {label: 'Area 4', id: 'area-4'},
+              data: processGeojson(Cities4)
+            },
+            {
+              info: {label: 'Area 5', id: 'area-5'},
+              data: processGeojson(Cities5)
+            },
+            {
+              info: {label: 'Area 6', id: 'area-6'},
+              data: processGeojson(Cities6)
+            },
+            {
+              info: {label: 'Area 7', id: 'area-7'},
+              data: processGeojson(Cities7)
+            }*/
+          ],
+          options: {
+            keepExistingConfig: false
           },
-          {
-            info: {label: 'Area 2', id: 'area-2'},
-            data: processGeojson(Cities2)
-          },
-          {
-            info: {label: 'Area 3', id: 'area-3'},
-            data: processGeojson(Cities3)
-          },
-          {
-            info: {label: 'Area 4', id: 'area-4'},
-            data: processGeojson(Cities4)
-          },
-          {
-            info: {label: 'Area 5', id: 'area-5'},
-            data: processGeojson(Cities5)
-          },
-          {
-            info: {label: 'Area 6', id: 'area-6'},
-            data: processGeojson(Cities6)
-          },
-          {
-            info: {label: 'Area 7', id: 'area-7'},
-            data: processGeojson(Cities7)
-          }*/
-        ],
-        options: {
-          keepExistingConfig: false
-        },
-        config: AdminLevel4Config
-      })
-    );
+          config: AdminLevel4Config
+        })
+      );
+
+
+    });
   }
 
   /*
