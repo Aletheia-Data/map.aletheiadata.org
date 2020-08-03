@@ -318,7 +318,7 @@ class App extends Component {
   */
 
   async _loadDRData( ) {
-    await fetch('https://s3.amazonaws.com/map.aletheiadata.org/maps/administrative-level4.geojson', {
+    await fetch('https://s3.amazonaws.com/map.aletheiadata.org/maps/provincies.json', {
       mode: 'cors',
       cache: 'no-cache',
       headers: {
