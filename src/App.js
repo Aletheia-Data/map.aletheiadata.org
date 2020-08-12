@@ -72,6 +72,10 @@ const GlobalStyle = styled.div`
     box-sizing: border-box;
   }
 
+  h2{
+    line-height: normal;
+  }
+
   ul {
     margin: 0;
     padding: 0;
@@ -84,6 +88,10 @@ const GlobalStyle = styled.div`
   a {
     text-decoration: none;
     color: ${props => props.theme.labelColor};
+  }
+
+  .map-control{
+    display: none
   }
 `;
 
@@ -198,7 +206,7 @@ class App extends Component {
             }
           ],
           options: {
-            //keepExistingConfig: false,
+            keepExistingConfig: false,
             readOnly: true,
             mapControls: {
               toggle3d: { show: false },
@@ -338,7 +346,7 @@ class App extends Component {
                       * Specify path to keplerGl state, because it is not mount at the root
                       */
                       onViewStateChange={(e) => console.log(e) }
-                      //mapStyles={mapStyles}
+                      mapStyles={mapStyles}
                       theme={customTheme}
                       getState={keplerGlGetState}
                       width={width}

@@ -63,7 +63,7 @@ var styles = {
     position: 'relative',
     right: '10px',
     background: '#fff',
-    padding: '2.5em 1.5em 0',
+    padding: '2em 1.5em 0',
     fontSize: '1.15em',
     boxShadow: 'rgba(0, 0, 0, 0.12) 0px 8px 20px, rgba(0, 0, 0, 0.1) 0px 2px 5px'
   },
@@ -71,8 +71,7 @@ var styles = {
     fill: '#373a47'
   },
   bmItemList: {
-    color: '#b8b7ad',
-    padding: '0.8em'
+    color: '#b8b7ad'
   },
   bmItem: {
     display: 'inline-block'

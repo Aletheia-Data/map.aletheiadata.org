@@ -31,7 +31,7 @@ const config = {
             "dataId": "provinces",
             "label": "Provincias",
             "color": [
-              157,208,212
+              245, 237, 249
             ],
             "columns": {
               "geojson": "_geojson"
@@ -39,10 +39,10 @@ const config = {
             "isVisible": true,
             "visConfig": {
               "opacity": 0.29,
-              "strokeOpacity": 0.29,
-              "thickness": 0.8,
+              "strokeOpacity": 1,
+              "thickness": 1,
               "strokeColor": [
-                157,208,212
+                236, 218, 245
               ],
               "colorRange": {
                 "name": "Global Warming",
