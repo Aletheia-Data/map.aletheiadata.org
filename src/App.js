@@ -314,7 +314,7 @@ class App extends Component {
             alignItems: 'center'
           }}>
               <img style={{
-              width: '20%',
+              width: '150px',
               height: 'auto'  
             }} src={'/assets/img/loader.svg'} /> 
           </div>

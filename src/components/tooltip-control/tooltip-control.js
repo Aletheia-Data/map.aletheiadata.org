@@ -22,6 +22,8 @@ import React, {useState} from 'react';
 import styled from 'styled-components';
 import {LayerHoverInfoFactory} from 'kepler.gl/components';
 
+import InfoPanel from '../info-panel-control/info-panel-control';
+
 import { slide as Menu } from 'react-burger-menu';
 
 const TooltipControl = LayerHoverInfoFactory();
@@ -55,9 +57,15 @@ var styles = {
     height: '100%'
   },
   bmMenu: {
-    background: '#373a47',
+    height: '80%',
+    marginLeft: '10px',
+    top: '10px',
+    position: 'relative',
+    right: '10px',
+    background: '#fff',
     padding: '2.5em 1.5em 0',
-    fontSize: '1.15em'
+    fontSize: '1.15em',
+    boxShadow: 'rgba(0, 0, 0, 0.12) 0px 8px 20px, rgba(0, 0, 0, 0.1) 0px 2px 5px'
   },
   bmMorphShape: {
     fill: '#373a47'
@@ -100,7 +108,7 @@ class CustomTooltipControl extends React.Component {
         ){
           this.state.currentSelection = dataLayer,
           this.state.isOpen = true;
-          //console.log('here----->>>>>',dataLayer);
+          console.log(dataLayer);
         }
       }
       
@@ -112,10 +120,7 @@ class CustomTooltipControl extends React.Component {
               styles={ styles }
               isOpen={!this.state.isOpen}
             >
-              <a onClick={(e) => console.log(e)}>Home</a>
-              <a onClick={(e) => console.log(e)}>About</a>
-              <a onClick={(e) => console.log(e)}>Contact</a>
-              <a onClick={(e) => console.log(e)}>Settings</a>
+              <InfoPanel data={this.state.currentSelection} />
             </Menu>
         </StyledMapControlOverlay>
       )
