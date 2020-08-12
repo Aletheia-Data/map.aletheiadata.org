@@ -19,530 +19,195 @@
 // THE SOFTWARE.
 
 const config = {
-  version: 'v1',
-  config: {
-    visState: {
-      filters: [],
-      layers: [
+  "version": "v1",
+  "config": {
+    "visState": {
+      "filters": [],
+      "layers": [
         {
-          id: 'ze2p6id',
-          type: 'geojson',
-          config: {
-            dataId: 'provinces',
-            label: 'Provincias',
-            color: [151, 14, 45],
-            columns: {
-              geojson: '_geojson'
+          "id": "ze2p6id",
+          "type": "geojson",
+          "config": {
+            "dataId": "provinces",
+            "label": "Provincias",
+            "color": [
+              61,
+              122,
+              62
+            ],
+            "columns": {
+              "geojson": "_geojson"
             },
-            isVisible: true,
-            visConfig: {
-              opacity: 0.8,
-              thickness: 0.5,
-              strokeColor: [77, 193, 156],
-              colorRange: {
-                name: 'Global Warming',
-                type: 'sequential',
-                category: 'Uber',
-                colors: ['#5A1846', '#900C3F', '#C70039', '#E3611C', '#F1920E', '#FFC300']
+            "isVisible": true,
+            "visConfig": {
+              "opacity": 0.49,
+              "strokeOpacity": 0.8,
+              "thickness": 0.5,
+              "strokeColor": [
+                69,
+                138,
+                70
+              ],
+              "colorRange": {
+                "name": "Global Warming",
+                "type": "sequential",
+                "category": "Uber",
+                "colors": [
+                  "#5A1846",
+                  "#900C3F",
+                  "#C70039",
+                  "#E3611C",
+                  "#F1920E",
+                  "#FFC300"
+                ]
               },
-              strokeColorRange: {
-                name: 'Global Warming',
-                type: 'sequential',
-                category: 'Uber',
-                colors: ['#5A1846', '#900C3F', '#C70039', '#E3611C', '#F1920E', '#FFC300']
+              "strokeColorRange": {
+                "name": "Global Warming",
+                "type": "sequential",
+                "category": "Uber",
+                "colors": [
+                  "#5A1846",
+                  "#900C3F",
+                  "#C70039",
+                  "#E3611C",
+                  "#F1920E",
+                  "#FFC300"
+                ]
               },
-              radius: 22.5,
-              sizeRange: [0, 10],
-              radiusRange: [0, 50],
-              heightRange: [0, 500],
-              elevationScale: 5,
-              stroked: true,
-              filled: true,
-              enable3d: false,
-              wireframe: false
+              "radius": 22.5,
+              "sizeRange": [
+                0,
+                10
+              ],
+              "radiusRange": [
+                0,
+                50
+              ],
+              "heightRange": [
+                0,
+                500
+              ],
+              "elevationScale": 5,
+              "stroked": true,
+              "filled": true,
+              "enable3d": false,
+              "wireframe": false
             },
-            textLabel: [
+            "hidden": false,
+            "textLabel": [
               {
-                field: null,
-                color: [255, 255, 255],
-                size: 18,
-                offset: [0, 0],
-                anchor: 'start',
-                alignment: 'center'
+                "field": null,
+                "color": [
+                  255,
+                  255,
+                  255
+                ],
+                "size": 18,
+                "offset": [
+                  0,
+                  0
+                ],
+                "anchor": "start",
+                "alignment": "center"
               }
             ]
           },
-          visualChannels: {
-            colorField: null,
-            colorScale: 'quantile',
-            sizeField: null,
-            sizeScale: 'linear',
-            strokeColorField: null,
-            strokeColorScale: 'quantile',
-            heightField: null,
-            heightScale: 'linear',
-            radiusField: null,
-            radiusScale: 'linear'
+          "visualChannels": {
+            "colorField": null,
+            "colorScale": "quantile",
+            "sizeField": null,
+            "sizeScale": "linear",
+            "strokeColorField": null,
+            "strokeColorScale": "quantile",
+            "heightField": null,
+            "heightScale": "linear",
+            "radiusField": null,
+            "radiusScale": "linear"
           }
-        },
-        /*{
-          id: 'ze2p6id',
-          type: 'geojson',
-          config: {
-            dataId: 'area-1',
-            label: 'Municipalities',
-            color: [151, 14, 45],
-            columns: {
-              geojson: '_geojson'
-            },
-            isVisible: true,
-            visConfig: {
-              opacity: 0.8,
-              thickness: 0.5,
-              strokeColor: [77, 193, 156],
-              colorRange: {
-                name: 'Global Warming',
-                type: 'sequential',
-                category: 'Uber',
-                colors: ['#5A1846', '#900C3F', '#C70039', '#E3611C', '#F1920E', '#FFC300']
-              },
-              strokeColorRange: {
-                name: 'Global Warming',
-                type: 'sequential',
-                category: 'Uber',
-                colors: ['#5A1846', '#900C3F', '#C70039', '#E3611C', '#F1920E', '#FFC300']
-              },
-              radius: 22.5,
-              sizeRange: [0, 10],
-              radiusRange: [0, 50],
-              heightRange: [0, 500],
-              elevationScale: 5,
-              stroked: true,
-              filled: true,
-              enable3d: false,
-              wireframe: false
-            },
-            textLabel: [
-              {
-                field: null,
-                color: [255, 255, 255],
-                size: 18,
-                offset: [0, 0],
-                anchor: 'start',
-                alignment: 'center'
-              }
-            ]
-          },
-          visualChannels: {
-            colorField: null,
-            colorScale: 'quantile',
-            sizeField: null,
-            sizeScale: 'linear',
-            strokeColorField: null,
-            strokeColorScale: 'quantile',
-            heightField: null,
-            heightScale: 'linear',
-            radiusField: null,
-            radiusScale: 'linear'
-          }
-        },
-        {
-          id: 'ze2p6id',
-          type: 'geojson',
-          config: {
-            dataId: 'area-2',
-            label: 'Municipalities',
-            color: [151, 14, 45],
-            columns: {
-              geojson: '_geojson'
-            },
-            isVisible: true,
-            visConfig: {
-              opacity: 0.8,
-              thickness: 0.5,
-              strokeColor: [77, 193, 156],
-              colorRange: {
-                name: 'Global Warming',
-                type: 'sequential',
-                category: 'Uber',
-                colors: ['#5A1846', '#900C3F', '#C70039', '#E3611C', '#F1920E', '#FFC300']
-              },
-              strokeColorRange: {
-                name: 'Global Warming',
-                type: 'sequential',
-                category: 'Uber',
-                colors: ['#5A1846', '#900C3F', '#C70039', '#E3611C', '#F1920E', '#FFC300']
-              },
-              radius: 22.5,
-              sizeRange: [0, 10],
-              radiusRange: [0, 50],
-              heightRange: [0, 500],
-              elevationScale: 5,
-              stroked: true,
-              filled: true,
-              enable3d: false,
-              wireframe: false
-            },
-            textLabel: [
-              {
-                field: null,
-                color: [255, 255, 255],
-                size: 18,
-                offset: [0, 0],
-                anchor: 'start',
-                alignment: 'center'
-              }
-            ]
-          },
-          visualChannels: {
-            colorField: null,
-            colorScale: 'quantile',
-            sizeField: null,
-            sizeScale: 'linear',
-            strokeColorField: null,
-            strokeColorScale: 'quantile',
-            heightField: null,
-            heightScale: 'linear',
-            radiusField: null,
-            radiusScale: 'linear'
-          }
-        },
-        {
-          id: 'ze2p6id',
-          type: 'geojson',
-          config: {
-            dataId: 'area-3',
-            label: 'Municipalities',
-            color: [151, 14, 45],
-            columns: {
-              geojson: '_geojson'
-            },
-            isVisible: true,
-            visConfig: {
-              opacity: 0.8,
-              thickness: 0.5,
-              strokeColor: [77, 193, 156],
-              colorRange: {
-                name: 'Global Warming',
-                type: 'sequential',
-                category: 'Uber',
-                colors: ['#5A1846', '#900C3F', '#C70039', '#E3611C', '#F1920E', '#FFC300']
-              },
-              strokeColorRange: {
-                name: 'Global Warming',
-                type: 'sequential',
-                category: 'Uber',
-                colors: ['#5A1846', '#900C3F', '#C70039', '#E3611C', '#F1920E', '#FFC300']
-              },
-              radius: 22.5,
-              sizeRange: [0, 10],
-              radiusRange: [0, 50],
-              heightRange: [0, 500],
-              elevationScale: 5,
-              stroked: true,
-              filled: true,
-              enable3d: false,
-              wireframe: false
-            },
-            textLabel: [
-              {
-                field: null,
-                color: [255, 255, 255],
-                size: 18,
-                offset: [0, 0],
-                anchor: 'start',
-                alignment: 'center'
-              }
-            ]
-          },
-          visualChannels: {
-            colorField: null,
-            colorScale: 'quantile',
-            sizeField: null,
-            sizeScale: 'linear',
-            strokeColorField: null,
-            strokeColorScale: 'quantile',
-            heightField: null,
-            heightScale: 'linear',
-            radiusField: null,
-            radiusScale: 'linear'
-          }
-        },
-        {
-          id: 'ze2p6id',
-          type: 'geojson',
-          config: {
-            dataId: 'area-4',
-            label: 'Municipalities',
-            color: [151, 14, 45],
-            columns: {
-              geojson: '_geojson'
-            },
-            isVisible: true,
-            visConfig: {
-              opacity: 0.8,
-              thickness: 0.5,
-              strokeColor: [77, 193, 156],
-              colorRange: {
-                name: 'Global Warming',
-                type: 'sequential',
-                category: 'Uber',
-                colors: ['#5A1846', '#900C3F', '#C70039', '#E3611C', '#F1920E', '#FFC300']
-              },
-              strokeColorRange: {
-                name: 'Global Warming',
-                type: 'sequential',
-                category: 'Uber',
-                colors: ['#5A1846', '#900C3F', '#C70039', '#E3611C', '#F1920E', '#FFC300']
-              },
-              radius: 22.5,
-              sizeRange: [0, 10],
-              radiusRange: [0, 50],
-              heightRange: [0, 500],
-              elevationScale: 5,
-              stroked: true,
-              filled: true,
-              enable3d: false,
-              wireframe: false
-            },
-            textLabel: [
-              {
-                field: null,
-                color: [255, 255, 255],
-                size: 18,
-                offset: [0, 0],
-                anchor: 'start',
-                alignment: 'center'
-              }
-            ]
-          },
-          visualChannels: {
-            colorField: null,
-            colorScale: 'quantile',
-            sizeField: null,
-            sizeScale: 'linear',
-            strokeColorField: null,
-            strokeColorScale: 'quantile',
-            heightField: null,
-            heightScale: 'linear',
-            radiusField: null,
-            radiusScale: 'linear'
-          }
-        },
-        {
-          id: 'ze2p6id',
-          type: 'geojson',
-          config: {
-            dataId: 'area-5',
-            label: 'Municipalities',
-            color: [151, 14, 45],
-            columns: {
-              geojson: '_geojson'
-            },
-            isVisible: true,
-            visConfig: {
-              opacity: 0.8,
-              thickness: 0.5,
-              strokeColor: [77, 193, 156],
-              colorRange: {
-                name: 'Global Warming',
-                type: 'sequential',
-                category: 'Uber',
-                colors: ['#5A1846', '#900C3F', '#C70039', '#E3611C', '#F1920E', '#FFC300']
-              },
-              strokeColorRange: {
-                name: 'Global Warming',
-                type: 'sequential',
-                category: 'Uber',
-                colors: ['#5A1846', '#900C3F', '#C70039', '#E3611C', '#F1920E', '#FFC300']
-              },
-              radius: 22.5,
-              sizeRange: [0, 10],
-              radiusRange: [0, 50],
-              heightRange: [0, 500],
-              elevationScale: 5,
-              stroked: true,
-              filled: true,
-              enable3d: false,
-              wireframe: false
-            },
-            textLabel: [
-              {
-                field: null,
-                color: [255, 255, 255],
-                size: 18,
-                offset: [0, 0],
-                anchor: 'start',
-                alignment: 'center'
-              }
-            ]
-          },
-          visualChannels: {
-            colorField: null,
-            colorScale: 'quantile',
-            sizeField: null,
-            sizeScale: 'linear',
-            strokeColorField: null,
-            strokeColorScale: 'quantile',
-            heightField: null,
-            heightScale: 'linear',
-            radiusField: null,
-            radiusScale: 'linear'
-          }
-        },
-        {
-          id: 'ze2p6id',
-          type: 'geojson',
-          config: {
-            dataId: 'area-6',
-            label: 'Municipalities',
-            color: [151, 14, 45],
-            columns: {
-              geojson: '_geojson'
-            },
-            isVisible: true,
-            visConfig: {
-              opacity: 0.8,
-              thickness: 0.5,
-              strokeColor: [77, 193, 156],
-              colorRange: {
-                name: 'Global Warming',
-                type: 'sequential',
-                category: 'Uber',
-                colors: ['#5A1846', '#900C3F', '#C70039', '#E3611C', '#F1920E', '#FFC300']
-              },
-              strokeColorRange: {
-                name: 'Global Warming',
-                type: 'sequential',
-                category: 'Uber',
-                colors: ['#5A1846', '#900C3F', '#C70039', '#E3611C', '#F1920E', '#FFC300']
-              },
-              radius: 22.5,
-              sizeRange: [0, 10],
-              radiusRange: [0, 50],
-              heightRange: [0, 500],
-              elevationScale: 5,
-              stroked: true,
-              filled: true,
-              enable3d: false,
-              wireframe: false
-            },
-            textLabel: [
-              {
-                field: null,
-                color: [255, 255, 255],
-                size: 18,
-                offset: [0, 0],
-                anchor: 'start',
-                alignment: 'center'
-              }
-            ]
-          },
-          visualChannels: {
-            colorField: null,
-            colorScale: 'quantile',
-            sizeField: null,
-            sizeScale: 'linear',
-            strokeColorField: null,
-            strokeColorScale: 'quantile',
-            heightField: null,
-            heightScale: 'linear',
-            radiusField: null,
-            radiusScale: 'linear'
-          }
-        },
-        {
-          id: 'ze2p6id',
-          type: 'geojson',
-          config: {
-            dataId: 'area-7',
-            label: 'Municipalities',
-            color: [151, 14, 45],
-            columns: {
-              geojson: '_geojson'
-            },
-            isVisible: true,
-            visConfig: {
-              opacity: 0.8,
-              thickness: 0.5,
-              strokeColor: [77, 193, 156],
-              colorRange: {
-                name: 'Global Warming',
-                type: 'sequential',
-                category: 'Uber',
-                colors: ['#5A1846', '#900C3F', '#C70039', '#E3611C', '#F1920E', '#FFC300']
-              },
-              strokeColorRange: {
-                name: 'Global Warming',
-                type: 'sequential',
-                category: 'Uber',
-                colors: ['#5A1846', '#900C3F', '#C70039', '#E3611C', '#F1920E', '#FFC300']
-              },
-              radius: 22.5,
-              sizeRange: [0, 10],
-              radiusRange: [0, 50],
-              heightRange: [0, 500],
-              elevationScale: 5,
-              stroked: true,
-              filled: true,
-              enable3d: false,
-              wireframe: false
-            },
-            textLabel: [
-              {
-                field: null,
-                color: [255, 255, 255],
-                size: 18,
-                offset: [0, 0],
-                anchor: 'start',
-                alignment: 'center'
-              }
-            ]
-          },
-          visualChannels: {
-            colorField: null,
-            colorScale: 'quantile',
-            sizeField: null,
-            sizeScale: 'linear',
-            strokeColorField: null,
-            strokeColorScale: 'quantile',
-            heightField: null,
-            heightScale: 'linear',
-            radiusField: null,
-            radiusScale: 'linear'
-          }
-        }*/
+        }
       ],
-      interactionConfig: {
-        tooltip: {
-          fieldsToShow: {
-            'bart-stops-geo': ['name', 'code', 'address', 'entries', 'exits'],
-            'sf-zip-geo': ['OBJECTID', 'ZIP_CODE', 'ID', 'name', 'STREETNAME']
+      "interactionConfig": {
+        "tooltip": {
+          "fieldsToShow": {
+            "provinces": [
+              {
+                "name": "Name",
+                "format": null
+              },
+              {
+                "name": "description",
+                "format": null
+              },
+              {
+                "name": "FID",
+                "format": null
+              },
+              {
+                "name": "ADM0_EN",
+                "format": null
+              },
+              {
+                "name": "ADM0_ES",
+                "format": null
+              }
+            ]
           },
-          enabled: true
+          "compareMode": false,
+          "compareType": "absolute",
+          "enabled": true
         },
-        brush: {
-          size: 0.5,
-          enabled: false
+        "brush": {
+          "size": 16.9,
+          "enabled": false
         },
-        geocoder: {
-          enabled: false
+        "geocoder": {
+          "enabled": false
+        },
+        "coordinate": {
+          "enabled": false
         }
       },
-      layerBlending: 'normal'
+      "layerBlending": "normal",
+      "splitMaps": [],
+      "animationConfig": {
+        "currentTime": null,
+        "speed": 1
+      }
     },
-
-    mapStyle: {
-      styleType: 'b9tnac',
-      mapStyles: {
-        b9tnac: {
-          accessToken: null,
-          custom: true,
-          icon:
-            'https://api.mapbox.com/styles/v1/heshan0131/cjg0ks54x300a2squ8fr9vhvq/static/-122.3391,37.7922,9,0,0/400x300?access_token=pk.eyJ1IjoidWJlcmRhdGEiLCJhIjoiY2pmc3hhd21uMzE3azJxczJhOWc4czBpYyJ9.HiDptGv2C0Bkcv_TGr_kJw&logo=false&attribution=false',
-          id: 'b9tnac',
-          label: 'label maker',
-          url: 'mapbox://styles/heshan0131/cjg0ks54x300a2squ8fr9vhvq'
+    "mapState": {
+      "bearing": 0,
+      "dragRotate": false,
+      "latitude": 18.29725616371354,
+      "longitude": -70.70722581671703,
+      "pitch": 0,
+      "zoom": 6.917274217039472,
+      "isSplit": false
+    },
+    "mapStyle": {
+      "styleType": "light",
+      "topLayerGroups": {},
+      "visibleLayerGroups": {
+        "label": true,
+        "road": true,
+        "border": false,
+        "building": true,
+        "water": true,
+        "land": true,
+        "3d building": false
+      },
+      "threeDBuildingColor": [
+        218.82023004728686,
+        223.47597962276103,
+        223.47597962276103
+      ],
+      "mapStyles": {
+        "b9tnac": {
+          "accessToken": null,
+          "custom": true,
+          "icon": "https://api.mapbox.com/styles/v1/heshan0131/cjg0ks54x300a2squ8fr9vhvq/static/-122.3391,37.7922,9,0,0/400x300?access_token=pk.eyJ1IjoidWJlcmRhdGEiLCJhIjoiY2pmc3hhd21uMzE3azJxczJhOWc4czBpYyJ9.HiDptGv2C0Bkcv_TGr_kJw&logo=false&attribution=false",
+          "id": "b9tnac",
+          "label": "label maker",
+          "url": "mapbox://styles/heshan0131/cjg0ks54x300a2squ8fr9vhvq"
         }
       }
     }

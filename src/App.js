@@ -29,6 +29,7 @@ import Announcement, {FormLink} from './components/announcement';
 import {replaceLoadDataModal} from './factories/load-data-modal';
 import {replaceMapControl} from './factories/map-control';
 import {replacePanelHeader} from './factories/panel-header';
+import {replaceTooltipControl} from './factories/tooltip-control';
 import {AUTH_TOKENS} from './constants/default-settings';
 import {
   loadRemoteMap,
@@ -43,35 +44,13 @@ import {CLOUD_PROVIDERS} from './cloud-providers';
 const KeplerGl = require('kepler.gl/components').injectComponents([
   replaceLoadDataModal(),
   replaceMapControl(),
-  replacePanelHeader()
+  replacePanelHeader(),
+  replaceTooltipControl()
 ]);
 
-// Sample data
-/* eslint-disable no-unused-vars */
-//import sampleTripData, {testCsvData, sampleTripDataConfig} from './data/sample-trip-data';
-//import sampleGeojson from './data/sample-small-geojson';
-//import sampleGeojsonPoints from './data/sample-geojson-points';
-//import sampleGeojsonConfig from './data/sample-geojson-config';
-//
 // config
-import AdminLevel4Config from './data/AdminLevel4-config';
-// cities
-//import Provincies from './data/map/provincies.js';
-/*
-import Cities1 from './data/map/cities1';
-import Cities2 from './data/map/cities2';
-import Cities3 from './data/map/cities3';
-import Cities4 from './data/map/cities4';
-import Cities5 from './data/map/cities5';
-import Cities6 from './data/map/cities6';
-import Cities7 from './data/map/cities7';
-*/
-
-//import sampleH3Data, {config as h3MapConfig} from './data/sample-hex-id-csv';
-//import sampleS2Data, {config as s2MapConfig, dataId as s2DataId} from './data/sample-s2-data';
-//import sampleAnimateTrip from './data/sample-animate-trip-data';
-//import sampleIconCsv, {config as savedMapConfig} from './data/sample-icon-csv';
-import {addDataToMap, addNotification} from 'kepler.gl/actions';
+import provinciaConfig from './data/AdminLevel4-config';
+import {addDataToMap, addNotification, onMapClick} from 'kepler.gl/actions';
 import {processCsvData, processGeojson} from 'kepler.gl/processors';
 /* eslint-enable no-unused-vars */
 
@@ -112,7 +91,8 @@ class App extends Component {
   state = {
     showBanner: false,
     width: window.innerWidth,
-    height: window.innerHeight
+    height: window.innerHeight,
+    isLoading: true
   };
 
   componentDidMount() {
@@ -191,134 +171,13 @@ class App extends Component {
   }
 
   _loadSampleData() {
-    //this._loadPointData();
-    //this._loadGeojsonData();
-    this._loadDRData();
-    //this._loadTripGeoJson();
-    // this._loadIconData();
-    //this._loadH3HexagonData();
-    // this._loadS2Data();
-    // this._loadScenegraphLayer();
+    this.setState({isLoading: true});
+    this._loadProvinces();
   }
 
-  /*
-  _loadPointData() {
-    this.props.dispatch(
-      addDataToMap({
-        datasets: {
-          info: {
-            label: 'Sample Taxi Trips in New York City',
-            id: 'test_trip_data'
-          },
-          data: sampleTripData
-        },
-        options: {
-          centerMap: true,
-          readOnly: false
-        },
-        config: sampleTripDataConfig
-      })
-    );
-  }
-  */
+  async _loadProvinces( ) {
 
-  /*
-  _loadScenegraphLayer() {
-    this.props.dispatch(
-      addDataToMap({
-        datasets: {
-          info: {
-            label: 'Sample Scenegraph Ducks',
-            id: 'test_trip_data'
-          },
-          data: processCsvData(testCsvData)
-        },
-        config: {
-          version: 'v1',
-          config: {
-            visState: {
-              layers: [
-                {
-                  type: '3D',
-                  config: {
-                    dataId: 'test_trip_data',
-                    columns: {
-                      lat: 'gps_data.lat',
-                      lng: 'gps_data.lng'
-                    },
-                    isVisible: true
-                  }
-                }
-              ]
-            }
-          }
-        }
-      })
-    );
-  }
-  */
-
-  /*
-  _loadIconData() {
-    // load icon data and config and process csv file
-    this.props.dispatch(
-      addDataToMap({
-        datasets: [
-          {
-            info: {
-              label: 'Icon Data',
-              id: 'test_icon_data'
-            },
-            data: processCsvData(sampleIconCsv)
-          }
-        ]
-      })
-    );
-  }
-  */
-
-
-  /*
-  _loadTripGeoJson() {
-    this.props.dispatch(
-      addDataToMap({
-        datasets: [
-          {
-            info: {label: 'Trip animation'},
-            data: processGeojson(sampleAnimateTrip)
-          }
-        ]
-      })
-    );
-  }
-  */
-
-  /*
-  _loadGeojsonData() {
-    // load geojson
-    this.props.dispatch(
-      addDataToMap({
-        datasets: [
-          {
-            info: {label: 'Bart Stops Geo', id: 'bart-stops-geo'},
-            data: processGeojson(sampleGeojsonPoints)
-          },
-          {
-            info: {label: 'SF Zip Geo', id: 'sf-zip-geo'},
-            data: processGeojson(sampleGeojson)
-          }
-        ],
-        options: {
-          keepExistingConfig: true
-        },
-        config: sampleGeojsonConfig
-      })
-    );
-  }
-  */
-
-  async _loadDRData( ) {
-    await fetch('https://s3.amazonaws.com/map.aletheiadata.org/maps/provincies.json', {
+    await fetch('https://s3.amazonaws.com/map.aletheiadata.org/maps/provinces/provincies.json', {
       mode: 'cors',
       cache: 'no-cache',
       headers: {
@@ -337,91 +196,27 @@ class App extends Component {
               info: {label: 'Provincias', id: 'provinces'},
               data: await processGeojson(data)
             }
-            /*{
-              info: {label: 'Area 1', id: 'area-1'},
-              data: processGeojson(Cities1)
-            },
-            {
-              info: {label: 'Area 2', id: 'area-2'},
-              data: processGeojson(Cities2)
-            },
-            {
-              info: {label: 'Area 3', id: 'area-3'},
-              data: processGeojson(Cities3)
-            },
-            {
-              info: {label: 'Area 4', id: 'area-4'},
-              data: processGeojson(Cities4)
-            },
-            {
-              info: {label: 'Area 5', id: 'area-5'},
-              data: processGeojson(Cities5)
-            },
-            {
-              info: {label: 'Area 6', id: 'area-6'},
-              data: processGeojson(Cities6)
-            },
-            {
-              info: {label: 'Area 7', id: 'area-7'},
-              data: processGeojson(Cities7)
-            }*/
           ],
           options: {
-            keepExistingConfig: false
+            //keepExistingConfig: false,
+            readOnly: true,
+            mapControls: {
+              toggle3d: { show: false },
+              splitMap: { show: false },
+              mapLegend: { show: false },
+            }
           },
-          config: AdminLevel4Config
+          config: provinciaConfig
         })
-      );
-
+      )
+      .then((e)=>{
+        setTimeout(() => {
+          this.setState({isLoading: false});  
+        }, 1500);
+      });
 
     });
   }
-
-  /*
-  _loadH3HexagonData() {
-    // load h3 hexagon
-    this.props.dispatch(
-      addDataToMap({
-        datasets: [
-          {
-            info: {
-              label: 'H3 Hexagons V2',
-              id: 'h3-hex-id'
-            },
-            data: processCsvData(sampleH3Data)
-          }
-        ],
-        config: h3MapConfig,
-        options: {
-          keepExistingConfig: true
-        }
-      })
-    );
-  }
-  */
-
-  /*
-  _loadS2Data() {
-    // load s2
-    this.props.dispatch(
-      addDataToMap({
-        datasets: [
-          {
-            info: {
-              label: 'S2 Data',
-              id: s2DataId
-            },
-            data: processCsvData(sampleS2Data)
-          }
-        ],
-        config: s2MapConfig,
-        options: {
-          keepExistingConfig: true
-        }
-      })
-    );
-  }
-  */
 
   _toggleCloudModal = () => {
     // TODO: this lives only in the demo hence we use the state for now
@@ -447,6 +242,45 @@ class App extends Component {
   };
 
   render() {
+    //this.props.dispatch(visStateUpdaters.layerClickUpdater((e)=> console.log(e)));
+
+    const customTheme = {
+      sidePanelBg: '#fff',
+      titleTextColor: '#000000',
+      sidePanelHeaderBg: '#f7f7F7',
+      subtextColorActive: '#2473bd'
+    };
+
+    const mapStyles = [
+      {
+        id: 'my_dark_map',
+        label: 'Dark Streets 9',
+        url: 'mapbox://styles/mapbox/dark-v9',
+        //icon: `${apiHost}/styles/v1/mapbox/dark-v9/static/-122.3391,37.7922,9.19,0,0/400x300?access_token=${accessToken}&logo=false&attribution=false`,
+        layerGroups: [
+          {
+            slug: 'label',
+            filter: ({id}) => id.match(/(?=(label|place-|poi-))/),
+            defaultVisibility: true
+          },
+          {
+            // adding this will keep the 3d building option
+            slug: '3d building',
+            filter: () => false,
+            defaultVisibility: false
+          }
+        ]
+      }
+    ];
+    //console.log(this.props);
+    if (!this.state.isLoading){
+      setTimeout(() => {
+        this.setState({
+          destroyLoader: true
+        })
+      }, 1500);
+    }
+
     return (
       <ThemeProvider theme={theme}>
         <GlobalStyle
@@ -465,34 +299,58 @@ class App extends Component {
           >
             <Announcement onDisable={this._disableBanner} />
           </Banner>
-          <div
-            style={{
-              transition: 'margin 1s, height 1s',
-              position: 'absolute',
-              width: '100%',
-              height: '100%',
-              left: 0,
-              top: 0
-            }}
-          >
-            <AutoSizer>
-              {({height, width}) => (
-                <KeplerGl
-                  mapboxApiAccessToken={AUTH_TOKENS.MAPBOX_TOKEN}
-                  id="map"
-                  /*
-                   * Specify path to keplerGl state, because it is not mount at the root
-                   */
-                  getState={keplerGlGetState}
-                  width={width}
-                  height={height}
-                  cloudProviders={CLOUD_PROVIDERS}
-                  onExportToCloudSuccess={onExportFileSuccess}
-                  onLoadCloudMapSuccess={onLoadCloudMapSuccess}
-                />
-              )}
-            </AutoSizer>
+          <div style={{
+            transition: 'opacity 1s ease-in-out',
+            position: 'absolute',
+            width: '100%',
+            height: '100%',
+            left: 0,
+            top: 0,
+            zIndex: 9999,
+            backgroundColor: '#fff',
+            display: this.state.destroyLoader ? 'none' : 'flex',
+            opacity: this.state.isLoading ? 1 : 0,
+            justifyContent: 'center',
+            alignItems: 'center'
+          }}>
+              <img style={{
+              width: '20%',
+              height: 'auto'  
+            }} src={'/assets/img/loader.svg'} /> 
           </div>
+          <div
+              style={{
+                transition: 'margin 1s, height 1s',
+                position: 'absolute',
+                width: '100%',
+                height: '100%',
+                left: 0,
+                top: 0
+              }}
+            >
+              <AutoSizer>
+                {({height, width}) => {
+                  return(
+                    <KeplerGl
+                      mapboxApiAccessToken={AUTH_TOKENS.MAPBOX_TOKEN}
+                      id="map"
+                      /*
+                      * Specify path to keplerGl state, because it is not mount at the root
+                      */
+                      onViewStateChange={(e) => console.log(e) }
+                      mapStyles={mapStyles}
+                      theme={customTheme}
+                      getState={keplerGlGetState}
+                      width={width}
+                      height={height}
+                      cloudProviders={CLOUD_PROVIDERS}
+                      onExportToCloudSuccess={onExportFileSuccess}
+                      onLoadCloudMapSuccess={onLoadCloudMapSuccess}
+                    />
+                  )
+                }}
+              </AutoSizer>
+            </div>
         </GlobalStyle>
       </ThemeProvider>
     );

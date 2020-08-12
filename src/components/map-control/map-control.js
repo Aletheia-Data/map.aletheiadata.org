@@ -132,7 +132,6 @@ function getURL(url) {
 
 function SampleMapPanel(props) {
   const [isActive, setActive] = useState(true);
-
   return (
     <StyledFloatingPanel>
       {isActive ? (
