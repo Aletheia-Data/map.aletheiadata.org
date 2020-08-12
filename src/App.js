@@ -338,7 +338,7 @@ class App extends Component {
                       * Specify path to keplerGl state, because it is not mount at the root
                       */
                       onViewStateChange={(e) => console.log(e) }
-                      mapStyles={mapStyles}
+                      //mapStyles={mapStyles}
                       theme={customTheme}
                       getState={keplerGlGetState}
                       width={width}
