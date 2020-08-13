@@ -18,6 +18,9 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+//"dataId": "provinces",
+//"label": "Provincias",
+            
 const config = {
   "version": "v1",
   "config": {
@@ -25,36 +28,44 @@ const config = {
       "filters": [],
       "layers": [
         {
-          "id": "ze2p6id",
+          "id": "e2isjje",
           "type": "geojson",
           "config": {
             "dataId": "provinces",
             "label": "Provincias",
             "color": [
-              245, 237, 249
+              255,
+              203,
+              153
             ],
             "columns": {
               "geojson": "_geojson"
             },
             "isVisible": true,
             "visConfig": {
-              "opacity": 0.29,
-              "strokeOpacity": 1,
-              "thickness": 1,
+              "opacity": 0.3,
+              "strokeOpacity": 0.8,
+              "thickness": 0.5,
               "strokeColor": [
-                236, 218, 245
+                248,
+                149,
+                112
               ],
               "colorRange": {
-                "name": "Global Warming",
-                "type": "sequential",
+                "name": "Uber Viz Diverging 3.5",
+                "type": "diverging",
                 "category": "Uber",
                 "colors": [
-                  "#5A1846",
-                  "#900C3F",
-                  "#C70039",
-                  "#E3611C",
-                  "#F1920E",
-                  "#FFC300"
+                  "#00939C",
+                  "#2FA7AE",
+                  "#5DBABF",
+                  "#8CCED1",
+                  "#BAE1E2",
+                  "#F8C0AA",
+                  "#EB9C80",
+                  "#DD7755",
+                  "#D0532B",
+                  "#C22E00"
                 ]
               },
               "strokeColorRange": {
@@ -70,7 +81,7 @@ const config = {
                   "#FFC300"
                 ]
               },
-              "radius": 22.5,
+              "radius": 10,
               "sizeRange": [
                 0,
                 10
@@ -83,10 +94,10 @@ const config = {
                 0,
                 500
               ],
-              "elevationScale": 5,
-              "stroked": true,
+              "elevationScale": 1,
+              "stroked": false,
               "filled": true,
-              "enable3d": false,
+              "enable3d": true,
               "wireframe": false
             },
             "hidden": false,
@@ -109,8 +120,11 @@ const config = {
             ]
           },
           "visualChannels": {
-            "colorField": null,
-            "colorScale": "quantile",
+            "colorField": {
+              "name": "ADM2_ES",
+              "type": "string"
+            },
+            "colorScale": "ordinal",
             "sizeField": null,
             "sizeScale": "linear",
             "strokeColorField": null,
@@ -125,7 +139,7 @@ const config = {
       "interactionConfig": {
         "tooltip": {
           "fieldsToShow": {
-            "provinces": [
+            "9fooc2awp": [
               {
                 "name": "Name",
                 "format": null
@@ -153,7 +167,7 @@ const config = {
           "enabled": true
         },
         "brush": {
-          "size": 16.9,
+          "size": 0.5,
           "enabled": false
         },
         "geocoder": {
@@ -173,10 +187,10 @@ const config = {
     "mapState": {
       "bearing": 0,
       "dragRotate": false,
-      "latitude": 18.29725616371354,
-      "longitude": -70.70722581671703,
+      "latitude": 18.701144398000054,
+      "longitude": -70.16721579749998,
       "pitch": 0,
-      "zoom": 6.917274217039472,
+      "zoom": 8,
       "isSplit": false
     },
     "mapStyle": {
@@ -196,16 +210,7 @@ const config = {
         223.47597962276103,
         223.47597962276103
       ],
-      "mapStyles": {
-        "b9tnac": {
-          "accessToken": null,
-          "custom": true,
-          "icon": "https://api.mapbox.com/styles/v1/heshan0131/cjg0ks54x300a2squ8fr9vhvq/static/-122.3391,37.7922,9,0,0/400x300?access_token=pk.eyJ1IjoidWJlcmRhdGEiLCJhIjoiY2pmc3hhd21uMzE3azJxczJhOWc4czBpYyJ9.HiDptGv2C0Bkcv_TGr_kJw&logo=false&attribution=false",
-          "id": "b9tnac",
-          "label": "label maker",
-          "url": "mapbox://styles/heshan0131/cjg0ks54x300a2squ8fr9vhvq"
-        }
-      }
+      "mapStyles": {}
     }
   }
 };
