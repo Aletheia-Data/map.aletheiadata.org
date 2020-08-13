@@ -24,7 +24,7 @@ import {LayerHoverInfoFactory} from 'kepler.gl/components';
 
 import InfoPanel from '../info-panel-control/info-panel-control';
 
-import { slide as Menu } from 'react-burger-menu';
+import { slide as SidePanel } from 'react-burger-menu';
 
 const TooltipControl = LayerHoverInfoFactory();
 
@@ -46,11 +46,18 @@ var styles = {
     display: 'none'
   },
   bmCrossButton: {
-    height: '24px',
-    width: '24px'
+    height: '34px',
+    width: '34px',
+    right: '5px',
+    top: '3px',
+    color: '#000', 
+    background: '#71a0a3',
+    borderRadius: '50%',
+    boxShadow: 'rgba(0, 0, 0, 0.12) 0px 8px 20px, rgba(0, 0, 0, 0.1) 0px 2px 5px',
+    border: '2px solid #578e92'
   },
   bmCross: {
-    background: '#bdc3c7'
+    background: '#000'
   },
   bmMenuWrap: {
     position: 'fixed',
@@ -65,6 +72,7 @@ var styles = {
     background: '#fff',
     padding: '2em 1.5em 0',
     fontSize: '1.15em',
+    borderRadius: '10px',
     boxShadow: 'rgba(0, 0, 0, 0.12) 0px 8px 20px, rgba(0, 0, 0, 0.1) 0px 2px 5px'
   },
   bmMorphShape: {
@@ -86,7 +94,7 @@ class CustomTooltipControl extends React.Component {
       super(props);
       this.state = {
         isOpen: false,
-        currentSelection: []
+        currentSelection: {}
       }
     }
 
@@ -113,14 +121,18 @@ class CustomTooltipControl extends React.Component {
       
       return (
         <StyledMapControlOverlay>
-          <Menu 
+          <SidePanel 
+              customBurgerIcon={ false }
               onClose={(state) => this.handleStateChange(state)}
               left
               styles={ styles }
               isOpen={!this.state.isOpen}
             >
-              <InfoPanel data={this.state.currentSelection} />
-            </Menu>
+              {
+                this.state.currentSelection.ADM2_PCODE &&
+                <InfoPanel data={this.state.currentSelection} />
+              }
+            </SidePanel>
         </StyledMapControlOverlay>
       )
     }
