@@ -155,7 +155,7 @@ class CustomTooltipControl extends React.Component {
         default:
           break;
       }
-      let search = `https://api.aletheiadata.org/v1/jce/elecciones/2020/congresuales/?query=PROVINCIA&value=${name}`;
+      let search = `https://cors-anywhere.herokuapp.com/https://api.aletheiadata.org/v1/jce/elecciones/2020/congresuales/?query=PROVINCIA&value=${name}`;
 
       console.log(search);
 
