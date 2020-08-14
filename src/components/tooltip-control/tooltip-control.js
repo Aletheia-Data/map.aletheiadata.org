@@ -111,8 +111,51 @@ class CustomTooltipControl extends React.Component {
     getData = async (prov) => {
       console.log(prov);
 
-      let name = prov.ADM2_ES.split('Provincia ');
-      let search = `https://api.aletheiadata.org/v1/jce/elecciones/2020/congresuales/?query=PROVINCIA&value=${name[1]}`;
+      const revProv = prov.ADM2_ES.split('Provincia ');
+      let name;
+      if (revProv[1]){
+        name = revProv[1];
+      } else {
+        name = revProv[0];
+      }
+      console.log(name);
+      console.log(revProv);
+      switch (name) {
+        case 'Sánchez Ramírez':
+          name = "SANCHEZ RAMIREZ"
+          break;
+        case 'San José de Ocoa':
+          name = "SAN JOSE DE OCOA"
+          break;
+        case 'Santiago Rodríguez':
+          name = "SANTIAGO RODRIGUEZ"
+          break;
+        case 'Baoruco':
+          name = "BAHORUCO"
+          break;
+        case 'Elías Piña':
+          name = "ELIAS PIÑA"
+          break;
+        case 'Dajabón':
+          name = "DAJABON"
+          break;
+        case 'María Trinidad Sánchez':
+          name = "MARIA TRINIDAD SANCHEZ"
+          break;
+        case 'Samaná':
+          name = "SAMANA"
+          break;
+        case 'San Pedro de Macorís':
+          name = "SAN PEDRO DE MACORIS"
+          break;
+        case 'San Cristóbal':
+          name = "SAN CRISTOBAL"
+          break;
+      
+        default:
+          break;
+      }
+      let search = `https://api.aletheiadata.org/v1/jce/elecciones/2020/congresuales/?query=PROVINCIA&value=${name}`;
 
       console.log(search);
 
@@ -154,6 +197,7 @@ class CustomTooltipControl extends React.Component {
         ){
           this.state.currentSelection = dataLayer,
           this.state.isOpen = true;
+          //console.log(dataLayer);
           this.getData(dataLayer);
         }
       }

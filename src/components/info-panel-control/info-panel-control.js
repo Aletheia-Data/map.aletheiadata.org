@@ -2,6 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import {Icons} from 'kepler.gl/components';
 
+import { getProfileImg } from '../../utils/profile-imgs';
+
 import ProgressBar from 'react-animated-progress-bar';
 
 const StyledInfoPanel = styled.div`
@@ -51,10 +53,16 @@ const StyledInfoPanel = styled.div`
 
   .info-member-img{
     border-radius: 50%;
+    overflow: hidden;
     width: 40px;
     height: 40px;
     background: antiquewhite;
     margin-right: -10px;
+  }
+
+  .info-member-img img{
+    width: 40px;
+    height: 40px;
   }
 
   .info-member-img:last-child{
@@ -119,6 +127,9 @@ const _bodyText = ((title,desc)=>{
 
 const _members = ((data, type)=>{
     data = data._source;
+    console.log(data);
+    let img = getProfileImg(data ? data.NOMBRE_COMPLETO : null);
+    //console.log(img);
     if (type == 'more'){
         return (
             <div className={'info-member-img'} key={`info_member_more`}>
@@ -128,14 +139,7 @@ const _members = ((data, type)=>{
     } else if (type == 'items'){
         return (
             <div className={'info-member-img'} key={`info_member_items_${data.NOMBRE_COMPLETO}`}>
-            {
-                data.NOMBRE_COMPLETO &&
-                <img src={'/assets/img/user.svg'} alt={data.NOMBRE_COMPLETO}></img>    
-            }
-            {
-                !data.NOMBRE_COMPLETO &&
-                <img src={'/assets/img/user.svg'} alt={data.NOMBRE_COMPLETO}></img>
-            }
+                <img src={img} alt={data.NOMBRE_COMPLETO}></img>    
             </div>
         )
     }
@@ -210,7 +214,7 @@ const InfoPanel = ({
             </div>
             
             <div className={'info-member-container'}>
-                { _bodyText('Members', `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce dapibus nisi aliquet malesuada ultricies.`) }
+                { _bodyText('Funzionarios Publicos', `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce dapibus nisi aliquet malesuada ultricies.`) }
                 <div className={'info-member-imgs'}>
                     {
                         profiles.map((member, i) => {

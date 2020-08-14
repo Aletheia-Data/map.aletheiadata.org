@@ -25,6 +25,7 @@ import window from 'global/window';
 import {connect} from 'react-redux';
 import {theme} from 'kepler.gl/styles';
 import Banner from './components/banner';
+import { Drawer, IconButton } from 'rsuite';
 import Announcement, {FormLink} from './components/announcement';
 import {replaceLoadDataModal} from './factories/load-data-modal';
 import {replaceMapControl} from './factories/map-control';
@@ -40,6 +41,9 @@ import {
 
 import {loadCloudMap} from 'kepler.gl/actions';
 import {CLOUD_PROVIDERS} from './cloud-providers';
+
+import UseAnimation from 'react-useanimations';
+import menu3 from 'react-useanimations/lib/menu3';
 
 const KeplerGl = require('kepler.gl/components').injectComponents([
   replaceLoadDataModal(),
@@ -57,6 +61,9 @@ import {processCsvData, processGeojson} from 'kepler.gl/processors';
 const BannerHeight = 48;
 const BannerKey = `banner-${FormLink}`;
 const keplerGlGetState = state => state.demo.keplerGl;
+
+// import default style
+import 'rsuite/dist/styles/rsuite-default.css';
 
 const GlobalStyle = styled.div`
   font-family: ff-clan-web-pro, 'Helvetica Neue', Helvetica, sans-serif;
@@ -100,7 +107,8 @@ class App extends Component {
     showBanner: false,
     width: window.innerWidth,
     height: window.innerHeight,
-    isLoading: true
+    isLoading: true,
+    showMenu: false
   };
 
   componentDidMount() {
@@ -140,6 +148,16 @@ class App extends Component {
 
     // Notifications
     // this._loadMockNotifications();
+  }
+
+  _closeMenu = () => {
+    this.setState({
+      showMenu: false
+    });
+  }
+  
+  _toggleDrawer = () => {
+    this.setState({ showMenu: true });
   }
 
   _showBanner = () => {
@@ -307,6 +325,35 @@ class App extends Component {
           >
             <Announcement onDisable={this._disableBanner} />
           </Banner>
+          <div style={{ display: 'none', zIndex: 1 }}>
+            <IconButton
+              icon={<UseAnimation
+                size={40}
+                wrapperStyle={{ marginTop: '5px' }}
+                animation={menu3}
+              />}
+              onClick={() => this.toggleDrawer()}
+            >
+              Bottom
+            </IconButton>
+            <Drawer
+              show={this.state.showMenu}
+              placement={'left'}
+              onHide={this._closeMenu}
+              style={{ backgroundColor: 'red' }}
+            >
+              <Drawer.Header>
+                <Drawer.Title>Drawer Title</Drawer.Title>
+              </Drawer.Header>
+              <Drawer.Body>
+                {'Text'}
+              </Drawer.Body>
+              <Drawer.Footer>
+                <a onClick={this._closeMenu} appearance="primary">Confirm</a>
+                <a onClick={this._closeMenu} appearance="subtle">Cancel</a>
+              </Drawer.Footer>
+            </Drawer>
+          </div>
           <div style={{
             transition: 'opacity 1s ease-in-out',
             position: 'absolute',
