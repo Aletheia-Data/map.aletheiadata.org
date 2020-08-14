@@ -23,6 +23,7 @@
     "react": "^16.8.4",
     "react-animated-progress-bar": "^1.0.4",
     "react-burger-menu": "^2.7.1",
+    "react-content-loader": "^5.1.0",
     "react-copy-to-clipboard": "^5.0.1",
     "react-dom": "^16.8.4",
     "react-intl": "^3.12.0",

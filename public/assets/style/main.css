@@ -13,7 +13,7 @@ p{
 }
 
 /* TODO: MOVE TO COMPONENT CSS */
-.sidepanel-close span{
+.bm-cross-button span{
     position: absolute;
     top: 2px;
     right: 0px;

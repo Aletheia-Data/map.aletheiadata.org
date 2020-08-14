@@ -25,6 +25,7 @@ import {LayerHoverInfoFactory} from 'kepler.gl/components';
 import InfoPanel from '../info-panel-control/info-panel-control';
 
 import { slide as SidePanel } from 'react-burger-menu';
+import ContentLoader from "react-content-loader";
 
 const TooltipControl = LayerHoverInfoFactory();
 
@@ -94,7 +95,9 @@ class CustomTooltipControl extends React.Component {
       super(props);
       this.state = {
         isOpen: false,
-        currentSelection: {}
+        currentSelection: {},
+        profiles: [],
+        loading: true
       }
     }
 
@@ -103,6 +106,42 @@ class CustomTooltipControl extends React.Component {
       this.setState({
         isOpen: false
       })
+    }
+
+    getData = async (prov) => {
+      console.log(prov);
+
+      let name = prov.ADM2_ES.split('Provincia ');
+      let search = `https://api.aletheiadata.org/v1/jce/elecciones/2020/congresuales/?query=PROVINCIA&value=${name[1]}`;
+
+      console.log(search);
+
+      await fetch(search, {
+        mode: 'cors'
+      })
+      .then(res => {
+        //console.log(res.status); // Will show you the status
+        if (!res.ok) {
+            throw new Error("HTTP status " + res.status);
+        }
+        return res.json();
+      })
+      .then(data =>{
+        
+        console.log(data);
+        this.setState({
+          profiles: data,
+          loading: false
+        })
+        
+      })
+      .catch(err => {
+        console.log(err);
+        this.setState({
+          loading: true
+        })
+      });
+
     }
 
     render() {
@@ -115,7 +154,7 @@ class CustomTooltipControl extends React.Component {
         ){
           this.state.currentSelection = dataLayer,
           this.state.isOpen = true;
-          console.log(dataLayer);
+          this.getData(dataLayer);
         }
       }
       
@@ -129,8 +168,64 @@ class CustomTooltipControl extends React.Component {
               isOpen={!this.state.isOpen}
             >
               {
+                !this.state.loading &&
                 this.state.currentSelection.ADM2_PCODE &&
-                <InfoPanel data={this.state.currentSelection} />
+                <InfoPanel data={this.state.currentSelection} profiles={this.state.profiles} />
+              }
+              {
+                this.state.loading &&
+                <div>
+                  <ContentLoader 
+                    speed={2}
+                    width={'100%'}
+                    height={160}
+                    backgroundColor="#f3f3f3"
+                    foregroundColor="#ecebeb"
+                  >
+                    <rect x="0" y="0" rx="5" ry="5" width="80%" height="20" />
+                    <rect x="0" y="40" rx="3" ry="3" width="90%" height="6" /> 
+                    <rect x="0" y="60" rx="3" ry="3" width="85%" height="6" /> 
+                    <rect x="0" y="80" rx="3" ry="3" width="56%" height="6" /> 
+                    <rect x="0" y="100" rx="3" ry="3" width="87%" height="6" /> 
+                    <rect x="0" y="120" rx="3" ry="3" width="45%" height="6" /> 
+                  </ContentLoader>
+                  <ContentLoader 
+                    speed={2}
+                    width={'100%'}
+                    height={100}
+                    backgroundColor="#f3f3f3"
+                    foregroundColor="#ecebeb"
+                  >
+                    <rect x="0" y="0" rx="5" ry="5" width="60%" height="20" />
+                    <rect x="0" y="40" rx="3" ry="3" width="95%" height="6" /> 
+                    <rect x="0" y="60" rx="3" ry="3" width="75%" height="6" /> 
+                    <rect x="0" y="80" rx="3" ry="3" width="10%" height="6" /> 
+                  </ContentLoader>
+                  <ContentLoader
+                    height={100}
+                    width={'100%'}
+                    speed={2}
+                    backgroundColor="#f3f3f3"
+                    foregroundColor="#ecebeb"
+                  >
+                    <circle cx="30" cy="50" r="25" />
+                    <circle cx="60" cy="50" r="25" />
+                    <circle cx="90" cy="50" r="25" />
+                  </ContentLoader>
+                  <ContentLoader 
+                    speed={2}
+                    width={'100%'}
+                    style={{ marginTop: '10px' }}
+                    height={150}
+                    backgroundColor="#f3f3f3"
+                    foregroundColor="#ecebeb"
+                  >
+                    <rect x="0" y="0" rx="5" ry="5" width="30%" height="15" />
+                    <rect x="0" y="30" rx="3" ry="3" width="100%" height="6" /> 
+                    <rect x="0" y="60" rx="5" ry="5" width="30%" height="15" /> 
+                    <rect x="0" y="90" rx="3" ry="3" width="100%" height="6" /> 
+                  </ContentLoader>
+                </div>
               }
             </SidePanel>
         </StyledMapControlOverlay>

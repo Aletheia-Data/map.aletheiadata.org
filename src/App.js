@@ -244,7 +244,7 @@ class App extends Component {
       // https://uber.github.io/react-map-gl/#/Documentation/api-reference/interactive-map
       const map = mapbox.getMap();
       map.on('zoomend', e => {
-        // console.log(`Map ${index} zoom level: ${e.target.style.z}`);
+        console.log(`Map ${index} zoom level: ${e.target.style.z}`);
       });
     }
   };

@@ -118,22 +118,23 @@ const _bodyText = ((title,desc)=>{
 })
 
 const _members = ((data, type)=>{
+    data = data._source;
     if (type == 'more'){
         return (
-            <div className={'info-member-img'}>
-                <img src={'/assets/img/more.svg'} style={{ width: '41px' }} alt={data.name}></img>
+            <div className={'info-member-img'} key={`info_member_more`}>
+                <img src={'/assets/img/more.svg'} style={{ width: '41px' }} alt="more"></img>
             </div>
         )
     } else if (type == 'items'){
         return (
-            <div className={'info-member-img'}>
+            <div className={'info-member-img'} key={`info_member_items_${data.NOMBRE_COMPLETO}`}>
             {
-                data.img &&
-                <img src={ data.img } alt={data.name}></img>    
+                data.NOMBRE_COMPLETO &&
+                <img src={'/assets/img/user.svg'} alt={data.NOMBRE_COMPLETO}></img>    
             }
             {
-                !data.img &&
-                <img src={'/assets/img/user.svg'} alt={data.name}></img>
+                !data.NOMBRE_COMPLETO &&
+                <img src={'/assets/img/user.svg'} alt={data.NOMBRE_COMPLETO}></img>
             }
             </div>
         )
@@ -143,7 +144,7 @@ const _members = ((data, type)=>{
 const _progressBar = ((data, type)=>{
     if (type == 'bar'){
         return (
-            <div>
+            <div key={`progress_bar_${data.name}`}>
                 <span>{ data.name }</span>
                 <ProgressBar
                     width="250px"
@@ -171,7 +172,7 @@ const _progressBar = ((data, type)=>{
 const _button = ((data, type)=>{
     if (type == 'click'){
         return (
-            <div className={'button-container'}>
+            <div className={'button-container'} key={`button_${data.name}`}>
                 <button>Ver Provincia</button>
             </div>
         )
@@ -182,31 +183,10 @@ const InfoPanel = ({
   bgColor = '#fff',
   fontColor = '#999',
   height = 'auto',
-  data
+  data,
+  profiles
 }) => {
     //console.log(data);
-    let members = [
-        {
-            name: 'Philips DeFranco',
-            img: '',
-        },
-        {
-            name: 'Philips DeFranco',
-            img: '',
-        },
-        {
-            name: 'Philips DeFranco',
-            img: '',
-        },
-        {
-            name: 'Philips DeFranco',
-            img: '',
-        },
-        {
-            name: 'Philips DeFranco',
-            img: '',
-        }
-    ];
 
     let bars = [
         {
@@ -233,7 +213,7 @@ const InfoPanel = ({
                 { _bodyText('Members', `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce dapibus nisi aliquet malesuada ultricies.`) }
                 <div className={'info-member-imgs'}>
                     {
-                        members.map((member, i) => {
+                        profiles.map((member, i) => {
                             //console.log(i);
                             if(i < 3){
                                 return _members(member,'items');
