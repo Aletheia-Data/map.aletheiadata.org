@@ -4,8 +4,9 @@ body{
     font-family: 'Raleway', sans-serif;
 }
 
-h2{
+h2,h3{
     font-family: 'Poppins', sans-serif;
+    color: #000 !important;
 }
 
 p{

@@ -23,9 +23,13 @@ import styled from 'styled-components';
 import {LayerHoverInfoFactory} from 'kepler.gl/components';
 
 import InfoPanel from '../info-panel-control/info-panel-control';
+import InfoPanelProfile from '../info-panel-control/info-panel-profile-control';
 
 import { slide as SidePanel } from 'react-burger-menu';
 import ContentLoader from "react-content-loader";
+
+import AwesomeSlider from 'react-awesome-slider';
+import 'react-awesome-slider/dist/styles.css';
 
 const TooltipControl = LayerHoverInfoFactory();
 
@@ -34,6 +38,46 @@ const StyledMapControlOverlay = styled.div`
   top: 0px;
   right: 0px;
   z-index: 1;
+
+  .awssld__content{
+    background-color: #fff;
+  }
+
+  .awssld__content > div:nth-of-type(1){
+    height: 100%;
+  }
+
+  .info-button-container{
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    z-index: 2;
+  }
+  
+  .button-container button {
+    background-color: #71a0a3;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 0.8rem;
+    color: #000;
+    cursor: pointer;
+    border-top-left-radius: 15px;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    font-weight: 600;
+    -webkit-transition: background-color 0.3s ease-out;
+    -moz-transition: background-color 0.3s ease-out;
+    -o-transition: background-color 0.3s ease-out;
+    transition: background-color 0.3s ease-out;
+  }
+
+  .button-container button:hover {
+    background-color: #adbdbf;
+  }
 `;
 
 let state = {
@@ -51,6 +95,7 @@ var styles = {
     width: '34px',
     right: '5px',
     top: '3px',
+    zIndex: 2,
     color: '#000', 
     background: '#71a0a3',
     borderRadius: '50%',
@@ -71,7 +116,7 @@ var styles = {
     position: 'relative',
     right: '10px',
     background: '#fff',
-    padding: '2em 1.5em 0',
+    //padding: '2em 1.5em 0',
     fontSize: '1.15em',
     borderRadius: '10px',
     boxShadow: 'rgba(0, 0, 0, 0.12) 0px 8px 20px, rgba(0, 0, 0, 0.1) 0px 2px 5px'
@@ -97,6 +142,7 @@ class CustomTooltipControl extends React.Component {
         isOpen: false,
         currentSelection: {},
         profiles: [],
+        seeMoreProfiles: 0,
         loading: true
       }
     }
@@ -187,6 +233,22 @@ class CustomTooltipControl extends React.Component {
 
     }
 
+    _toogleSlide = () => {
+      this.setState({
+        seeMoreProfiles: this.state.seeMoreProfiles == 0 ? 1 : 0
+      })
+    }
+
+    _button = ((data, type)=>{
+      if (type == 'click'){
+          return (
+              <div className={'button-container'} key={`button_${data.name}`}>
+                  <button>Ver Provincia</button>
+              </div>
+          )
+      } 
+    })
+
     render() {
       if (this.props.frozen && this.props.layerHoverProp){
         //console.log('clicked');
@@ -196,6 +258,7 @@ class CustomTooltipControl extends React.Component {
           this.state.currentSelection.ADM2_PCODE != dataLayer.ADM2_PCODE
         ){
           this.state.currentSelection = dataLayer,
+          this.state.seeMoreProfiles = 0,
           this.state.isOpen = true;
           //console.log(dataLayer);
           this.getData(dataLayer);
@@ -214,11 +277,29 @@ class CustomTooltipControl extends React.Component {
               {
                 !this.state.loading &&
                 this.state.currentSelection.ADM2_PCODE &&
-                <InfoPanel data={this.state.currentSelection} profiles={this.state.profiles} />
+                <div style={{ height: '100%', width: '100%' }}>
+                  <AwesomeSlider 
+                  bullets={false}
+                  mobileTouch={true}
+                  buttons={false}
+                  selected={this.state.seeMoreProfiles}
+                  className={'slider-more-profile'}
+                  style={{ backgroundColor: '#fff', height: '100%', width: '100%' }}>
+                    <div>
+                      <InfoPanel data={this.state.currentSelection} profiles={this.state.profiles} _toogleSlide={()=>this._toogleSlide()} />
+                    </div>
+                    <div>
+                      <InfoPanelProfile data={this.state.currentSelection} profiles={this.state.profiles} _toogleSlide={()=>this._toogleSlide()} />
+                    </div>
+                  </AwesomeSlider>
+                  <div className={'info-button-container'}>
+                    { this._button('Estadisticas', `click`) }
+                  </div>
+                </div>
               }
               {
                 this.state.loading &&
-                <div>
+                <div style={{ padding: '2em' }}>
                   <ContentLoader 
                     speed={2}
                     width={'100%'}

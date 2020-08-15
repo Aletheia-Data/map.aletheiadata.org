@@ -1,5 +1,5 @@
 let getProfileImg = (name) => {
-    console.log(name);
+    //console.log(name);
     let img = 'test';
     switch (name) {
         case "ANTONIO MANUEL TAVERAS GUZMAN":

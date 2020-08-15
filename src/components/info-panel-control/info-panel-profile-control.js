@@ -39,9 +39,13 @@ const StyledInfoPanel = styled.div`
   .info-member-container, .info-bars-container{
     display: flex;
     align-self: end;
-    margin: 20px 0;
+    margin: 0;
     flex-direction: column;
     align-items: center;
+  }
+
+  .info-bars-container{
+    margin: 20px 0;
   }
 
   .info-member-container h2, .info-bars-container h2{
@@ -91,13 +95,27 @@ const StyledInfoPanel = styled.div`
   }
 `;
 
-const _bodyText = ((title,desc)=>{
-    return (
-        <div className={'info-text-container'}>
-            <h2 style={{margin:0}}>{title}</h2>
-            <p>{desc}</p>
-        </div>
-    )
+const _bodyText = ((title,desc,type,func)=>{
+    if (type == 'intro'){
+        return (
+            <div className={'info-text-container'}>
+                <div style={{ display: 'flex', alignItems: 'center'}}>
+                    <div className={'info-member-img'} key={`info_member_more`} onClick={()=>func()}>
+                        <img src={'/assets/img/camera-back.svg'} style={{ width: '41px' }} alt="more"></img>
+                    </div>
+                    <h2 style={{marginLeft:20}}>{title}</h2>
+                </div>
+                <p>{desc}</p>
+            </div>
+        )
+    } else {
+        return (
+            <div className={'info-text-container'}>
+                <h2 style={{margin:0}}>{title}</h2>
+                <p>{desc}</p>
+            </div>
+        )
+    }
 })
 
 const _members = ((data, type, func)=>{
@@ -107,52 +125,53 @@ const _members = ((data, type, func)=>{
     //console.log(img);
     if (type == 'more'){
         return (
-            <div className={'info-member-img'} key={`info_member_more`} onClick={()=>func()}>
+            <div style={{ display: 'none' }} className={'info-member-img'} key={`info_member_more`} onClick={()=>func()}>
                 <img src={'/assets/img/more.svg'} style={{ width: '41px' }} alt="more"></img>
             </div>
         )
     } else if (type == 'items'){
         return (
             <div className={'info-member-img'} key={`info_member_items_${data.NOMBRE_COMPLETO}`}>
-                <img src={img} alt={data.NOMBRE_COMPLETO}></img>    
+                <img src={img} alt={data.NOMBRE_COMPLETO}></img>
             </div>
         )
     }
 })
 
-const _progressBar = ((data, type)=>{
-    if (type == 'bar'){
-        return (
-            <div key={`progress_bar_${data.name}`}>
-                <span>{ data.name }</span>
-                <ProgressBar
-                    width="250px"
-                    height="10px"
-                    rect
-                    fontColor="gray"
-                    percentage={ data.value }
-                    rectPadding="1px"
-                    rectBorderRadius="20px"
-                    trackPathColor="#DAD7FE"
-                    bgColor="#9B51E0"
-                    trackBorderColor="transparent"
-                    defColor={{
-                        fair: '#b78778',
-                        good: '#adbebf',
-                        excellent: '#71a0a3',
-                        poor: '#b3796a',
-                    }}
-                />
-            </div>
-        )
-    } 
+const _progressBar = ((data)=>{
+    // order by CARGO
+    //console.log(data._source);
+    const profile = data._source;
+
+    return (
+        <div key={`progress_bar_${profile.NOMBRE_COMPLETO}`}>
+            <span>{ profile.NOMBRE_COMPLETO }</span>
+            <ProgressBar
+                width="250px"
+                height="10px"
+                rect
+                fontColor="gray"
+                percentage={ parseInt(profile.VOTOS) }
+                rectPadding="1px"
+                rectBorderRadius="20px"
+                trackPathColor="#DAD7FE"
+                bgColor="#9B51E0"
+                trackBorderColor="transparent"
+                defColor={{
+                    fair: '#b78778',
+                    good: '#adbebf',
+                    excellent: '#71a0a3',
+                    poor: '#b3796a',
+                }}
+            />
+        </div>
+    )
 })
 
-const InfoPanel = ({
+const InfoPanelProfile = ({
   bgColor = '#fff',
   fontColor = '#999',
   height = '100%',
-  data,
   profiles,
   _toogleSlide
 }) => {
@@ -168,6 +187,13 @@ const InfoPanel = ({
             value: 50,
         }
     ]
+
+    let SEARCH_TERM = 'SENADOR';
+    const senadors = profiles.filter(function (str) { if (str._source && str._source.CARGO == SEARCH_TERM ) return str });
+    
+    SEARCH_TERM = 'DIPUTADO';
+    const deputies = profiles.filter(function (str) { if (str._source && str._source.CARGO == SEARCH_TERM ) return str });
+    
     return(
         <StyledInfoPanel
             className="info-panel"
@@ -176,12 +202,9 @@ const InfoPanel = ({
             height={height}
         >
             <div className={'content-container'}>
-                <div className={'info-container'}>
-                    { _bodyText(data.ADM2_ES, `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce dapibus nisi aliquet malesuada ultricies.`) }
-                </div>
                 
                 <div className={'info-member-container'}>
-                    { _bodyText('Funzionarios Publicos', `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce dapibus nisi aliquet malesuada ultricies.`) }
+                    { _bodyText('Funzionarios Publicos', `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce dapibus nisi aliquet malesuada ultricies.`,'intro',_toogleSlide) }
                     <div className={'info-member-imgs'}>
                         {
                             profiles.map((member, i) => {
@@ -199,25 +222,34 @@ const InfoPanel = ({
                 </div>
 
                 <div className={'info-bars-container'}>
-                    { _bodyText('Estadisticas', ``) }
-                    <div className={'info-bars'}>
-                        {
-                            bars.map((bar, i) => {
-                                //console.log(i);
-                                if(i < 3){
-                                    return _progressBar(bar,'bar');
-                                } else if(i == 3){
-                                    return _progressBar(bar,'more');
-                                } else {
-                                    return null
-                                }
-                            })
-                        }
-                    </div>
+                    {
+                        senadors &&
+                        <div className={'info-bars senadors'}>
+                            <br></br><h3>Senadores</h3>
+                            {
+                                senadors.map((profile, i) => {
+                                    //console.log(i);
+                                    return _progressBar(profile);
+                                })
+                            }
+                        </div>
+                    }
+                    {
+                        deputies &&
+                        <div className={'info-bars deputies'}>
+                            <br></br><h3>Diputados</h3>
+                            {
+                                deputies.map((profile, i) => {
+                                    //console.log(i);
+                                    return _progressBar(profile);
+                                })
+                            }
+                        </div>
+                    }
                 </div>
             </div>
         </StyledInfoPanel>
     )
 };
 
-export default InfoPanel;
+export default InfoPanelProfile;
