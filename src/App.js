@@ -25,7 +25,7 @@ import window from 'global/window';
 import {connect} from 'react-redux';
 import {theme} from 'kepler.gl/styles';
 import Banner from './components/banner';
-import { Drawer, IconButton } from 'rsuite';
+import { Modal, Divider } from 'rsuite';
 import Announcement, {FormLink} from './components/announcement';
 import {replaceLoadDataModal} from './factories/load-data-modal';
 import {replaceMapControl} from './factories/map-control';
@@ -100,6 +100,55 @@ const GlobalStyle = styled.div`
   .map-control{
     display: none
   }
+
+  .settings-panel{
+    border-radius: 10px;
+    z-index: 1;
+    background: #fff;
+    width: 100px;
+    position: absolute;
+    bottom: 0;
+    padding: 10px;
+    margin: 15px;
+    box-shadow: rgba(0, 0, 0, 0.12) 0px 8px 20px, rgba(0, 0, 0, 0.1) 0px 2px 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .settings-panel-logo{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+  }
+
+  .settings-panel-logo img{
+    width: 60px;
+    z-index: 1;
+  }
+
+  .settings-panel-content{}
+  
+  .settings-panel-footer{
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    display: flex;
+    margin-bottom: 15px;
+  }
+
+  .settings-panel-footer img{
+    width: 45px;
+    height: auto;
+    opacity: 0.7;
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+  }
+
+  .settings-panel-footer img:hover{
+    opacity: 1;
+  }
 `;
 
 class App extends Component {
@@ -108,7 +157,8 @@ class App extends Component {
     width: window.innerWidth,
     height: window.innerHeight,
     isLoading: true,
-    showMenu: false
+    showMenu: false,
+    showSettings: false
   };
 
   componentDidMount() {
@@ -158,6 +208,10 @@ class App extends Component {
   
   _toggleDrawer = () => {
     this.setState({ showMenu: true });
+  }
+
+  _toggleSettings = () => {
+    this.setState({ showSettings: !this.state.showSettings });
   }
 
   _showBanner = () => {
@@ -325,34 +379,27 @@ class App extends Component {
           >
             <Announcement onDisable={this._disableBanner} />
           </Banner>
-          <div style={{ display: 'none', zIndex: 1 }}>
-            <IconButton
-              icon={<UseAnimation
-                size={40}
-                wrapperStyle={{ marginTop: '5px' }}
-                animation={menu3}
-              />}
-              onClick={() => this.toggleDrawer()}
-            >
-              Bottom
-            </IconButton>
-            <Drawer
-              show={this.state.showMenu}
-              placement={'left'}
-              onHide={this._closeMenu}
-              style={{ backgroundColor: 'red' }}
-            >
-              <Drawer.Header>
-                <Drawer.Title>Drawer Title</Drawer.Title>
-              </Drawer.Header>
-              <Drawer.Body>
-                {'Text'}
-              </Drawer.Body>
-              <Drawer.Footer>
-                <a onClick={this._closeMenu} appearance="primary">Confirm</a>
-                <a onClick={this._closeMenu} appearance="subtle">Cancel</a>
-              </Drawer.Footer>
-            </Drawer>
+          <div className={'settings-panel'}>
+            <div className={'settings-panel-logo'}>
+              <a href={'https://aletheiadata.org'} target="_blank">
+                <img src={'/assets/img/aletheiadata.svg'} /> 
+              </a>
+            </div>
+            <div className={'settings-panel-content'}></div>
+            <div className={'settings-panel-footer'}>
+              <Divider style={{width: '100%'}} />
+              <img src={'/assets/img/gear.svg'} onClick={this._toggleSettings} /> 
+            </div>
+             <Modal show={this.state.showSettings} onHide={this._toggleSettings}>
+              <Modal.Header>
+                <Modal.Title>Settings</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                
+              </Modal.Body>
+              <Modal.Footer>
+              </Modal.Footer>
+            </Modal>
           </div>
           <div style={{
             transition: 'opacity 1s ease-in-out',
