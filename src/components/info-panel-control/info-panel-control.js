@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import {Icons} from 'kepler.gl/components';
+import { Tooltip, Whisper } from 'rsuite';
 
 import { getProfileImg } from '../../utils/profile-imgs';
 
@@ -39,7 +40,7 @@ const StyledInfoPanel = styled.div`
   .info-member-container, .info-bars-container{
     display: flex;
     align-self: end;
-    margin: 20px 0;
+    margin: 25px 0;
     flex-direction: column;
     align-items: center;
   }
@@ -74,6 +75,11 @@ const StyledInfoPanel = styled.div`
   .info-member-img:last-child{
     margin-right: 0px;
     margin-left: 30px;
+    transition: background 0.3s ease;
+  }
+
+  .info-member-img:last-child:hover{
+    background: #fff;
   }
 
   .info-bars{
@@ -100,22 +106,42 @@ const _bodyText = ((title,desc)=>{
     )
 })
 
-const _members = ((data, type, func)=>{
+const _members = ((data, type, func, section)=>{
     data = data._source;
     //console.log(data);
     let img = getProfileImg(data ? data.NOMBRE_COMPLETO : null);
     //console.log(img);
     if (type == 'more'){
         return (
-            <div className={'info-member-img'} key={`info_member_more`} onClick={()=>func()}>
-                <img src={'/assets/img/more.svg'} style={{ width: '41px' }} alt="more"></img>
-            </div>
+            <Whisper
+                trigger="hover"
+                placement={'top'}
+                speaker={
+                <Tooltip>
+                    VER MAS ...
+                </Tooltip>
+                }
+            >
+                <div className={'info-member-img'} key={`info_member_more`} onClick={()=>func(section == 'presidencial' ? 2 : 1 )}>
+                    <img src={'/assets/img/more.svg'} style={{ width: '41px' }} alt="more"></img>
+                </div>
+            </Whisper>
         )
     } else if (type == 'items'){
         return (
-            <div className={'info-member-img'} key={`info_member_items_${data.NOMBRE_COMPLETO}`}>
-                <img src={img} alt={data.NOMBRE_COMPLETO}></img>    
-            </div>
+            <Whisper
+                trigger="hover"
+                placement={'top'}
+                speaker={
+                <Tooltip>
+                    { data.NOMBRE_COMPLETO }
+                </Tooltip>
+                }
+            >
+                <div className={'info-member-img'} key={`info_member_items_${data.NOMBRE_COMPLETO}`}>
+                    <img src={img} alt={data.NOMBRE_COMPLETO}></img>    
+                </div>
+            </Whisper>
         )
     }
 })
@@ -154,6 +180,7 @@ const InfoPanel = ({
   height = '100%',
   data,
   profiles,
+  cabinet,
   _toogleSlide
 }) => {
     //console.log(data);
@@ -181,15 +208,33 @@ const InfoPanel = ({
                 </div>
                 
                 <div className={'info-member-container'}>
-                    { _bodyText('Funzionarios Publicos', `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce dapibus nisi aliquet malesuada ultricies.`) }
+                    { _bodyText('Presidencia', `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce dapibus nisi aliquet malesuada ultricies.`) }
+                    <div className={'info-member-imgs'}>
+                        {
+                            cabinet.map((member, i) => {
+                                //console.log(i);
+                                if(i < 2){
+                                    return _members(member,'items',null,null);
+                                } else if(i == 2){
+                                    return _members(member,'more',_toogleSlide,'presidencial');
+                                } else {
+                                    return null
+                                }
+                            })
+                        }
+                    </div>
+                </div>
+                
+                <div className={'info-member-container'}>
+                    { _bodyText('Congreso', `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce dapibus nisi aliquet malesuada ultricies.`) }
                     <div className={'info-member-imgs'}>
                         {
                             profiles.map((member, i) => {
                                 //console.log(i);
                                 if(i < 3){
-                                    return _members(member,'items',null);
+                                    return _members(member,'items',null,null);
                                 } else if(i == 3){
-                                    return _members(member,'more',_toogleSlide);
+                                    return _members(member,'more',_toogleSlide,'congreso');
                                 } else {
                                     return null
                                 }

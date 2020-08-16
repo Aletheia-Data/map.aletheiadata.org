@@ -24,6 +24,7 @@ import {LayerHoverInfoFactory} from 'kepler.gl/components';
 
 import InfoPanel from '../info-panel-control/info-panel-control';
 import InfoPanelProfile from '../info-panel-control/info-panel-profile-control';
+import InfoPanelPresidencial from '../info-panel-control/info-panel-presidencial-control';
 
 import { slide as SidePanel } from 'react-burger-menu';
 import ContentLoader from "react-content-loader";
@@ -154,6 +155,70 @@ class CustomTooltipControl extends React.Component {
       })
     }
 
+    getPresidencial = () =>{
+      let cabinet = [
+        {
+            "_index": "jce-ganadores-elecciones-jul-2020",
+            "_type": "_doc",
+            "_id": "KXlQ6HMB2YII_lqrmLcy",
+            "_score": 4.640537,
+            "_source": {
+                "EDAD": 53,
+                "SIGLAS": "PRM",
+                "NOMBRE_COMPLETO": "LUIS RODOLFO ABINADER CORONA",
+                "SEXO": "M",
+                "CARGO": "PRESIDENTE",
+                "@timestamp": "2067-07-12T00:00:00.000+02:00",
+                "PROVINCIA": "NACIONAL",
+                "PARTIDO_CANDIDATO": "PRM",
+                "FECHA_NACIMIENTO": "12/7/67",
+                "VOTOS": "2,154,866",
+                "PARTIDO_CANDIDATURA": "PARTIDO REVOLUCIONARIO MODERNO"
+            }
+        },
+        {
+            "_index": "jce-ganadores-elecciones-jul-2020",
+            "_type": "_doc",
+            "_id": "KnlQ6HMB2YII_lqrmLcy",
+            "_score": 4.640537,
+            "_source": {
+                "EDAD": 53,
+                "SIGLAS": "PRM",
+                "NOMBRE_COMPLETO": "RAQUEL PEÑA RODRIGUEZ",
+                "SEXO": "F",
+                "CARGO": "VICEPRESIDENTE",
+                "@timestamp": "2066-09-10T00:00:00.000+02:00",
+                "PROVINCIA": "NACIONAL",
+                "PARTIDO_CANDIDATO": "PRM",
+                "FECHA_NACIMIENTO": "10/9/66",
+                "VOTOS": "2,154,866",
+                "PARTIDO_CANDIDATURA": "PARTIDO REVOLUCIONARIO MODERNO"
+            }
+        },
+        {
+            "_index": "jce-ganadores-elecciones-jul-2020",
+            "_type": "_doc",
+            "_id": "KnlQ6HMB2YII_lqrmLcy",
+            "_score": 4.640537,
+            "_source": {
+                "EDAD": 53,
+                "SIGLAS": "PRM",
+                "NOMBRE_COMPLETO": "XXX",
+                "SEXO": "F",
+                "CARGO": "VICEPRESIDENTE",
+                "@timestamp": "2066-09-10T00:00:00.000+02:00",
+                "PROVINCIA": "NACIONAL",
+                "PARTIDO_CANDIDATO": "PRM",
+                "FECHA_NACIMIENTO": "10/9/66",
+                "VOTOS": "2,154,866",
+                "PARTIDO_CANDIDATURA": "PARTIDO REVOLUCIONARIO MODERNO"
+            }
+        }
+      ];
+
+      return cabinet;
+    }
+
     getData = async (prov) => {
       console.log(prov);
 
@@ -201,6 +266,8 @@ class CustomTooltipControl extends React.Component {
         default:
           break;
       }
+
+      // GET CONGRESUAL
       let search = `https://cors-anywhere.herokuapp.com/https://api.aletheiadata.org/v1/jce/elecciones/2020/congresuales/?query=PROVINCIA&value=${name}`;
 
       console.log(search);
@@ -233,9 +300,10 @@ class CustomTooltipControl extends React.Component {
 
     }
 
-    _toogleSlide = () => {
+    _toogleSlide = (e) => {
+      console.log(e);
       this.setState({
-        seeMoreProfiles: this.state.seeMoreProfiles == 0 ? 1 : 0
+        seeMoreProfiles: e ? e : 0
       })
     }
 
@@ -286,10 +354,13 @@ class CustomTooltipControl extends React.Component {
                   className={'slider-more-profile'}
                   style={{ backgroundColor: '#fff', height: '100%', width: '100%' }}>
                     <div>
-                      <InfoPanel data={this.state.currentSelection} profiles={this.state.profiles} _toogleSlide={()=>this._toogleSlide()} />
+                      <InfoPanel data={this.state.currentSelection} cabinet={this.getPresidencial()} profiles={this.state.profiles} _toogleSlide={(e)=>this._toogleSlide(e)} />
                     </div>
                     <div>
-                      <InfoPanelProfile data={this.state.currentSelection} profiles={this.state.profiles} _toogleSlide={()=>this._toogleSlide()} />
+                      <InfoPanelProfile data={this.state.currentSelection} profiles={this.state.profiles} _toogleSlide={(e)=>this._toogleSlide(e)} />
+                    </div>
+                    <div>
+                      <InfoPanelPresidencial cabinet={this.getPresidencial()} data={this.state.currentSelection} profiles={this.state.profiles} _toogleSlide={(e)=>this._toogleSlide(e)} />
                     </div>
                   </AwesomeSlider>
                   <div className={'info-button-container'}>

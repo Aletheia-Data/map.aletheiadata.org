@@ -82,6 +82,10 @@ const StyledInfoPanel = styled.div`
     margin-left: 30px;
   }
 
+  .info-member-img.back{
+    cursor: pointer;
+  }
+
   .info-member-img.back:hover{
     background: #fff;
   }
@@ -136,7 +140,7 @@ const _members = ((data, type, func)=>{
                 placement={'top'}
                 speaker={
                 <Tooltip>
-                    VER MAS
+                    VER MAS ...
                 </Tooltip>
                 }
             >
@@ -194,7 +198,7 @@ const _progressBar = ((data)=>{
     )
 })
 
-const InfoPanelProfile = ({
+const InfoPanelPresidencial = ({
   bgColor = '#fff',
   fontColor = '#999',
   height = '100%',
@@ -278,4 +282,4 @@ const InfoPanelProfile = ({
     )
 };
 
-export default InfoPanelProfile;
+export default InfoPanelPresidencial;
