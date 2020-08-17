@@ -32,6 +32,8 @@ import ContentLoader from "react-content-loader";
 import AwesomeSlider from 'react-awesome-slider';
 import 'react-awesome-slider/dist/styles.css';
 
+import Prov_totals from '../../data/tot-votes-2020';
+
 const TooltipControl = LayerHoverInfoFactory();
 
 const StyledMapControlOverlay = styled.div`
@@ -151,7 +153,8 @@ class CustomTooltipControl extends React.Component {
     handleStateChange = (sta) => {
       console.log(sta);
       this.setState({
-        isOpen: false
+        loading: true,
+        isOpen: false,
       })
     }
 
@@ -331,6 +334,14 @@ class CustomTooltipControl extends React.Component {
           break;
       }
 
+      const totalPresidencial = this._getTotal(name,"PRESIDENCIAL");
+      const totalSenaduria = this._getTotal(name,"SENADURIA");
+      const totalDiputacion = this._getTotal(name,"DIPUTACION");
+      const totalValidVotes = parseInt(totalPresidencial._VALIDOS) + parseInt(totalSenaduria._VALIDOS) + parseInt(totalDiputacion._VALIDOS);
+      const totalIssuedVotes = parseInt(totalPresidencial._EMITIDOS) + parseInt(totalSenaduria._EMITIDOS) + parseInt(totalDiputacion._EMITIDOS);
+      const totalRegisteredVotes = parseInt(totalPresidencial._INSCRITOS) + parseInt(totalSenaduria._INSCRITOS) + parseInt(totalDiputacion._INSCRITOS);
+      //console.log(totalValidsVotes, totalIssuedVotes);
+
       // GET CONGRESUAL
       let search = `https://cors-anywhere.herokuapp.com/https://api.aletheiadata.org/v1/jce/elecciones/2020/congresuales/?query=PROVINCIA&value=${name}`;
 
@@ -351,7 +362,10 @@ class CustomTooltipControl extends React.Component {
         console.log(data);
         this.setState({
           profiles: data,
-          loading: false
+          loading: false,
+          totalValidVotes: totalValidVotes,
+          totalIssuedVotes: totalIssuedVotes,
+          totalRegisteredVotes: totalRegisteredVotes
         })
         
       })
@@ -362,6 +376,14 @@ class CustomTooltipControl extends React.Component {
         })
       });
 
+    }
+
+    _getTotal = (searchTerm, type) =>{
+      //console.log(searchTerm, type);
+      //console.log(Prov_totals, type);
+      const tot_prov = Prov_totals.find(prov => prov.PROVINCES == searchTerm.toUpperCase() && prov._CARGO == type); 
+      //console.log(tot_prov);
+      return tot_prov;
     }
 
     _toogleSlide = (e) => {
@@ -418,7 +440,7 @@ class CustomTooltipControl extends React.Component {
                   className={'slider-more-profile'}
                   style={{ backgroundColor: '#fff', height: '100%', width: '100%' }}>
                     <div>
-                      <InfoPanel data={this.state.currentSelection} cabinet={this.getPresidencial()} profiles={this.state.profiles} _toogleSlide={(e)=>this._toogleSlide(e)} />
+                      <InfoPanel data={this.state.currentSelection} cabinet={this.getPresidencial()} profiles={this.state.profiles} totalValidVotes={this.state.totalValidVotes} totalIssuedVotes={this.state.totalIssuedVotes} totalRegisteredVotes={this.state.totalRegisteredVotes} _toogleSlide={(e)=>this._toogleSlide(e)} />
                     </div>
                     <div>
                       <InfoPanelProfile data={this.state.currentSelection} profiles={this.state.profiles} _toogleSlide={(e)=>this._toogleSlide(e)} />

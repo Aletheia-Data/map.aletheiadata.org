@@ -27,7 +27,7 @@ const StyledInfoPanel = styled.div`
     color: #000;
   }
 
-  .info-text-container, .info-bars-container{
+  .info-text-container, .info-bars-container, .info-bars-totals{
     width: 100%;
   }
 
@@ -92,6 +92,27 @@ const StyledInfoPanel = styled.div`
     top: 5px;
   }
 
+  .info-bars-totals{
+    display: flex;
+    align-items: center;      
+    justify-content: space-between;
+  }
+
+  .info-bars-totals .info-text-container{
+    width: 50%;
+  }
+
+  .info-bars-totals div:last-child{
+    text-align: center;
+    width: 50%;
+    font-size: 10px;
+    background: #71a0a3;
+    padding: 5px 10px;
+    border-radius: 15px 0px;
+    color: #000;
+    font-weight: 800;
+  }
+
   .rect-progress-bar-percent{
     margin: 0em 1rem !important;
   }
@@ -101,7 +122,10 @@ const _bodyText = ((title,desc)=>{
     return (
         <div className={'info-text-container'}>
             <h2 style={{margin:0}}>{title}</h2>
-            <p>{desc}</p>
+            {
+                desc &&
+                <p>{desc}</p>
+            }
         </div>
     )
 })
@@ -181,20 +205,22 @@ const InfoPanel = ({
   data,
   profiles,
   cabinet,
+  totalValidVotes,
+  totalIssuedVotes,
+  totalRegisteredVotes,
   _toogleSlide
 }) => {
-    //console.log(data);
-
+    
+    let perc = parseInt((totalValidVotes * 100) / totalRegisteredVotes);
     let bars = [
         {
-            name: 'Total Votos',
-            value: 80,
-        },
-        {
-            name: 'Total Astencion',
-            value: 50,
+            value: perc,
+            name: 'Votos Validos',
         }
-    ]
+    ];
+
+    //console.log(totalRegisteredVotes, totalValidVotes);
+    //console.log(perc);
     return(
         <StyledInfoPanel
             className="info-panel"
@@ -244,7 +270,33 @@ const InfoPanel = ({
                 </div>
 
                 <div className={'info-bars-container'}>
-                    { _bodyText('Estadisticas', ``) }
+                    <div className={'info-bars-totals'}>
+                        { _bodyText('Estadisticas', ``) }
+                        <div>
+                            <Whisper
+                                trigger="hover"
+                                placement={'top'}
+                                speaker={
+                                <Tooltip>
+                                    { `Emitidos: ${new Intl.NumberFormat('es-ES').format(totalIssuedVotes)}` }
+                                </Tooltip>
+                                }
+                            >
+                                <span>{ `${new Intl.NumberFormat('es-ES').format(totalIssuedVotes)} /` }</span>
+                            </Whisper>
+                            <Whisper
+                                trigger="hover"
+                                placement={'top'}
+                                speaker={
+                                <Tooltip>
+                                    { `Registrados: ${new Intl.NumberFormat('es-ES').format(totalRegisteredVotes)}` }
+                                </Tooltip>
+                                }
+                            >
+                                <span>{ `${new Intl.NumberFormat('es-ES').format(totalRegisteredVotes)}` }</span>
+                            </Whisper>
+                        </div>
+                    </div>
                     <div className={'info-bars'}>
                         {
                             bars.map((bar, i) => {

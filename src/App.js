@@ -42,6 +42,8 @@ import {
 import {loadCloudMap} from 'kepler.gl/actions';
 import {CLOUD_PROVIDERS} from './cloud-providers';
 
+import { Tooltip, Whisper } from 'rsuite';
+
 import UseAnimation from 'react-useanimations';
 import menu3 from 'react-useanimations/lib/menu3';
 
@@ -148,6 +150,28 @@ const GlobalStyle = styled.div`
 
   .settings-panel-footer img:hover{
     opacity: 1;
+  }
+
+  .settings-scale{
+    border-radius: 10px;
+    z-index: 1;
+    background: #fff;
+    position: absolute;
+    bottom: 0;
+    padding: 10px;
+    margin: 15px;
+    box-shadow: rgba(0, 0, 0, 0.12) 0px 8px 20px, rgba(0, 0, 0, 0.1) 0px 2px 5px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    left: 120px;
+    height: auto;
+    width: 200px;
+  }
+
+  .settings-scale .settings-panel-scale{
+    width: 15%;
+    height: 20px;
   }
 `;
 
@@ -361,6 +385,19 @@ class App extends Component {
       }, 1500);
     }
 
+    let colorsScale = [
+      "#C22E00",
+      "#D0532B",
+      "#DD7755",
+      "#EB9C80",
+      "#F8C0AA",
+      "#BAE1E2",
+      "#8CCED1",
+      "#5DBABF",
+      "#2FA7AE",
+      "#00939C"
+    ]
+
     return (
       <ThemeProvider theme={theme}>
         <GlobalStyle
@@ -400,6 +437,15 @@ class App extends Component {
               <Modal.Footer>
               </Modal.Footer>
             </Modal>
+          </div>
+          <div className={'settings-scale'}>
+            {
+              colorsScale.map(color => {
+                return (
+                  <div style={{ backgroundColor: color }} className={'settings-panel-scale'}></div>
+                )
+              })
+            }
           </div>
           <div style={{
             transition: 'opacity 1s ease-in-out',
