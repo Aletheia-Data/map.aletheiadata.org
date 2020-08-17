@@ -79,7 +79,7 @@ const StyledInfoPanel = styled.div`
 
   .info-member-img:last-child{
     margin-right: 0px;
-    margin-left: 30px;
+    //margin-left: 30px;
   }
 
   .info-member-img.back:hover{

@@ -79,7 +79,7 @@ const StyledInfoPanel = styled.div`
 
   .info-member-img:last-child{
     margin-right: 0px;
-    margin-left: 30px;
+    //margin-left: 30px;
   }
 
   .info-member-img.back{
@@ -140,7 +140,7 @@ const _members = ((data, type, func)=>{
                 placement={'top'}
                 speaker={
                 <Tooltip>
-                    VER MAS ...
+                    VER MAS
                 </Tooltip>
                 }
             >
@@ -202,7 +202,8 @@ const InfoPanelPresidencial = ({
   bgColor = '#fff',
   fontColor = '#999',
   height = '100%',
-  profiles,
+  presidencial,
+  cabinet,
   _toogleSlide
 }) => {
     //console.log(data);
@@ -218,12 +219,6 @@ const InfoPanelPresidencial = ({
         }
     ]
 
-    let SEARCH_TERM = 'SENADOR';
-    const senadors = profiles.filter(function (str) { if (str._source && str._source.CARGO == SEARCH_TERM ) return str });
-    
-    SEARCH_TERM = 'DIPUTADO';
-    const deputies = profiles.filter(function (str) { if (str._source && str._source.CARGO == SEARCH_TERM ) return str });
-    
     return(
         <StyledInfoPanel
             className="info-panel"
@@ -234,15 +229,13 @@ const InfoPanelPresidencial = ({
             <div className={'content-container'}>
                 
                 <div className={'info-member-container'}>
-                    { _bodyText('Congreso', `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce dapibus nisi aliquet malesuada ultricies.`,'intro',_toogleSlide) }
+                    { _bodyText('Presidencial', `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce dapibus nisi aliquet malesuada ultricies.`,'intro',_toogleSlide) }
                     <div className={'info-member-imgs'}>
                         {
-                            profiles.map((member, i) => {
+                            presidencial.map((member, i) => {
                                 //console.log(i);
-                                if(i < 3){
+                                if(i < 2){
                                     return _members(member,'items',null);
-                                } else if(i == 3){
-                                    return _members(member,'more',_toogleSlide);
                                 } else {
                                     return null
                                 }
@@ -253,23 +246,11 @@ const InfoPanelPresidencial = ({
 
                 <div className={'info-bars-container'}>
                     {
-                        senadors &&
+                        cabinet &&
                         <div className={'info-bars senadors'}>
-                            <br></br><h3>Senadores</h3>
+                            <br></br><h3>Gabinete</h3>
                             {
-                                senadors.map((profile, i) => {
-                                    //console.log(i);
-                                    return _progressBar(profile);
-                                })
-                            }
-                        </div>
-                    }
-                    {
-                        deputies &&
-                        <div className={'info-bars deputies'}>
-                            <br></br><h3>Diputados</h3>
-                            {
-                                deputies.map((profile, i) => {
+                                cabinet.map((profile, i) => {
                                     //console.log(i);
                                     return _progressBar(profile);
                                 })

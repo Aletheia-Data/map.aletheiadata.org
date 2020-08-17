@@ -43,7 +43,7 @@ const config = {
             },
             "isVisible": true,
             "visConfig": {
-              "opacity": 0.3,
+              "opacity": 0.8,
               "strokeOpacity": 0.8,
               "thickness": 0.5,
               "strokeColor": [
@@ -56,17 +56,18 @@ const config = {
                 "type": "diverging",
                 "category": "Uber",
                 "colors": [
-                  "#00939C",
-                  "#2FA7AE",
-                  "#5DBABF",
-                  "#8CCED1",
-                  "#BAE1E2",
-                  "#F8C0AA",
-                  "#EB9C80",
-                  "#DD7755",
+                  "#C22E00",
                   "#D0532B",
-                  "#C22E00"
-                ]
+                  "#DD7755",
+                  "#EB9C80",
+                  "#F8C0AA",
+                  "#BAE1E2",
+                  "#8CCED1",
+                  "#5DBABF",
+                  "#2FA7AE",
+                  "#00939C"
+                ],
+                "reversed": true
               },
               "strokeColorRange": {
                 "name": "Global Warming",
@@ -94,7 +95,7 @@ const config = {
                 0,
                 500
               ],
-              "elevationScale": 1,
+              "elevationScale": 2,
               "stroked": false,
               "filled": true,
               "enable3d": true,
@@ -121,10 +122,10 @@ const config = {
           },
           "visualChannels": {
             "colorField": {
-              "name": "ADM2_ES",
-              "type": "string"
+              "name": "TOT_VOTANTES",
+              "type": "integer"
             },
-            "colorScale": "ordinal",
+            "colorScale": "quantile",
             "sizeField": null,
             "sizeScale": "linear",
             "strokeColorField": null,
@@ -139,7 +140,7 @@ const config = {
       "interactionConfig": {
         "tooltip": {
           "fieldsToShow": {
-            "9fooc2awp": [
+            "08hch1cog": [
               {
                 "name": "Name",
                 "format": null
@@ -187,10 +188,10 @@ const config = {
     "mapState": {
       "bearing": 0,
       "dragRotate": false,
-      "latitude": 18.701144398000054,
-      "longitude": -70.16721579749998,
+      "latitude": 18.712860437113278,
+      "longitude": -70.08640168681704,
       "pitch": 0,
-      "zoom": 8,
+      "zoom": 7.321495355615637,
       "isSplit": false
     },
     "mapStyle": {

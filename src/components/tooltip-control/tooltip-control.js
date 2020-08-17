@@ -219,6 +219,70 @@ class CustomTooltipControl extends React.Component {
       return cabinet;
     }
 
+    getCabinet = () =>{
+      let cabinet = [
+        {
+            "_index": "jce-ganadores-elecciones-jul-2020",
+            "_type": "_doc",
+            "_id": "KXlQ6HMB2YII_lqrmLcy",
+            "_score": 4.640537,
+            "_source": {
+                "EDAD": 53,
+                "SIGLAS": "PRM",
+                "NOMBRE_COMPLETO": "LUIS RODOLFO ABINADER CORONA",
+                "SEXO": "M",
+                "CARGO": "PRESIDENTE",
+                "@timestamp": "2067-07-12T00:00:00.000+02:00",
+                "PROVINCIA": "NACIONAL",
+                "PARTIDO_CANDIDATO": "PRM",
+                "FECHA_NACIMIENTO": "12/7/67",
+                "VOTOS": "2,154,866",
+                "PARTIDO_CANDIDATURA": "PARTIDO REVOLUCIONARIO MODERNO"
+            }
+        },
+        {
+            "_index": "jce-ganadores-elecciones-jul-2020",
+            "_type": "_doc",
+            "_id": "KnlQ6HMB2YII_lqrmLcy",
+            "_score": 4.640537,
+            "_source": {
+                "EDAD": 53,
+                "SIGLAS": "PRM",
+                "NOMBRE_COMPLETO": "RAQUEL PEÑA RODRIGUEZ",
+                "SEXO": "F",
+                "CARGO": "VICEPRESIDENTE",
+                "@timestamp": "2066-09-10T00:00:00.000+02:00",
+                "PROVINCIA": "NACIONAL",
+                "PARTIDO_CANDIDATO": "PRM",
+                "FECHA_NACIMIENTO": "10/9/66",
+                "VOTOS": "2,154,866",
+                "PARTIDO_CANDIDATURA": "PARTIDO REVOLUCIONARIO MODERNO"
+            }
+        },
+        {
+            "_index": "jce-ganadores-elecciones-jul-2020",
+            "_type": "_doc",
+            "_id": "KnlQ6HMB2YII_lqrmLcy",
+            "_score": 4.640537,
+            "_source": {
+                "EDAD": 53,
+                "SIGLAS": "PRM",
+                "NOMBRE_COMPLETO": "XXX",
+                "SEXO": "F",
+                "CARGO": "VICEPRESIDENTE",
+                "@timestamp": "2066-09-10T00:00:00.000+02:00",
+                "PROVINCIA": "NACIONAL",
+                "PARTIDO_CANDIDATO": "PRM",
+                "FECHA_NACIMIENTO": "10/9/66",
+                "VOTOS": "2,154,866",
+                "PARTIDO_CANDIDATURA": "PARTIDO REVOLUCIONARIO MODERNO"
+            }
+        }
+      ];
+
+      return cabinet;
+    }
+
     getData = async (prov) => {
       console.log(prov);
 
@@ -360,7 +424,7 @@ class CustomTooltipControl extends React.Component {
                       <InfoPanelProfile data={this.state.currentSelection} profiles={this.state.profiles} _toogleSlide={(e)=>this._toogleSlide(e)} />
                     </div>
                     <div>
-                      <InfoPanelPresidencial cabinet={this.getPresidencial()} data={this.state.currentSelection} profiles={this.state.profiles} _toogleSlide={(e)=>this._toogleSlide(e)} />
+                      <InfoPanelPresidencial presidencial={this.getPresidencial()} cabinet={this.getCabinet()} _toogleSlide={(e)=>this._toogleSlide(e)} />
                     </div>
                   </AwesomeSlider>
                   <div className={'info-button-container'}>

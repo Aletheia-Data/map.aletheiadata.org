@@ -74,7 +74,7 @@ const StyledInfoPanel = styled.div`
 
   .info-member-img:last-child{
     margin-right: 0px;
-    margin-left: 30px;
+    //margin-left: 30px;
     transition: background 0.3s ease;
   }
 
@@ -118,7 +118,7 @@ const _members = ((data, type, func, section)=>{
                 placement={'top'}
                 speaker={
                 <Tooltip>
-                    VER MAS ...
+                    VER MAS
                 </Tooltip>
                 }
             >
