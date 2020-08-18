@@ -302,9 +302,6 @@ class CustomTooltipControl extends React.Component {
       const totalPresidencial = this._getTotal(name,"PRESIDENCIAL");
       const totalSenaduria = this._getTotal(name,"SENADURIA");
       const totalDiputacion = this._getTotal(name,"DIPUTACION");
-      const totalValidVotes = parseInt(totalPresidencial._VALIDOS) + parseInt(totalSenaduria._VALIDOS) + parseInt(totalDiputacion._VALIDOS);
-      const totalIssuedVotes = parseInt(totalPresidencial._EMITIDOS) + parseInt(totalSenaduria._EMITIDOS) + parseInt(totalDiputacion._EMITIDOS);
-      const totalRegisteredVotes = parseInt(totalPresidencial._INSCRITOS) + parseInt(totalSenaduria._INSCRITOS) + parseInt(totalDiputacion._INSCRITOS);
       //console.log(totalValidsVotes, totalIssuedVotes);
 
       // GET CONGRESUAL
@@ -328,9 +325,6 @@ class CustomTooltipControl extends React.Component {
         this.setState({
           profiles: data,
           loading: false,
-          totalValidVotes: totalValidVotes,
-          totalIssuedVotes: totalIssuedVotes,
-          totalRegisteredVotes: totalRegisteredVotes,
           totalPresidencial: totalPresidencial,
           totalSenaduria: totalSenaduria,
           totalDiputacion: totalDiputacion,
@@ -408,13 +402,27 @@ class CustomTooltipControl extends React.Component {
                   className={'slider-more-profile'}
                   style={{ backgroundColor: '#fff', height: '100%', width: '100%' }}>
                     <div>
-                      <InfoPanel data={this.state.currentSelection} cabinet={this.getPresidencial()} profiles={this.state.profiles} totalValidVotes={this.state.totalValidVotes} totalIssuedVotes={this.state.totalIssuedVotes} totalRegisteredVotes={this.state.totalRegisteredVotes} _toogleSlide={(e)=>this._toogleSlide(e)} />
+                      <InfoPanel 
+                        data={this.state.currentSelection} 
+                        cabinet={this.getPresidencial()} 
+                        profiles={this.state.profiles} 
+                        totalPresidencial={this.state.totalPresidencial} 
+                        totalSenaduria={this.state.totalSenaduria} 
+                        totalDiputacion={this.state.totalDiputacion} 
+                        _toogleSlide={(e)=>this._toogleSlide(e)} />
                     </div>
                     <div>
-                      <InfoPanelProfile data={this.state.currentSelection} profiles={this.state.profiles} _toogleSlide={(e)=>this._toogleSlide(e)} />
+                      <InfoPanelProfile 
+                        data={this.state.currentSelection} 
+                        profiles={this.state.profiles} 
+                        _toogleSlide={(e)=>this._toogleSlide(e)} />
                     </div>
                     <div>
-                      <InfoPanelPresidencial totalPresidencial={this.state.totalPresidencial} presidencial={this.getPresidencial()} cabinet={this.getCabinet()} _toogleSlide={(e)=>this._toogleSlide(e)} />
+                      <InfoPanelPresidencial 
+                        totalPresidencial={this.state.totalPresidencial} 
+                        presidencial={this.getPresidencial()} 
+                        cabinet={this.getCabinet()} 
+                        _toogleSlide={(e)=>this._toogleSlide(e)} />
                     </div>
                   </AwesomeSlider>
                   <div className={'info-button-container'}>

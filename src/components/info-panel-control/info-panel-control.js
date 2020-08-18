@@ -18,7 +18,7 @@ const StyledInfoPanel = styled.div`
 
   .content-container{
       height: 100%;
-      padding: 2em 1.5em 5em;
+      padding: 2em 1.5em 3.5em;
       overflow: auto;
   }
 
@@ -102,15 +102,23 @@ const StyledInfoPanel = styled.div`
     width: 50%;
   }
 
-  .info-bars-totals div:last-child{
-    text-align: center;
+  .progress_bar_outter{
+      margin-top: 10px;
+  }
+
+  .progress_bar_item{
+    display: flex;
+    justify-content: space-between;
+    padding-right: 15px;
+  }
+
+  .progress_bar_item div:last-child{
     width: 50%;
-    font-size: 10px;
-    background: #71a0a3;
-    padding: 5px 10px;
-    border-radius: 15px 0px;
-    color: #000;
-    font-weight: 800;
+    text-align: right;
+  }
+
+  .progress_bar_item div:last-child span{
+    
   }
 
   .rect-progress-bar-percent{
@@ -119,6 +127,14 @@ const StyledInfoPanel = styled.div`
 
   .rs-progress-line-bg{
     background-color: #71a0a3;
+  }
+
+  .progress_bar_inner{
+      margin-left 15px;
+  }
+
+  .progress_bar_inner .rs-progress-line-bg{
+    background-color: #de7755;
   }
 `;
 
@@ -178,9 +194,55 @@ const _members = ((data, type, func, section)=>{
 const _progressBar = ((data, type)=>{
     if (type == 'bar'){
         return (
-            <div key={`progress_bar_${data.name}`}>
-                <span>{ data.name }</span>
+            <div key={`progress_bar_${data.name}`} className={'progress_bar_outter'}>
+                <div className={'progress_bar_item'}>
+                    <span>{ data.name }</span>
+                    <div>
+                        <Whisper
+                            trigger="hover"
+                            placement={'top'}
+                            speaker={
+                            <Tooltip>
+                                { `Emitidos: ${new Intl.NumberFormat('es-ES').format(data.total)}` }
+                            </Tooltip>
+                            }
+                        >
+                            <span>{ `${new Intl.NumberFormat('es-ES').format(data.total)} /` }</span>
+                        </Whisper>
+                        <Whisper
+                            trigger="hover"
+                            placement={'top'}
+                            speaker={
+                            <Tooltip>
+                                { `Inscritos: ${new Intl.NumberFormat('es-ES').format(data.inscritos)}` }
+                            </Tooltip>
+                            }
+                        >
+                            <span>{ `${new Intl.NumberFormat('es-ES').format(data.inscritos)}` }</span>
+                        </Whisper>
+                    </div>
+                </div>
                 <Progress.Line style={{ padding: '8px 0' }} percent={data.value} showInfo={true}></Progress.Line>
+                {
+                    data.sub.map(sub_data => {
+                        return(
+                        <div className={'progress_bar_inner'}>
+                            <Whisper
+                                trigger="hover"
+                                placement={'top'}
+                                speaker={
+                                    <Tooltip>
+                                        { `${new Intl.NumberFormat('es-ES').format(sub_data.total)}` }
+                                    </Tooltip>
+                                }
+                            >
+                                <span>{ sub_data.name }</span>
+                            </Whisper>
+                            <Progress.Line style={{ padding: '8px 0' }} percent={sub_data.value} showInfo={true}></Progress.Line>
+                        </div>
+                        )    
+                    })
+                }
             </div>
         )
     } 
@@ -193,17 +255,132 @@ const InfoPanel = ({
   data,
   profiles,
   cabinet,
-  totalValidVotes,
-  totalIssuedVotes,
-  totalRegisteredVotes,
+  totalPresidencial,
+  totalSenaduria,
+  totalDiputacion,
   _toogleSlide
 }) => {
     
-    let perc = parseInt((totalValidVotes * 100) / totalRegisteredVotes);
+    let totalVotesNationWide = 7529932;
+    let totalRegisteredVotes = parseInt(totalPresidencial._INSCRITOS);
+    let totalValidVotes = parseInt(totalPresidencial._VALIDOS + totalSenaduria._VALIDOS + totalDiputacion._VALIDOS);
+    let totalIssueVotes = parseInt(totalPresidencial._EMITIDOS + totalSenaduria._EMITIDOS + totalDiputacion._EMITIDOS);
+    
+    let presidencial = parseInt((totalPresidencial._EMITIDOS * 100) / totalPresidencial._INSCRITOS);
+    let senaduria = parseInt((totalSenaduria._EMITIDOS * 100) / totalSenaduria._INSCRITOS);
+    let diputacion = parseInt((totalDiputacion._EMITIDOS * 100) / totalDiputacion._INSCRITOS);
+    
+    console.log(totalDiputacion);
+    /*
+    PROVINCES: "MONTE PLATA"
+    _ANULADOS: 162
+    _CARGO: "DIPUTACION"
+    _EMITIDOS: 87840
+    _INSCRITOS: 133909
+    _NO_BOL_JME: 1560
+    _NULOS: 3177
+    _OBS: 0
+    _VALIDOS: 84663
+    */
     let bars = [
         {
-            value: perc,
-            name: 'Votos Validos',
+            value: presidencial,
+            total: totalPresidencial._EMITIDOS,
+            inscritos: totalPresidencial._INSCRITOS,
+            name: 'Voto Presidencial',
+            sub: [
+                {
+                    value: parseInt((totalPresidencial._EMITIDOS * 100) / totalPresidencial._INSCRITOS),
+                    total: totalPresidencial._EMITIDOS,
+                    name: 'Votos Emitidos',
+                },
+                {
+                    value: parseInt((totalPresidencial._VALIDOS * 100) / totalPresidencial._EMITIDOS),
+                    total: totalPresidencial._VALIDOS,
+                    name: 'Votos Validos',
+                },
+                {
+                    value: parseInt((totalPresidencial._ANULADOS * 100) / totalPresidencial._EMITIDOS),
+                    total: totalPresidencial._ANULADOS,
+                    name: 'Votos Anulados',
+                },
+                {
+                    value: parseInt((totalPresidencial._NULOS * 100) / totalPresidencial._EMITIDOS),
+                    total: totalPresidencial._NULOS,
+                    name: 'Votos Nulos',
+                },
+                {
+                    value: parseInt((totalPresidencial._OBS * 100) / totalPresidencial._EMITIDOS),
+                    total: totalPresidencial._OBS,
+                    name: 'Votos Observados',
+                }
+            ]
+        },
+        {
+            value: senaduria,
+            total: totalSenaduria._EMITIDOS,
+            inscritos: totalSenaduria._INSCRITOS,
+            name: 'Voto Senaduria',
+            sub: [
+                {
+                    value: parseInt((totalSenaduria._EMITIDOS * 100) / totalSenaduria._INSCRITOS),
+                    total: totalSenaduria._EMITIDOS,
+                    name: 'Votos Emitidos',
+                },
+                {
+                    value: parseInt((totalSenaduria._VALIDOS * 100) / totalSenaduria._EMITIDOS),
+                    total: totalSenaduria._VALIDOS,
+                    name: 'Votos Validos',
+                },
+                {
+                    value: parseInt((totalSenaduria._ANULADOS * 100) / totalSenaduria._EMITIDOS),
+                    total: totalSenaduria._ANULADOS,
+                    name: 'Votos Anulados',
+                },
+                {
+                    value: parseInt((totalSenaduria._NULOS * 100) / totalSenaduria._EMITIDOS),
+                    total: totalSenaduria._NULOS,
+                    name: 'Votos Nulos',
+                },
+                {
+                    value: parseInt((totalSenaduria._OBS * 100) / totalSenaduria._EMITIDOS),
+                    total: totalSenaduria._OBS,
+                    name: 'Votos Observados',
+                }
+            ]
+        },
+        {
+            value: diputacion,
+            total: totalDiputacion._EMITIDOS,
+            inscritos: totalDiputacion._INSCRITOS,
+            name: 'Voto Diputación',
+            sub: [
+                {
+                    value: parseInt((totalDiputacion._EMITIDOS * 100) / totalDiputacion._INSCRITOS),
+                    total: totalDiputacion._EMITIDOS,
+                    name: 'Votos Emitidos',
+                },
+                {
+                    value: parseInt((totalDiputacion._VALIDOS * 100) / totalDiputacion._EMITIDOS),
+                    total: totalDiputacion._VALIDOS,
+                    name: 'Votos Validos',
+                },
+                {
+                    value: parseInt((totalDiputacion._ANULADOS * 100) / totalDiputacion._EMITIDOS),
+                    total: totalDiputacion._ANULADOS,
+                    name: 'Votos Anulados',
+                },
+                {
+                    value: parseInt((totalDiputacion._NULOS * 100) / totalDiputacion._EMITIDOS),
+                    total: totalDiputacion._NULOS,
+                    name: 'Votos Nulos',
+                },
+                {
+                    value: parseInt((totalDiputacion._OBS * 100) / totalDiputacion._EMITIDOS),
+                    total: totalDiputacion._OBS,
+                    name: 'Votos Observados',
+                }
+            ]
         }
     ];
 
@@ -259,42 +436,12 @@ const InfoPanel = ({
                 <div className={'info-bars-container'}>
                     <div className={'info-bars-totals'}>
                         { _bodyText('Estadisticas', ``) }
-                        <div>
-                            <Whisper
-                                trigger="hover"
-                                placement={'top'}
-                                speaker={
-                                <Tooltip>
-                                    { `Emitidos: ${new Intl.NumberFormat('es-ES').format(totalIssuedVotes)}` }
-                                </Tooltip>
-                                }
-                            >
-                                <span>{ `${new Intl.NumberFormat('es-ES').format(totalIssuedVotes)} /` }</span>
-                            </Whisper>
-                            <Whisper
-                                trigger="hover"
-                                placement={'top'}
-                                speaker={
-                                <Tooltip>
-                                    { `Registrados: ${new Intl.NumberFormat('es-ES').format(totalRegisteredVotes)}` }
-                                </Tooltip>
-                                }
-                            >
-                                <span>{ `${new Intl.NumberFormat('es-ES').format(totalRegisteredVotes)}` }</span>
-                            </Whisper>
-                        </div>
                     </div>
                     <div className={'info-bars'}>
                         {
                             bars.map((bar, i) => {
                                 //console.log(i);
-                                if(i < 3){
-                                    return _progressBar(bar,'bar');
-                                } else if(i == 3){
-                                    return _progressBar(bar,'more');
-                                } else {
-                                    return null
-                                }
+                                return _progressBar(bar,'bar');
                             })
                         }
                     </div>
