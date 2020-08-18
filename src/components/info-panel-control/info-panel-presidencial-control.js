@@ -112,6 +112,7 @@ const StyledInfoPanel = styled.div`
 
   .progress_bar_gabinet span{
     top: 0;
+    color: #999;
   }
 
   .rect-progress-bar-percent{

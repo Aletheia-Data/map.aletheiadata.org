@@ -108,6 +108,20 @@ const StyledInfoPanel = styled.div`
   .rs-progress-line-bg{
     background-color: #71a0a3;
   }
+
+  .progress_bar_dip{
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .progress_bar_dip.SENADOR{
+    flex-direction: column;
+  }
+
+  .progress_bar_dip.DIPUTADO{
+    margin: 10px 0;
+  }
+  
 `;
 
 const _bodyText = ((title,desc,type,func)=>{
@@ -196,20 +210,38 @@ const _progressBar = ((data, total)=>{
     //console.log(cleanString, total._EMITIDOS);
     
     return (
-        <div key={`progress_bar_${profile.NOMBRE_COMPLETO}`}>
-            <Whisper
-                trigger="hover"
-                placement={'top'}
-                key={`key_progress_${data.NOMBRE_COMPLETO}`}
-                speaker={
-                <Tooltip>
-                    { `Validos: ${new Intl.NumberFormat('es-ES').format(cleanString)}` }
-                </Tooltip>
-                }
-            >
-                <span>{ profile.NOMBRE_COMPLETO }</span>
-            </Whisper>
-            <Progress.Line style={{ padding: '8px 0' }} percent={ perc } showInfo={true}></Progress.Line>
+        <div className={`progress_bar_dip ${profile.CARGO}`} key={`progress_bar_${profile.NOMBRE_COMPLETO}`}>
+            <span>{ profile.NOMBRE_COMPLETO }</span>
+            {
+                profile.CARGO == "SENADOR" &&
+                <Whisper
+                    trigger="hover"
+                    placement={'top'}
+                    key={`key_progress_${data.NOMBRE_COMPLETO}`}
+                    speaker={
+                    <Tooltip>
+                        { `Validos: ${new Intl.NumberFormat('es-ES').format(cleanString)}` }
+                    </Tooltip>
+                    }
+                >
+                    <Progress.Line className={'senator'} style={{ padding: '8px 0' }} percent={ perc } showInfo={true}></Progress.Line>
+                </Whisper>
+            }
+            {
+                profile.CARGO == "DIPUTADO" &&
+                <Whisper
+                    trigger="hover"
+                    placement={'top'}
+                    key={`key_progress_${data.NOMBRE_COMPLETO}`}
+                    speaker={
+                    <Tooltip>
+                        { `Validos: ${new Intl.NumberFormat('es-ES').format(cleanString)}` }
+                    </Tooltip>
+                    }
+                >
+                    <span className={'deputy'} style={{ width: '60px', textAlign: 'right', fontWeight: 'bold', color: '#297479' }}>{new Intl.NumberFormat('es-ES').format(cleanString)}</span>
+                </Whisper>
+            }
         </div>
     )
 })
