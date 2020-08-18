@@ -65,11 +65,14 @@ const StyledInfoPanel = styled.div`
     height: 40px;
     background: antiquewhite;
     margin-right: -10px;
+    background-size: cover;
+    background-position: top center;
+    background-repeat: no-repeat;
   }
 
   .info-member-img img{
-    width: 40px;
-    height: 40px;
+    width: auto;
+    height: 100%;
   }
 
   .info-member-img:last-child{
@@ -157,6 +160,7 @@ const _members = ((data, type, func, section)=>{
             <Whisper
                 trigger="hover"
                 placement={'top'}
+                key={`key_${type}`}
                 speaker={
                 <Tooltip>
                     VER MAS
@@ -164,7 +168,7 @@ const _members = ((data, type, func, section)=>{
                 }
             >
                 <div className={'info-member-img'} key={`info_member_more`} onClick={()=>func(section == 'presidencial' ? 2 : 1 )}>
-                    <img src={'/assets/img/more.svg'} style={{ width: '41px' }} alt="more"></img>
+                    <img src={'/assets/img/camera-back.svg'} style={{ width: '41px', transform: 'rotate(-180deg)' }} alt="more"></img>
                 </div>
             </Whisper>
         )
@@ -177,15 +181,14 @@ const _members = ((data, type, func, section)=>{
             <Whisper
                 trigger="hover"
                 placement={'top'}
+                key={`key_${type}_${data.NOMBRE_COMPLETO}`}
                 speaker={
                 <Tooltip>
                     { data.NOMBRE_COMPLETO }
                 </Tooltip>
                 }
             >
-                <div className={'info-member-img'} key={`info_member_items_${data.NOMBRE_COMPLETO}`}>
-                    <img src={img} alt={data.NOMBRE_COMPLETO}></img>    
-                </div>
+                <div className={'info-member-img'} style={{ backgroundImage: `url(${img})` }} key={`info_member_items_${data.NOMBRE_COMPLETO}`}></div>
             </Whisper>
         )
     }
@@ -207,7 +210,7 @@ const _progressBar = ((data, type)=>{
                             </Tooltip>
                             }
                         >
-                            <span>{ `${new Intl.NumberFormat('es-ES').format(data.total)} /` }</span>
+                            <span>{ `${new Intl.NumberFormat('es-ES').format(data.total)} / ` }</span>
                         </Whisper>
                         <Whisper
                             trigger="hover"
@@ -261,16 +264,10 @@ const InfoPanel = ({
   _toogleSlide
 }) => {
     
-    let totalVotesNationWide = 7529932;
-    let totalRegisteredVotes = parseInt(totalPresidencial._INSCRITOS);
-    let totalValidVotes = parseInt(totalPresidencial._VALIDOS + totalSenaduria._VALIDOS + totalDiputacion._VALIDOS);
-    let totalIssueVotes = parseInt(totalPresidencial._EMITIDOS + totalSenaduria._EMITIDOS + totalDiputacion._EMITIDOS);
-    
     let presidencial = parseInt((totalPresidencial._EMITIDOS * 100) / totalPresidencial._INSCRITOS);
     let senaduria = parseInt((totalSenaduria._EMITIDOS * 100) / totalSenaduria._INSCRITOS);
     let diputacion = parseInt((totalDiputacion._EMITIDOS * 100) / totalDiputacion._INSCRITOS);
     
-    console.log(totalDiputacion);
     /*
     PROVINCES: "MONTE PLATA"
     _ANULADOS: 162

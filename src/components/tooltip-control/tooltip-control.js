@@ -206,42 +206,135 @@ class CustomTooltipControl extends React.Component {
     getCabinet = () =>{
       let cabinet = [
         {
-            "_index": "jce-ganadores-elecciones-jul-2020",
-            "_type": "_doc",
-            "_id": "KXlQ6HMB2YII_lqrmLcy",
-            "_score": 4.640537,
-            "_source": {
-                "EDAD": 53,
-                "SIGLAS": "PRM",
-                "NOMBRE_COMPLETO": "LUIS RODOLFO ABINADER CORONA",
-                "SEXO": "M",
-                "CARGO": "GABINETE",
-                "@timestamp": "2067-07-12T00:00:00.000+02:00",
-                "PROVINCIA": "NACIONAL",
-                "PARTIDO_CANDIDATO": "PRM",
-                "FECHA_NACIMIENTO": "12/7/67",
-                "VOTOS": "2,154,866",
-                "PARTIDO_CANDIDATURA": "PARTIDO REVOLUCIONARIO MODERNO"
-            }
+            "Cargo": "Ministro de la Presidencia",
+            "Titular": "Lisandro Macarrulla",
+            "Imagen": "",
+            "Desde": "16 de agosto de 2020"
         },
         {
-            "_index": "jce-ganadores-elecciones-jul-2020",
-            "_type": "_doc",
-            "_id": "KnlQ6HMB2YII_lqrmLcy",
-            "_score": 4.640537,
-            "_source": {
-                "EDAD": 53,
-                "SIGLAS": "PRM",
-                "NOMBRE_COMPLETO": "RAQUEL PEÑA RODRIGUEZ",
-                "SEXO": "F",
-                "CARGO": "GABINETE",
-                "@timestamp": "2066-09-10T00:00:00.000+02:00",
-                "PROVINCIA": "NACIONAL",
-                "PARTIDO_CANDIDATO": "PRM",
-                "FECHA_NACIMIENTO": "10/9/66",
-                "VOTOS": "2,154,866",
-                "PARTIDO_CANDIDATURA": "PARTIDO REVOLUCIONARIO MODERNO"
-            }
+            "Cargo": "Ministro de Defensa",
+            "Titular": "Teniente General Carlos Luciano Díaz Morfa",
+            "Imagen": "",
+            "Desde": "16 de agosto de 2020"
+        },
+        {
+            "Cargo": "Canciller de la República Dominicana",
+            "Titular": "Roberto Álvarez",
+            "Imagen": "",
+            "Desde": "16 de agosto de 2020"
+        },
+        {
+            "Cargo": "Procuradora General de la República",
+            "Titular": "Miriam Germán Brito",
+            "Imagen": "",
+            "Desde": "16 de agosto de 2020"
+        },
+        {
+            "Cargo": "Ministro de Interior y Policía",
+            "Titular": "Jesús(chú) Vásquez Martínez",
+            "Desde": "16 de agosto 2020"
+        },
+        {
+            "Cargo": "Ministro de Hacienda",
+            "Titular": "Jochi Vicente",
+            "Imagen": "",
+            "Desde": "16 de agosto de 2020"
+        },
+        {
+            "Cargo": "Ministro de Industria, Comercio y MiPymes",
+            "Titular": "Victor(ito) Bisono​",
+            "Imagen": "",
+            "Desde": "16 de agosto 2020"
+        },
+        {
+            "Cargo": "Ministro de Economía, Planificación y Desarrollo",
+            "Titular": "Miguel Ceara Hatton",
+            "Imagen": "",
+            "Desde": "16 de agosto 2020"
+        },
+        {
+            "Cargo": "Ministro Administrativo de la Presidencia",
+            "Titular": "José Ignacio Paliza",
+            "Imagen": "",
+            "Desde": "16 de agosto de 2020"
+        },
+        {
+            "Cargo": "Ministro de Educación",
+            "Titular": "Roberto Fulcar",
+            "Imagen": "",
+            "Desde": "16 de agosto de 2020"
+        },
+        {
+            "Cargo": "Ministra de Salud Pública y Asistencia Social",
+            "Titular": "Plutarco Arias",
+            "Imagen": "",
+            "Desde": "16 de agosto de 2020"
+        },
+        {
+            "Cargo": "Ministro de Obras Públicas y Comunicaciones",
+            "Titular": "Deligne Ascensión Burgos",
+            "Imagen": "",
+            "Desde": "16 de agosto de 2020"
+        },
+        {
+            "Cargo": "Ministro de Medio Ambiente y Recursos Naturales",
+            "Titular": "Orlando Jorge Mera",
+            "Imagen": "",
+            "Desde": "16 de agosto de 2020"
+        },
+        {
+            "Cargo": "Ministro de Turismo",
+            "Titular": "David Collado",
+            "Imagen": "",
+            "Desde": "16 de agosto de 2020"
+        },
+        {
+            "Cargo": "Ministro de Educación Superior, Ciencia y Tecnología",
+            "Titular": "Franklin García Fermin",
+            "Imagen": "",
+            "Desde": "16 de agosto de 2020"
+        },
+        {
+            "Cargo": "Ministro de Deportes, Educación Física y Recreación",
+            "Titular": "Francisco Camacho",
+            "Imagen": "",
+            "Desde": "16 de agosto de 2020"
+        },
+        {
+            "Cargo": "Ministro de Trabajo",
+            "Titular": "Luis Miguel De Camps",
+            "Imagen": "",
+            "Desde": "16 de agosto de 2020"
+        },
+        {
+            "Cargo": "Ministra de Cultura",
+            "Titular": "Carmen Heredia Vda. Guerrero",
+            "Imagen": "",
+            "Desde": "16 de agosto de 2020"
+        },
+        {
+            "Cargo": "Ministro de Administración Pública",
+            "Titular": "Dario Castillo Lugo",
+            "Imagen": "",
+            "Desde": "16 de agosto de 2020"
+        },
+        {
+            "Cargo": "Ministra de la Mujer",
+            "Titular": "Mayra Jiménez",
+            "Imagen": "",
+            "Desde": "16 de agosto de 2020"
+        },
+        {
+            "Cargo": "Ministra de la Juventud",
+            "Titular": "Kimberly Taveras",
+            "Imagen": "",
+            "Desde": "16 de agosto de 2020"
+        },
+        {
+            "Cargo": "Ministro de Energía y Minas",
+            "Titular": "Antonio Isa Conde",
+            "Imagen": "",
+            "Desde": "16 de agosto de 2020"
         }
       ];
 
@@ -305,7 +398,7 @@ class CustomTooltipControl extends React.Component {
       //console.log(totalValidsVotes, totalIssuedVotes);
 
       // GET CONGRESUAL
-      let search = `https://cors-anywhere.herokuapp.com/https://api.aletheiadata.org/v1/jce/elecciones/2020/congresuales/?query=PROVINCIA&value=${name}`;
+      let search = `https://api.aletheiadata.org/v1/jce/elecciones/2020/congresuales/?query=PROVINCIA&value=${name}`;
 
       console.log(search);
 
@@ -313,15 +406,13 @@ class CustomTooltipControl extends React.Component {
         mode: 'cors'
       })
       .then(res => {
-        //console.log(res.status); // Will show you the status
         if (!res.ok) {
             throw new Error("HTTP status " + res.status);
         }
         return res.json();
       })
       .then(data =>{
-        
-        console.log(data);
+        console.log('done: ', data);
         this.setState({
           profiles: data,
           loading: false,
@@ -349,7 +440,7 @@ class CustomTooltipControl extends React.Component {
     }
 
     _toogleSlide = (e) => {
-      console.log(e);
+      //console.log(e);
       this.setState({
         seeMoreProfiles: e ? e : 0
       })
@@ -415,6 +506,8 @@ class CustomTooltipControl extends React.Component {
                       <InfoPanelProfile 
                         data={this.state.currentSelection} 
                         profiles={this.state.profiles} 
+                        totalSenaduria={this.state.totalSenaduria} 
+                        totalDiputacion={this.state.totalDiputacion} 
                         _toogleSlide={(e)=>this._toogleSlide(e)} />
                     </div>
                     <div>

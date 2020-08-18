@@ -1,7 +1,23 @@
 let getProfileImg = (name) => {
     //console.log(name);
-    let img = 'test';
+    let img = '';
+
     switch (name) {
+        case "LUIS RODOLFO ABINADER CORONA":
+            img = 'https://upload.wikimedia.org/wikipedia/commons/9/9d/President_Abinader_2020.jpg';
+            break;
+        case "RAQUEL PEÑA RODRIGUEZ":
+            img = 'https://upload.wikimedia.org/wikipedia/commons/7/7d/Raquel_Pe%C3%B1a.jpg';
+            break;
+        case "FARIDE VIRGINIA RAFUL SORIANO":
+            img = 'https://upload.wikimedia.org/wikipedia/commons/e/e3/Faride_Raful.png';
+            break;
+        case "SANDRA HERMINIA ABINADER SUERO DE PRIETO":
+            img = 'http://pld.org.do/website/wp-content/uploads/2016/10/Sandra-Herminia-Abinader-Suero.jpg';
+            break;
+        case "ISABEL JACQUELINE ORTIZ FLORES":
+            img = 'http://pld.org.do/website/wp-content/uploads/2014/06/YSABEL-JACQUELINE-ORTIZ-FLORES.jpg';
+            break;
         case "ANTONIO MANUEL TAVERAS GUZMAN":
             img = 'https://upload.wikimedia.org/wikipedia/commons/7/73/Antonio_Taveras_Guzm%C3%A1n%2C_presidente_de_la_AEIH.jpg';
             break;

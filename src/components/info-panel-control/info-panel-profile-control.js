@@ -72,11 +72,14 @@ const StyledInfoPanel = styled.div`
     background: antiquewhite;
     transition: background 0.3s ease;
     margin-right: -10px;
+    background-size: cover;
+    background-position: top center;
+    background-repeat: no-repeat;
   }
 
   .info-member-img img{
-    width: 40px;
-    height: 40px;
+    width: auto;
+    height: 100%;
   }
 
   .info-member-img:last-child{
@@ -133,6 +136,20 @@ const _bodyText = ((title,desc,type,func)=>{
 const _members = ((data, type, func)=>{
     data = data._source;
     //console.log(data);
+    /**
+    CARGO: "DIPUTADO"
+    CIRCUNSCRIPCION: 0
+    EDAD: 59
+    FECHA_NACIMIENTO: "14/12/1960"
+    NOMBRE_COMPLETO: "JUAN SUAZO MARTE"
+    PARTIDO_CANDIDATO: "PLD"
+    PARTIDO_CANDIDATURA: "PARTIDO DE LA LIBERACION DOMINICANA"
+    PROVINCIA: "MONTE PLATA"
+    SEXO: "M"
+    SIGLAS: "PLD"
+    VOTOS: "12,595"
+    VOTOS_HONDT: "31,069"
+     */
     let img = getProfileImg(data ? data.NOMBRE_COMPLETO : null);
     //console.log(img);
     if (type == 'more'){
@@ -140,6 +157,7 @@ const _members = ((data, type, func)=>{
             <Whisper
                 trigger="hover"
                 placement={'top'}
+                key={`key_${type}`}
                 speaker={
                 <Tooltip>
                     VER MAS
@@ -156,29 +174,42 @@ const _members = ((data, type, func)=>{
             <Whisper
                 trigger="hover"
                 placement={'top'}
+                key={`key_${type}_${data.NOMBRE_COMPLETO}`}
                 speaker={
                 <Tooltip>
                     {data.NOMBRE_COMPLETO}
                 </Tooltip>
                 }
             >
-                <div className={'info-member-img'} key={`info_member_items_${data.NOMBRE_COMPLETO}`}>
-                    <img src={img} alt={data.NOMBRE_COMPLETO}></img>
-                </div>
+                <div className={'info-member-img'} style={{ backgroundImage: `url(${img})` }} key={`info_member_items_${data.NOMBRE_COMPLETO}`}></div>
             </Whisper>
         )
     }
 })
 
-const _progressBar = ((data)=>{
+const _progressBar = ((data, total)=>{
     // order by CARGO
-    //console.log(data._source);
     const profile = data._source;
-
+    
+    let cleanString = profile.VOTOS.replace(',','')
+    let perc = parseInt((parseInt(cleanString) * 100) / total._EMITIDOS);
+    //console.log(cleanString, total._EMITIDOS);
+    
     return (
         <div key={`progress_bar_${profile.NOMBRE_COMPLETO}`}>
-            <span>{ profile.NOMBRE_COMPLETO }</span>
-            <Progress.Line style={{ padding: '8px 0' }} percent={ parseInt(profile.VOTOS) } showInfo={true}></Progress.Line>
+            <Whisper
+                trigger="hover"
+                placement={'top'}
+                key={`key_progress_${data.NOMBRE_COMPLETO}`}
+                speaker={
+                <Tooltip>
+                    { `Validos: ${new Intl.NumberFormat('es-ES').format(cleanString)}` }
+                </Tooltip>
+                }
+            >
+                <span>{ profile.NOMBRE_COMPLETO }</span>
+            </Whisper>
+            <Progress.Line style={{ padding: '8px 0' }} percent={ perc } showInfo={true}></Progress.Line>
         </div>
     )
 })
@@ -188,20 +219,11 @@ const InfoPanelProfile = ({
   fontColor = '#999',
   height = '100%',
   profiles,
+  totalSenaduria,
+  totalDiputacion,
   _toogleSlide
 }) => {
-    //console.log(data);
-
-    let bars = [
-        {
-            name: 'Total Votos',
-            value: 80,
-        },
-        {
-            name: 'Total Astencion',
-            value: 50,
-        }
-    ]
+    //console.log(totalSenaduria);
 
     let SEARCH_TERM = 'SENADOR';
     const senadors = profiles.filter(function (str) { if (str._source && str._source.CARGO == SEARCH_TERM ) return str });
@@ -244,7 +266,7 @@ const InfoPanelProfile = ({
                             {
                                 senadors.map((profile, i) => {
                                     //console.log(i);
-                                    return _progressBar(profile);
+                                    return _progressBar(profile, totalSenaduria);
                                 })
                             }
                         </div>
@@ -256,7 +278,7 @@ const InfoPanelProfile = ({
                             {
                                 deputies.map((profile, i) => {
                                     //console.log(i);
-                                    return _progressBar(profile);
+                                    return _progressBar(profile, totalDiputacion);
                                 })
                             }
                         </div>

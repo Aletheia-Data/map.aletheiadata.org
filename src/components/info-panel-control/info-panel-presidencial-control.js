@@ -20,7 +20,7 @@ const StyledInfoPanel = styled.div`
 
   .content-container{
       height: 100%;
-      padding: 2em 1.5em 5em;
+      padding: 2em 2em 2.5rem 1.5em;
       overflow: auto;
   }
 
@@ -72,11 +72,14 @@ const StyledInfoPanel = styled.div`
     background: antiquewhite;
     transition: background 0.3s ease;
     margin-right: -10px;
+    background-size: cover;
+    background-position: top center;
+    background-repeat: no-repeat;
   }
 
   .info-member-img img{
-    width: 40px;
-    height: 40px;
+    width: auto;
+    height: 100%;
   }
 
   .info-member-img:last-child{
@@ -100,6 +103,15 @@ const StyledInfoPanel = styled.div`
     font-size: 0.7rem;
     position: relative;
     top: 5px;
+  }
+
+  .progress_bar_gabinet{
+      margin: 15px 0;
+      color: #000;
+  }
+
+  .progress_bar_gabinet span{
+    top: 0;
   }
 
   .rect-progress-bar-percent{
@@ -144,6 +156,7 @@ const _members = ((data, type, func)=>{
             <Whisper
                 trigger="hover"
                 placement={'top'}
+                key={`key_${type}`}
                 speaker={
                 <Tooltip>
                     VER MAS
@@ -160,31 +173,50 @@ const _members = ((data, type, func)=>{
             <Whisper
                 trigger="hover"
                 placement={'top'}
+                key={`key_${type}_${data.NOMBRE_COMPLETO}`}
                 speaker={
                 <Tooltip>
                     {data.NOMBRE_COMPLETO}
                 </Tooltip>
                 }
             >
-                <div className={'info-member-img'} key={`info_member_items_${data.NOMBRE_COMPLETO}`}>
-                    <img src={img} alt={data.NOMBRE_COMPLETO}></img>
-                </div>
+                <div className={'info-member-img'} style={{ backgroundImage: `url(${img})` }} key={`info_member_items_${data.NOMBRE_COMPLETO}`}></div>
             </Whisper>
         )
     }
 })
 
 const _progressBar = ((data)=>{
-    // order by CARGO
-    const profile = data._source;
     let perc = parseInt((2154876 * 100) / 4163275);
+    // order by CARGO
+    if (data._source){
+        const profile = data._source;
+        
+        return (
+            <div key={`progress_bar_${profile.NOMBRE_COMPLETO}`}>
+                <Whisper
+                    trigger="hover"
+                    placement={'top'}
+                    speaker={
+                    <Tooltip>
+                        { `Validos: ${new Intl.NumberFormat('es-ES').format(2154876)}` }
+                    </Tooltip>
+                    }
+                >
+                    <span>{ profile.NOMBRE_COMPLETO }</span>
+                </Whisper>
+                <Progress.Line style={{ padding: '8px 0' }} percent={ perc } showInfo={true}></Progress.Line>
+            </div>
+        )    
+    } else {
+        return (
+            <div key={`progress_bar_gabinet_${data.Titular}`} className={`progress_bar_gabinet`}>
+                <h6>{ data.Titular }</h6>
+                <span>{ data.Cargo }</span>
+            </div>
+        )
+    }
 
-    return (
-        <div key={`progress_bar_${profile.NOMBRE_COMPLETO}`}>
-            <span>{ profile.NOMBRE_COMPLETO }</span>
-            <Progress.Line style={{ padding: '8px 0' }} percent={ perc } showInfo={true}></Progress.Line>
-        </div>
-    )
 })
 
 const InfoPanelPresidencial = ({
