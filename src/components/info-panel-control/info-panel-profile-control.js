@@ -5,6 +5,8 @@ import { Tooltip, Whisper } from 'rsuite';
 
 import { getProfileImg } from '../../utils/profile-imgs';
 
+import { Progress } from 'rsuite';
+
 import ProgressBar from 'react-animated-progress-bar';
 
 const StyledInfoPanel = styled.div`
@@ -99,6 +101,10 @@ const StyledInfoPanel = styled.div`
   .rect-progress-bar-percent{
     margin: 0em 1rem !important;
   }
+  
+  .rs-progress-line-bg{
+    background-color: #71a0a3;
+  }
 `;
 
 const _bodyText = ((title,desc,type,func)=>{
@@ -172,24 +178,7 @@ const _progressBar = ((data)=>{
     return (
         <div key={`progress_bar_${profile.NOMBRE_COMPLETO}`}>
             <span>{ profile.NOMBRE_COMPLETO }</span>
-            <ProgressBar
-                width="250px"
-                height="10px"
-                rect
-                fontColor="gray"
-                percentage={ parseInt(profile.VOTOS) }
-                rectPadding="1px"
-                rectBorderRadius="20px"
-                trackPathColor="#DAD7FE"
-                bgColor="#9B51E0"
-                trackBorderColor="transparent"
-                defColor={{
-                    fair: '#b78778',
-                    good: '#adbebf',
-                    excellent: '#71a0a3',
-                    poor: '#b3796a',
-                }}
-            />
+            <Progress.Line style={{ padding: '8px 0' }} percent={ parseInt(profile.VOTOS) } showInfo={true}></Progress.Line>
         </div>
     )
 })

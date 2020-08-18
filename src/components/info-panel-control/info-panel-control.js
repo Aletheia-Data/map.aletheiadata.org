@@ -5,7 +5,7 @@ import { Tooltip, Whisper } from 'rsuite';
 
 import { getProfileImg } from '../../utils/profile-imgs';
 
-import ProgressBar from 'react-animated-progress-bar';
+import { Progress } from 'rsuite';
 
 const StyledInfoPanel = styled.div`
   align-items: center;
@@ -116,6 +116,10 @@ const StyledInfoPanel = styled.div`
   .rect-progress-bar-percent{
     margin: 0em 1rem !important;
   }
+
+  .rs-progress-line-bg{
+    background-color: #71a0a3;
+  }
 `;
 
 const _bodyText = ((title,desc)=>{
@@ -131,9 +135,6 @@ const _bodyText = ((title,desc)=>{
 })
 
 const _members = ((data, type, func, section)=>{
-    data = data._source;
-    //console.log(data);
-    let img = getProfileImg(data ? data.NOMBRE_COMPLETO : null);
     //console.log(img);
     if (type == 'more'){
         return (
@@ -152,6 +153,10 @@ const _members = ((data, type, func, section)=>{
             </Whisper>
         )
     } else if (type == 'items'){
+        data = data._source;
+        //console.log(data);
+        let img = getProfileImg(data ? data.NOMBRE_COMPLETO : null);
+
         return (
             <Whisper
                 trigger="hover"
@@ -175,24 +180,7 @@ const _progressBar = ((data, type)=>{
         return (
             <div key={`progress_bar_${data.name}`}>
                 <span>{ data.name }</span>
-                <ProgressBar
-                    width="250px"
-                    height="10px"
-                    rect
-                    fontColor="gray"
-                    percentage={ data.value }
-                    rectPadding="1px"
-                    rectBorderRadius="20px"
-                    trackPathColor="#DAD7FE"
-                    bgColor="#9B51E0"
-                    trackBorderColor="transparent"
-                    defColor={{
-                        fair: '#b78778',
-                        good: '#adbebf',
-                        excellent: '#71a0a3',
-                        poor: '#b3796a',
-                    }}
-                />
+                <Progress.Line style={{ padding: '8px 0' }} percent={data.value} showInfo={true}></Progress.Line>
             </div>
         )
     } 
@@ -241,13 +229,12 @@ const InfoPanel = ({
                                 //console.log(i);
                                 if(i < 2){
                                     return _members(member,'items',null,null);
-                                } else if(i == 2){
-                                    return _members(member,'more',_toogleSlide,'presidencial');
                                 } else {
                                     return null
                                 }
                             })
                         }
+                        { _members(null,'more',_toogleSlide,'presidencial') }
                     </div>
                 </div>
                 

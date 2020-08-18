@@ -5,6 +5,8 @@ import { Tooltip, Whisper } from 'rsuite';
 
 import { getProfileImg } from '../../utils/profile-imgs';
 
+import { Progress } from 'rsuite';
+
 import ProgressBar from 'react-animated-progress-bar';
 
 const StyledInfoPanel = styled.div`
@@ -103,6 +105,10 @@ const StyledInfoPanel = styled.div`
   .rect-progress-bar-percent{
     margin: 0em 1rem !important;
   }
+
+  .rs-progress-line-bg{
+    background-color: #71a0a3;
+  }
 `;
 
 const _bodyText = ((title,desc,type,func)=>{
@@ -170,30 +176,13 @@ const _members = ((data, type, func)=>{
 
 const _progressBar = ((data)=>{
     // order by CARGO
-    //console.log(data._source);
     const profile = data._source;
+    let perc = parseInt((2154876 * 100) / 4163275);
 
     return (
         <div key={`progress_bar_${profile.NOMBRE_COMPLETO}`}>
             <span>{ profile.NOMBRE_COMPLETO }</span>
-            <ProgressBar
-                width="250px"
-                height="10px"
-                rect
-                fontColor="gray"
-                percentage={ parseInt(profile.VOTOS) }
-                rectPadding="1px"
-                rectBorderRadius="20px"
-                trackPathColor="#DAD7FE"
-                bgColor="#9B51E0"
-                trackBorderColor="transparent"
-                defColor={{
-                    fair: '#b78778',
-                    good: '#adbebf',
-                    excellent: '#71a0a3',
-                    poor: '#b3796a',
-                }}
-            />
+            <Progress.Line style={{ padding: '8px 0' }} percent={ perc } showInfo={true}></Progress.Line>
         </div>
     )
 })
@@ -203,21 +192,11 @@ const InfoPanelPresidencial = ({
   fontColor = '#999',
   height = '100%',
   presidencial,
+  totalPresidencial,
   cabinet,
   _toogleSlide
 }) => {
     //console.log(data);
-
-    let bars = [
-        {
-            name: 'Total Votos',
-            value: 80,
-        },
-        {
-            name: 'Total Astencion',
-            value: 50,
-        }
-    ]
 
     return(
         <StyledInfoPanel
@@ -242,6 +221,21 @@ const InfoPanelPresidencial = ({
                             })
                         }
                     </div>
+                </div>
+
+                <div className={'info-bars-container'}>
+                    {
+                        presidencial &&
+                        <div className={'info-bars senadors'}>
+                            <h3>Presidencia</h3>
+                            {
+                                presidencial.map((profile, i) => {
+                                    //console.log(i);
+                                    return _progressBar(profile);
+                                })
+                            }
+                        </div>
+                    }
                 </div>
 
                 <div className={'info-bars-container'}>
