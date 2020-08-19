@@ -55,16 +55,17 @@ function ContactForm() {
         <FormGroup>
             <ControlLabel>Nombres</ControlLabel>
             <FormControl name="name" />
-            <HelpBlock>Required</HelpBlock>
+            <HelpBlock>necesario</HelpBlock>
         </FormGroup>
         <FormGroup>
             <ControlLabel>Email</ControlLabel>
             <FormControl name="email" type="email" />
-            <HelpBlock>Required</HelpBlock>
+            <HelpBlock>necesario</HelpBlock>
         </FormGroup>
         <FormGroup>
             <ControlLabel>Mensaje</ControlLabel>
             <FormControl rows={5} name="message" componentClass="textarea" />
+            <HelpBlock>necesario</HelpBlock>
         </FormGroup>
         <FormGroup>
             <ButtonToolbar>
