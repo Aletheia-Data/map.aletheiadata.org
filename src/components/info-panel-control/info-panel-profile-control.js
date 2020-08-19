@@ -263,7 +263,7 @@ const InfoPanelProfile = ({
     SEARCH_TERM = 'DIPUTADO';
     let deputies = profiles.filter(function (str) { if (str._source && str._source.CARGO == SEARCH_TERM ) return str });
     deputies = deputies.sort(function(a, b) {
-        console.log(a);
+        //console.log(a);
         return parseInt(b._source.VOTOS) - parseInt(a._source.VOTOS);
     });
     

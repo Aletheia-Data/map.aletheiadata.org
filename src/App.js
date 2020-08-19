@@ -42,7 +42,7 @@ import {
 import {loadCloudMap} from 'kepler.gl/actions';
 import {CLOUD_PROVIDERS} from './cloud-providers';
 
-import { Tooltip, Whisper } from 'rsuite';
+import ContactForm from './components/contact-form';
 
 import UseAnimation from 'react-useanimations';
 import menu3 from 'react-useanimations/lib/menu3';
@@ -141,7 +141,7 @@ const GlobalStyle = styled.div`
   }
 
   .settings-panel-footer img{
-    width: 45px;
+    width: 30px;
     height: auto;
     opacity: 0.7;
     cursor: pointer;
@@ -425,17 +425,19 @@ class App extends Component {
             <div className={'settings-panel-content'}></div>
             <div className={'settings-panel-footer'}>
               <Divider style={{width: '100%'}} />
-              <img src={'/assets/img/gear.svg'} onClick={this._toggleSettings} /> 
+              <img src={'/assets/img/mail.svg'} onClick={this._toggleSettings} /> 
             </div>
              <Modal show={this.state.showSettings} style={{ textAlign: 'center' }} onHide={this._toggleSettings}>
               <Modal.Header>
                 <Modal.Title></Modal.Title>
               </Modal.Header>
               <Modal.Body>
-                <img style={{ marginTop: '10px' }} src={'/assets/img/aletheiadata.svg'} /><br></br>
-                <b>Contact Info:</b> <a href='mailto:aletheiadata@gmail.com'>aletheiadata@gmail.com</a>
+                <img style={{ marginTop: '10px' }} src={'/assets/img/aletheiadata.svg'} /><br /><br />
+                {/* <b>Contact Info:</b> <a href='mailto:aletheiadata@gmail.com'>aletheiadata@gmail.com</a> */}
+                <ContactForm />
               </Modal.Body>
               <Modal.Footer>
+                <span>v0.0.1</span>
               </Modal.Footer>
             </Modal>
           </div>
