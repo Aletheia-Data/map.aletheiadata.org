@@ -23,9 +23,13 @@ import CustomTooltipControl from '../components/tooltip-control/tooltip-control'
 import {withState} from 'kepler.gl/components';
 
 export const CustomTooltipControlFactory = () =>
-  withState([], state => ({...state.demo.app}))(CustomTooltipControl);
+  withState([], state => {
+    //console.log(state);
+    return({...state.demo.app})
+  })(CustomTooltipControl);
 
 export function replaceTooltipControl() {
-  return [MapPopoverFactory, CustomTooltipControlFactory];
+  //console.log(MapPopoverFactory);
+  return [MapPopoverFactory, CustomTooltipControlFactory]; 
 }
 

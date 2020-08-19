@@ -267,7 +267,7 @@ const InfoPanel = ({
     let presidencial = parseInt((totalPresidencial._EMITIDOS * 100) / totalPresidencial._INSCRITOS);
     let senaduria = parseInt((totalSenaduria._EMITIDOS * 100) / totalSenaduria._INSCRITOS);
     let diputacion = parseInt((totalDiputacion._EMITIDOS * 100) / totalDiputacion._INSCRITOS);
-    
+
     /*
     PROVINCES: "MONTE PLATA"
     _ANULADOS: 162

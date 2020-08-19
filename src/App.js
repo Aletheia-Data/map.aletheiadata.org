@@ -432,7 +432,7 @@ class App extends Component {
                 <Modal.Title></Modal.Title>
               </Modal.Header>
               <Modal.Body>
-                <img style={{ marginTop: '10px' }} src={'/assets/img/aletheiadata.svg'} /><br /><br />
+                <img style={{ marginTop: '10px' }} src={'/assets/img/aletheiadata.svg'} /><br></br>
                 <b>Contact Info:</b> <a href='mailto:aletheiadata@gmail.com'>aletheiadata@gmail.com</a>
               </Modal.Body>
               <Modal.Footer>

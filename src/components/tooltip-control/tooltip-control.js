@@ -340,7 +340,7 @@ class CustomTooltipControl extends React.Component {
 
       return cabinet;
     }
-
+ 
     getData = async (prov) => {
       this.setState({
         loading: true
@@ -483,7 +483,6 @@ class CustomTooltipControl extends React.Component {
             >
               {
                 !this.state.loading &&
-                this.state.currentSelection.ADM2_PCODE &&
                 <div style={{ height: '100%', width: '100%' }}>
                   <AwesomeSlider 
                   bullets={false}
