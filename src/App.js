@@ -528,7 +528,7 @@ class App extends Component {
           </Banner>
 
           <div className="map-prov" style={{ width: '100%', height: '100%', position: 'absolute', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-            <img className="map-prov-img" style={{ width: '16%', position: 'relative', left: '-88px', top: '-88px'}} src={'/assets/img/mapPreview.png'}></img>
+            <img className="map-prov-img" style={{ width: 137, position: 'relative', left: '-87px', top: '-86px'}} src={'/assets/img/mapPreview.png'}></img>
           </div>
           <div className="layer-prov" style={{ backgroundImage: `url('/assets/img/previewSide.png')`, backgroundSize: 'cover', zIndex: 0, height: '80%', position: 'absolute', right: '10px', top: '10px', width: '290px' }}></div>
           {
@@ -539,6 +539,12 @@ class App extends Component {
           <Steps
             enabled={stepsEnabled}
             steps={steps}
+            options={{
+              nextLabel: 'Siguiente',
+              prevLabel: 'Atrás',
+              skipLabel: 'Salta',
+              doneLabel: 'Termina',
+            }}
             initialStep={initialStep}
             onComplete={(e)=>{
               this.setState({
