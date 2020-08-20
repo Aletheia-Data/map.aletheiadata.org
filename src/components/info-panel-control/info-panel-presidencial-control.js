@@ -229,7 +229,7 @@ const InfoPanelPresidencial = ({
   cabinet,
   _toogleSlide
 }) => {
-    //console.log(data);
+    console.log(presidencial);
 
     return(
         <StyledInfoPanel
@@ -241,7 +241,7 @@ const InfoPanelPresidencial = ({
             <div className={'content-container'}>
                 
                 <div className={'info-member-container'}>
-                    { _bodyText('Presidencial', `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce dapibus nisi aliquet malesuada ultricies.`,'intro',_toogleSlide) }
+                    { _bodyText('Presidencial', `La Presidencia obtuvo un total de ${new Intl.NumberFormat('es-ES').format(totalPresidencial._VALIDOS)} votos validos.`,'intro',_toogleSlide) }
                     <div className={'info-member-imgs'}>
                         {
                             presidencial.map((member, i) => {

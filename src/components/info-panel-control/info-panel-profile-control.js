@@ -277,7 +277,7 @@ const InfoPanelProfile = ({
             <div className={'content-container'}>
                 
                 <div className={'info-member-container'}>
-                    { _bodyText('Congreso', `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce dapibus nisi aliquet malesuada ultricies.`,'intro',_toogleSlide) }
+                    { _bodyText('Congreso', `El Congreso obtuvo un total de ${new Intl.NumberFormat('es-ES').format(totalSenaduria._VALIDOS)} votos validos.`,'intro',_toogleSlide) }
                     <div className={'info-member-imgs'}>
                         {
                             profiles.map((member, i) => {

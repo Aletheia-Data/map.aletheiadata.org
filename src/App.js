@@ -442,12 +442,15 @@ class App extends Component {
               <Divider style={{width: '100%'}} />
               <img src={'/assets/img/mail.svg'} onClick={this._toggleSettings} /> 
             </div>
-             <Modal show={this.state.showSettings} style={{ textAlign: 'center' }} onHide={this._toggleSettings}>
+             <Modal 
+              show={this.state.showSettings} 
+              size={'xs'}
+              style={{ textAlign: 'center' }} 
+              onHide={this._toggleSettings}>
               <Modal.Header>
-                <Modal.Title></Modal.Title>
+                <Modal.Title><img style={{ marginTop: '10px' }} src={'/assets/img/aletheiadata.svg'} /></Modal.Title>
               </Modal.Header>
-              <Modal.Body>
-                <img style={{ marginTop: '10px' }} src={'/assets/img/aletheiadata.svg'} /><br /><br />
+              <Modal.Body style={{ height: '100%', padding: 0 }} >
                 {/* <b>Contact Info:</b> <a href='mailto:aletheiadata@gmail.com'>aletheiadata@gmail.com</a> */}
                 <ContactForm />
               </Modal.Body>

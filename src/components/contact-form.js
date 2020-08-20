@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import styled from 'styled-components';
 import { Alert, Schema, Form, FormGroup, ControlLabel, FormControl, HelpBlock, ButtonToolbar, Button } from 'rsuite';
 
 const { StringType, NumberType } = Schema.Types;
@@ -19,6 +20,9 @@ function TextField(props) {
     </FormGroup>
   );
 }
+const ContactFormStyle = styled.div`
+
+`;
 const sendEmail = (isValid) =>{
     console.log(isValid);
 
@@ -44,35 +48,35 @@ const sendEmail = (isValid) =>{
 }
 function ContactForm() {
   return (
-    <Form fluid 
-        id={'contactForm'}
-        model={model} 
-        action="https://formspree.io/xrgyvqzv"
-        method="POST"
-        style={{ textAlign: 'left' }}
-        onSubmit={sendEmail}
-    >
-        <FormGroup>
-            <ControlLabel>Nombres</ControlLabel>
-            <FormControl name="name" />
-            <HelpBlock>necesario</HelpBlock>
-        </FormGroup>
-        <FormGroup>
-            <ControlLabel>Email</ControlLabel>
-            <FormControl name="email" type="email" />
-            <HelpBlock>necesario</HelpBlock>
-        </FormGroup>
-        <FormGroup>
-            <ControlLabel>Mensaje</ControlLabel>
-            <FormControl rows={5} name="message" componentClass="textarea" />
-            <HelpBlock>necesario</HelpBlock>
-        </FormGroup>
-        <FormGroup>
-            <ButtonToolbar>
-                <Button appearance="primary" type="submit">Enviar</Button>
-            </ButtonToolbar>
-        </FormGroup>
-    </Form>
+    <ContactFormStyle>
+      <Form fluid 
+          id={'contactForm'}
+          model={model} 
+          action="https://formspree.io/xrgyvqzv"
+          method="POST"
+          style={{ textAlign: 'left' }}
+          onSubmit={sendEmail}
+      >
+          <FormGroup>
+              <ControlLabel>Nombre *</ControlLabel>
+              <FormControl name="name" />
+          </FormGroup>
+          <FormGroup>
+              <ControlLabel>Email *</ControlLabel>
+              <FormControl name="email" type="email" />
+          </FormGroup>
+          <FormGroup>
+              <ControlLabel>Mensaje *</ControlLabel>
+              <FormControl rows={5} name="message" componentClass="textarea" />
+              <HelpBlock>* necesario</HelpBlock>
+          </FormGroup>
+          <FormGroup>
+              <ButtonToolbar>
+                  <Button className="send-button" type="submit">Enviar</Button>
+              </ButtonToolbar>
+          </FormGroup>
+      </Form>
+    </ContactFormStyle>
   );
 }
 

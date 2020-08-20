@@ -382,7 +382,33 @@ const InfoPanel = ({
     ];
 
     //console.log(totalRegisteredVotes, totalValidVotes);
-    //console.log(perc);
+    //console.log(data);
+    /* 
+    ADM0_EN: "Dominican Republic"
+    ADM0_ES: "República Dominicana"
+    ADM0_PCODE: "DO"
+    ADM1_ES: "Región Higuamo"
+    ADM1_PCODE: "DO07"
+    ADM1_REF: "RegionHiguamo"
+    ADM2_ES: "Provincia Monte Plata"
+    ADM2_PCODE: "DO0702"
+    ADM2_REF: "Provincia Monte Plata"
+    FID: 22
+    Name: "Dominican Republic"
+    TOT_VOTANTES: 138524
+    altitudeMode: "clampToGround"
+    begin: null
+    description: "Provincia Monte Plata"
+    drawOrder: null
+    end: null
+    extrude: 0
+    icon: null
+    index: 21
+    snippet: ""
+    tessellate: -1
+    timestamp: null
+    visibility: -1
+    */
     return(
         <StyledInfoPanel
             className="info-panel"
@@ -392,11 +418,11 @@ const InfoPanel = ({
         >
             <div className={'content-container'}>
                 <div className={'info-container'}>
-                    { _bodyText(data.ADM2_ES, `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce dapibus nisi aliquet malesuada ultricies.`) }
+                    { _bodyText(data.ADM2_ES, `La ${data.ADM2_ES} obtuvo un total de ${new Intl.NumberFormat('es-ES').format(totalPresidencial._INSCRITOS)} inscritos.`) }
                 </div>
                 
                 <div className={'info-member-container'}>
-                    { _bodyText('Presidencia', `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce dapibus nisi aliquet malesuada ultricies.`) }
+                    { _bodyText('Presidencia', `La Presidencia obtuvo un total de ${new Intl.NumberFormat('es-ES').format(totalPresidencial._VALIDOS)} votos validos en la ${data.ADM2_ES}.`) }
                     <div className={'info-member-imgs'}>
                         {
                             cabinet.map((member, i) => {
@@ -413,7 +439,7 @@ const InfoPanel = ({
                 </div>
                 
                 <div className={'info-member-container'}>
-                    { _bodyText('Congreso', `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce dapibus nisi aliquet malesuada ultricies.`) }
+                    { _bodyText('Congreso', `El Congreso obtuvo un total de ${new Intl.NumberFormat('es-ES').format(totalSenaduria._VALIDOS)} votos validos en la ${data.ADM2_ES}.`) }
                     <div className={'info-member-imgs'}>
                         {
                             profiles.map((member, i) => {

@@ -32,6 +32,8 @@ import ContentLoader from "react-content-loader";
 import AwesomeSlider from 'react-awesome-slider';
 import 'react-awesome-slider/dist/styles.css';
 
+import { Tooltip, Whisper } from 'rsuite';
+
 import Prov_totals from '../../data/tot-votes-2020';
 
 const TooltipControl = LayerHoverInfoFactory();
@@ -78,8 +80,9 @@ const StyledMapControlOverlay = styled.div`
     transition: background-color 0.3s ease-out;
   }
 
-  .button-container button:hover {
+  .button-container button.disabled, .button-container button:hover {
     background-color: #adbdbf;
+    color: #0000004f;
   }
 `;
 
@@ -446,11 +449,11 @@ class CustomTooltipControl extends React.Component {
       })
     }
 
-    _button = ((data, type)=>{
+    _button = ((text, type)=>{
       if (type == 'click'){
           return (
-              <div className={'button-container'} key={`button_${data.name}`}>
-                  <button>Ver Provincia</button>
+              <div className={'button-container'} key={`button_${text}`}>
+                  <button className={'disabled'}>{text}</button>
               </div>
           )
       } 
@@ -517,8 +520,18 @@ class CustomTooltipControl extends React.Component {
                         _toogleSlide={(e)=>this._toogleSlide(e)} />
                     </div>
                   </AwesomeSlider>
-                  <div className={'info-button-container'} style={{ display: 'none' }}>
-                    { this._button('Estadisticas', `click`) }
+                  <div className={'info-button-container'}>
+                    <Whisper
+                        trigger="hover"
+                        placement={'top'}
+                        speaker={
+                            <Tooltip>
+                                { `próximamente` }
+                            </Tooltip>
+                        }
+                    >
+                        { this._button('Ver municipios', `click`) }
+                    </Whisper>
                   </div>
                 </div>
               }
