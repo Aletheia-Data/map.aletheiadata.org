@@ -26,6 +26,9 @@ import {connect} from 'react-redux';
 import {theme} from 'kepler.gl/styles';
 import Banner from './components/banner';
 import { Modal, Divider } from 'rsuite';
+import CustomTooltipControl from './components/tooltip-control/tooltip-control';
+import { Steps, Hints } from "intro.js-react";
+import "intro.js/introjs.css";
 import Announcement, {FormLink} from './components/announcement';
 import {replaceLoadDataModal} from './factories/load-data-modal';
 import {replaceMapControl} from './factories/map-control';
@@ -188,6 +191,18 @@ const GlobalStyle = styled.div`
     width: 15%;
     height: 20px;
   }
+
+  .settings-panel-scale-container span{
+    padding: 0px 5px;
+    font-size: 23px;
+    line-height: 19px;
+  }
+
+  .settings-panel-scale-container span:first-child{
+    font-size: 38px;
+    padding: 0 4px;
+  }
+
 `;
 
 class App extends Component {
@@ -195,9 +210,38 @@ class App extends Component {
     showBanner: false,
     width: window.innerWidth,
     height: window.innerHeight,
+    showSidepanel: true,
     isLoading: true,
     showMenu: false,
-    showSettings: false
+    showSettings: false,
+    stepsEnabled: false,
+    initialStep: 0,
+    steps: [
+      {
+        element: ".map-prov-img",
+        tooltipClass: 'mapProvClass',
+        highlightClass: 'mapProvHighlightClass',
+        intro: "Este mapa presenta la cantidad de votos en cada provincia del territorio dominicano. Haz click sobre una provincia para ver los detalles."
+      },{
+        element: ".layer-prov",
+        intro: "En el detalle de cada provincia podras consultar los datos relativos a las elecciones de julio 2020"
+      },{
+        element: ".settings-scale",
+        intro: "Lorem Ipsum"
+      },
+      {
+        element: ".settings-panel",
+        intro: "Si encuentras un problema o simplemente quieres saludarnos, escribenos cuando quieras."
+      }
+    ],
+    hintsEnabled: true,
+    hints: [
+      {
+        element: ".hello",
+        hint: "Hello hint",
+        hintPosition: "middle-right"
+      }
+    ]
   };
 
   componentDidMount() {
@@ -330,8 +374,16 @@ class App extends Component {
       )
       .then((e)=>{
         setTimeout(() => {
-          this.setState({isLoading: false});  
+          this.setState({
+            isLoading: false
+          });  
         }, 1500);
+
+        setTimeout(() => {
+          this.setState({
+            stepsEnabled: true
+          });  
+        }, 2000);
       });
 
     });
@@ -369,6 +421,15 @@ class App extends Component {
       sidePanelHeaderBg: '#f7f7F7',
       subtextColorActive: '#2473bd'
     };
+
+    const {
+      stepsEnabled,
+      steps,
+      initialStep,
+      hintsEnabled,
+      hints,
+      showSidepanel
+    } = this.state;
 
     const mapStyles = [
       {
@@ -413,6 +474,40 @@ class App extends Component {
       "#00939C"
     ]
 
+    //this.props.layerHoverProp.data[0].properties;
+    let distritoNational = {
+      data: [
+        {
+          properties: {
+            ADM0_EN: "Dominican Republic",
+            ADM0_ES: "República Dominicana",
+            ADM0_PCODE: "DO",
+            ADM1_ES: "Región Cibao Sur",
+            ADM1_PCODE: "DO04",
+            ADM1_REF: "Region Cibao Sur",
+            ADM2_ES: "Provincia Monseñor Nouel",
+            ADM2_PCODE: "DO0402",
+            ADM2_REF: "Provincia Monsenor Nouel",
+            FID: 13,
+            Name: "Dominican Republic",
+            TOT_VOTANTES: 151796,
+            altitudeMode: "clampToGround",
+            begin: null,
+            description: "Provincia Monsenor Nouel",
+            drawOrder: null,
+            end: null,
+            extrude: 0,
+            icon: null,
+            index: 12,
+            snippet: "",
+            tessellate: -1,
+            timestamp: null,
+            visibility: -1,
+          }
+        }
+      ]
+    }
+
     return (
       <ThemeProvider theme={theme}>
         <GlobalStyle
@@ -431,6 +526,35 @@ class App extends Component {
           >
             <Announcement onDisable={this._disableBanner} />
           </Banner>
+
+          <div className="map-prov" style={{ width: '100%', height: '100%', position: 'absolute', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+            <img className="map-prov-img" style={{ width: '16%', position: 'relative', left: '-88px', top: '-88px'}} src={'/assets/img/mapPreview.png'}></img>
+          </div>
+          <div className="layer-prov" style={{ backgroundImage: `url('/assets/img/previewSide.png')`, backgroundSize: 'cover', zIndex: 0, height: '80%', position: 'absolute', right: '10px', top: '10px', width: '290px' }}></div>
+          {
+            showSidepanel &&
+            <CustomTooltipControl layerHoverProp={distritoNational} frozen={showSidepanel} /> 
+          }
+          
+          <Steps
+            enabled={stepsEnabled}
+            steps={steps}
+            initialStep={initialStep}
+            onComplete={(e)=>{
+              this.setState({
+                showSidepanel: false,
+                hintsEnabled: true
+              })
+            }}
+            onExit={(e)=>{
+              this.setState({
+                showSidepanel: false,
+                hintsEnabled: true
+              })
+            }}
+          />
+          <Hints enabled={hintsEnabled} hints={hints} />
+
           <div className={'settings-panel'}>
             <div className={'settings-panel-logo'}>
               <a href={'https://aletheiadata.org'} target="_blank">
@@ -460,8 +584,9 @@ class App extends Component {
             </Modal>
           </div>
           <div className={'settings-scale'}>
-            <span>Densidad de Votos</span>
+            <span>Densidad de Votos Emitidos</span>
             <div className={'settings-panel-scale-container'}>
+              <span>-</span>
               {
                 colorsScale.map(color => {
                   return (
@@ -469,6 +594,7 @@ class App extends Component {
                   )
                 })
               }
+              <span>+</span>
             </div>
           </div>
           <div style={{

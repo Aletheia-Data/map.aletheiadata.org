@@ -461,7 +461,7 @@ class CustomTooltipControl extends React.Component {
 
     render() {
       if (this.props.frozen && this.props.layerHoverProp){
-        //console.log('clicked');
+        //console.log(this.props.layerHoverProp);
         const dataLayer = this.props.layerHoverProp.data[0].properties;
         // if clicked
         if (
