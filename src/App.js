@@ -539,27 +539,22 @@ class App extends Component {
           <Steps
             enabled={stepsEnabled}
             steps={steps}
-            options={{
-              nextLabel: 'Siguiente',
-              prevLabel: 'Atrás',
-              skipLabel: 'Salta',
-              doneLabel: 'Termina',
-            }}
             initialStep={initialStep}
             onComplete={(e)=>{
+              console.log(e);
               this.setState({
                 showSidepanel: false,
                 hintsEnabled: true
               })
             }}
             onExit={(e)=>{
+              console.log(e);
               this.setState({
                 showSidepanel: false,
                 hintsEnabled: true
               })
             }}
           />
-          <Hints enabled={hintsEnabled} hints={hints} />
 
           <div className={'settings-panel'}>
             <div className={'settings-panel-logo'}>
