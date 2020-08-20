@@ -224,7 +224,7 @@ class App extends Component {
         intro: "Este mapa presenta la cantidad de votos en cada provincia del territorio dominicano. Haz click sobre una provincia para ver los detalles."
       },{
         element: ".layer-prov",
-        intro: "En el detalle de cada provincia podras consultar los datos relativos a las elecciones de julio 2020"
+        intro: "En el detalle de cada provincia podras consultar los datos relativos a las elecciones de julio 2020."
       },{
         element: ".settings-scale",
         intro: "Lorem Ipsum"
@@ -579,7 +579,7 @@ class App extends Component {
                 <ContactForm />
               </Modal.Body>
               <Modal.Footer>
-                <span>v0.0.1</span>
+                <span>v0.0.2</span>
               </Modal.Footer>
             </Modal>
           </div>
