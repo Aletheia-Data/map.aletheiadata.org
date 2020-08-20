@@ -517,7 +517,7 @@ class CustomTooltipControl extends React.Component {
                         _toogleSlide={(e)=>this._toogleSlide(e)} />
                     </div>
                   </AwesomeSlider>
-                  <div className={'info-button-container'}>
+                  <div className={'info-button-container'} style={{ display: 'none' }}>
                     { this._button('Estadisticas', `click`) }
                   </div>
                 </div>

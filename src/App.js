@@ -164,9 +164,24 @@ const GlobalStyle = styled.div`
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    flex-direction: column;
     left: 120px;
     height: auto;
     width: 200px;
+    text-align: center;
+  }
+
+  .settings-scale .settings-panel-scale-container{
+    display: flex;
+    border-radius: 6px;
+    overflow: hidden;
+  }
+
+  .settings-scale span{
+    font-size: 10px;
+    color: #277479;
+    font-weight: bold;
+    padding-bottom: 5px;
   }
 
   .settings-scale .settings-panel-scale{
@@ -442,13 +457,16 @@ class App extends Component {
             </Modal>
           </div>
           <div className={'settings-scale'}>
-            {
-              colorsScale.map(color => {
-                return (
-                  <div style={{ backgroundColor: color }} className={'settings-panel-scale'}></div>
-                )
-              })
-            }
+            <span>Densidad de Votos</span>
+            <div className={'settings-panel-scale-container'}>
+              {
+                colorsScale.map(color => {
+                  return (
+                    <div style={{ backgroundColor: color }} className={'settings-panel-scale'}></div>
+                  )
+                })
+              }
+            </div>
           </div>
           <div style={{
             transition: 'opacity 1s ease-in-out',
