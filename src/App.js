@@ -203,6 +203,74 @@ const GlobalStyle = styled.div`
     padding: 0 4px;
   }
 
+  .loader {
+    width: 250px;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+    font-family: helvetica, arial, sans-serif;
+    text-transform: uppercase;
+    font-weight: 900;
+    color: #397f85;
+    letter-spacing: 0.2em;
+  }
+  .loader::before, .loader::after {
+    content: "";
+    display: block;
+    width: 15px;
+    height: 15px;
+    background: #397f85;
+    position: absolute;
+    -webkit-animation: load .7s infinite alternate ease-in-out;
+            animation: load .7s infinite alternate ease-in-out;
+  }
+  .loader::before {
+    top: 0;
+  }
+  .loader::after {
+    bottom: 0;
+  }
+  
+  @-webkit-keyframes load {
+    0% {
+      left: 0;
+      height: 30px;
+      width: 15px;
+    }
+    50% {
+      height: 8px;
+      width: 40px;
+    }
+    100% {
+      left: 235px;
+      height: 30px;
+      width: 15px;
+    }
+  }
+  
+  @keyframes load {
+    0% {
+      left: 0;
+      height: 30px;
+      width: 15px;
+    }
+    50% {
+      height: 8px;
+      width: 40px;
+    }
+    100% {
+      left: 235px;
+      height: 30px;
+      width: 15px;
+    }
+  }
+  
+
 `;
 
 class App extends Component {
@@ -227,19 +295,11 @@ class App extends Component {
         intro: "En el detalle de cada provincia podras consultar los datos relativos a las elecciones de julio 2020."
       },{
         element: ".settings-scale",
-        intro: "Lorem Ipsum"
+        intro: "La diferencia de colores representa la cantidad de votos emitidos por cada provincia."
       },
       {
         element: ".settings-panel",
-        intro: "Si encuentras un problema o simplemente quieres saludarnos, escribenos cuando quieras."
-      }
-    ],
-    hintsEnabled: true,
-    hints: [
-      {
-        element: ".hello",
-        hint: "Hello hint",
-        hintPosition: "middle-right"
+        intro: "Si encuentras un problema o simplemente quieres saludarnos, escribenos."
       }
     ]
   };
@@ -612,10 +672,7 @@ class App extends Component {
             justifyContent: 'center',
             alignItems: 'center'
           }}>
-              <img style={{
-              width: '150px',
-              height: 'auto'  
-            }} src={'/assets/img/loader.svg'} /> 
+            <div class="loader">Loading...</div>
           </div>
           <div
               style={{
