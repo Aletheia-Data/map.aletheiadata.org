@@ -18,35 +18,35 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import React from 'react';
-import document from 'global/document';
-import {Provider} from 'react-redux';
-import {browserHistory, Router, Route} from 'react-router';
-import {syncHistoryWithStore} from 'react-router-redux';
-import {render} from 'react-dom';
-import store from './store';
-import App from './App.js';
-import {buildAppRoutes} from './utils/routes';
+import React, {Component} from 'react';
+import styled, {ThemeProvider} from 'styled-components';
 
-// import pages
-import Homepage from './Homepage';
+const GlobalStyle = styled.div`
 
-const history = syncHistoryWithStore(browserHistory, store);
+`;
 
-const appRoute = buildAppRoutes(App);
+class Homepage extends Component {
+  state = {
+  };
 
-const Root = () => (
-  <Provider store={store}>
-    <Router history={history}>
-      {/*
-      // todo: unlock after landing
-      <Route path="/" exact component={Homepage}></Route>
-      */}
-      <Route path="/" component={App}>
-        {appRoute}
-      </Route>
-    </Router>
-  </Provider>
-);
+  componentDidMount() {
+  }
 
-render(<Root />, document.body.appendChild(document.createElement('div')));
+  render() {
+    
+    return (
+        <GlobalStyle
+        // this is to apply the same modal style as kepler.gl core
+        // because styled-components doesn't always return a node
+        // https://github.com/styled-components/styled-components/issues/617
+        ref={node => {
+          node ? (this.root = node) : null;
+        }}
+      >
+       <div>Home</div>
+      </GlobalStyle>
+    );
+  }
+}
+
+export default Homepage;
