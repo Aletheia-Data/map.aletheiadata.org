@@ -51,7 +51,9 @@ if (window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) {
     actionsBlacklist: [
       '@@kepler.gl/MOUSE_MOVE',
       '@@kepler.gl/UPDATE_MAP',
-      '@@kepler.gl/LAYER_HOVER'
+      '@@kepler.gl/LAYER_HOVER',
+      '@@kepler.gl/LAYER_CLICK',
+      '@@kepler.gl/MAP_CLICK'
     ]
   });
 }

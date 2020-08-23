@@ -25,10 +25,15 @@ import window from 'global/window';
 import {connect} from 'react-redux';
 import {theme} from 'kepler.gl/styles';
 import Banner from './components/banner';
+import { Modal, Divider } from 'rsuite';
+import CustomTooltipControl from './components/tooltip-control/tooltip-control';
+import { Steps, Hints } from "intro.js-react";
+import "intro.js/introjs.css";
 import Announcement, {FormLink} from './components/announcement';
 import {replaceLoadDataModal} from './factories/load-data-modal';
 import {replaceMapControl} from './factories/map-control';
 import {replacePanelHeader} from './factories/panel-header';
+import {replaceTooltipControl} from './factories/tooltip-control';
 import {AUTH_TOKENS} from './constants/default-settings';
 import {
   loadRemoteMap,
@@ -40,19 +45,18 @@ import {
 import {loadCloudMap} from 'kepler.gl/actions';
 import {CLOUD_PROVIDERS} from './cloud-providers';
 
+import ContactForm from './components/contact-form';
+
+import UseAnimation from 'react-useanimations';
+import menu3 from 'react-useanimations/lib/menu3';
+
 const KeplerGl = require('kepler.gl/components').injectComponents([
   replaceLoadDataModal(),
   replaceMapControl(),
-  replacePanelHeader()
+  replacePanelHeader(),
+  replaceTooltipControl()
 ]);
 
-// Sample data
-/* eslint-disable no-unused-vars */
-//import sampleTripData, {testCsvData, sampleTripDataConfig} from './data/sample-trip-data';
-//import sampleGeojson from './data/sample-small-geojson';
-//import sampleGeojsonPoints from './data/sample-geojson-points';
-//import sampleGeojsonConfig from './data/sample-geojson-config';
-//
 // config
 import provinciaConfig from './data/AdminLevel4-config';
 import municipalitiesConfig from './data/municipalities-config';
@@ -63,6 +67,9 @@ import {processCsvData, processGeojson} from 'kepler.gl/processors';
 const BannerHeight = 48;
 const BannerKey = `banner-${FormLink}`;
 const keplerGlGetState = state => state.demo.keplerGl;
+
+// import default style
+import 'rsuite/dist/styles/rsuite-default.css';
 
 const GlobalStyle = styled.div`
   font-family: ff-clan-web-pro, 'Helvetica Neue', Helvetica, sans-serif;
@@ -76,6 +83,10 @@ const GlobalStyle = styled.div`
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
+  }
+
+  h2{
+    line-height: normal;
   }
 
   ul {
@@ -278,7 +289,31 @@ class App extends Component {
   state = {
     showBanner: false,
     width: window.innerWidth,
-    height: window.innerHeight
+    height: window.innerHeight,
+    showSidepanel: true,
+    isLoading: true,
+    showMenu: false,
+    showSettings: false,
+    stepsEnabled: false,
+    initialStep: 0,
+    steps: [
+      {
+        element: ".map-prov-img",
+        tooltipClass: 'mapProvClass',
+        highlightClass: 'mapProvHighlightClass',
+        intro: "Este mapa presenta la cantidad de votos en cada provincia del territorio dominicano. Haz click sobre una provincia para ver los detalles."
+      },{
+        element: ".layer-prov",
+        intro: "En el detalle de cada provincia podras consultar los datos relativos a las elecciones de julio 2020."
+      },{
+        element: ".settings-scale",
+        intro: "La diferencia de colores representa la cantidad de votos emitidos por cada provincia."
+      },
+      {
+        element: ".settings-panel",
+        intro: "Si encuentras un problema o simplemente quieres saludarnos, escribenos."
+      }
+    ]
   };
 
   componentDidMount() {
@@ -320,6 +355,20 @@ class App extends Component {
     // this._loadMockNotifications();
   }
 
+  _closeMenu = () => {
+    this.setState({
+      showMenu: false
+    });
+  }
+  
+  _toggleDrawer = () => {
+    this.setState({ showMenu: true });
+  }
+
+  _toggleSettings = () => {
+    this.setState({ showSettings: !this.state.showSettings });
+  }
+
   _showBanner = () => {
     // disable banner
     this.setState({showBanner: true});
@@ -357,183 +406,13 @@ class App extends Component {
   }
 
   _loadSampleData() {
-    //this._loadPointData();
-    //this._loadGeojsonData();
-    this._loadDRData();
-    //this._loadTripGeoJson();
-    // this._loadIconData();
-    //this._loadH3HexagonData();
-    // this._loadS2Data();
-    // this._loadScenegraphLayer();
+    this.setState({isLoading: true});
+    this._loadProvinces();
   }
 
-  /*
-  _loadPointData() {
-    this.props.dispatch(
-      addDataToMap({
-        datasets: {
-          info: {
-            label: 'Sample Taxi Trips in New York City',
-            id: 'test_trip_data'
-          },
-          data: sampleTripData
-        },
-        options: {
-          centerMap: true,
-          readOnly: false
-        },
-        config: sampleTripDataConfig
-      })
-    );
-  }
-  */
+  async _loadProvinces( ) {
 
-  /*
-  _loadScenegraphLayer() {
-    this.props.dispatch(
-      addDataToMap({
-        datasets: {
-          info: {
-            label: 'Sample Scenegraph Ducks',
-            id: 'test_trip_data'
-          },
-          data: processCsvData(testCsvData)
-        },
-        config: {
-          version: 'v1',
-          config: {
-            visState: {
-              layers: [
-                {
-                  type: '3D',
-                  config: {
-                    dataId: 'test_trip_data',
-                    columns: {
-                      lat: 'gps_data.lat',
-                      lng: 'gps_data.lng'
-                    },
-                    isVisible: true
-                  }
-                }
-              ]
-            }
-          }
-        }
-      })
-    );
-  }
-  */
-
-  /*
-  _loadIconData() {
-    // load icon data and config and process csv file
-    this.props.dispatch(
-      addDataToMap({
-        datasets: [
-          {
-            info: {
-              label: 'Icon Data',
-              id: 'test_icon_data'
-            },
-            data: processCsvData(sampleIconCsv)
-          }
-        ]
-      })
-    );
-  }
-  */
-
-
-  /*
-  _loadTripGeoJson() {
-    this.props.dispatch(
-      addDataToMap({
-        datasets: [
-          {
-            info: {label: 'Trip animation'},
-            data: processGeojson(sampleAnimateTrip)
-          }
-        ]
-      })
-    );
-  }
-  */
-
-  /*
-  _loadGeojsonData() {
-    // load geojson
-    this.props.dispatch(
-      addDataToMap({
-        datasets: [
-          {
-            info: {label: 'Bart Stops Geo', id: 'bart-stops-geo'},
-            data: processGeojson(sampleGeojsonPoints)
-          },
-          {
-            info: {label: 'SF Zip Geo', id: 'sf-zip-geo'},
-            data: processGeojson(sampleGeojson)
-          }
-        ],
-        options: {
-          keepExistingConfig: true
-        },
-        config: sampleGeojsonConfig
-      })
-    );
-  }
-  */
-
-  _loadDRData() {
-    // load geojson
-    this.props.dispatch(
-      addDataToMap({
-        datasets: [
-          {
-            info: {label: 'Provincias', id: 'provinces'},
-            data: processGeojson(Provincies)
-          }
-          /*{
-            info: {label: 'Area 1', id: 'area-1'},
-            data: processGeojson(Cities1)
-          },
-          {
-            info: {label: 'Area 2', id: 'area-2'},
-            data: processGeojson(Cities2)
-          },
-          {
-            info: {label: 'Area 3', id: 'area-3'},
-            data: processGeojson(Cities3)
-          },
-          {
-            info: {label: 'Area 4', id: 'area-4'},
-            data: processGeojson(Cities4)
-          },
-          {
-            info: {label: 'Area 5', id: 'area-5'},
-            data: processGeojson(Cities5)
-          },
-          {
-            info: {label: 'Area 6', id: 'area-6'},
-            data: processGeojson(Cities6)
-          },
-          {
-            info: {label: 'Area 7', id: 'area-7'},
-            data: processGeojson(Cities7)
-          }*/
-        ],
-        options: {
-          keepExistingConfig: false
-        },
-        config: AdminLevel4Config
-      })
-    );
-  }
-
-  async _municipalities(prov) {
-    console.log(prov);
-    /*
-    let search = `https://s3.amazonaws.com/map.aletheiadata.org/maps/provinces/${prov}.json`;
-    await fetch(search, {
+    await fetch('https://s3.amazonaws.com/map.aletheiadata.org/maps/provinces/provincies.json', {
       mode: 'cors',
       cache: 'no-cache',
       headers: {
@@ -549,7 +428,7 @@ class App extends Component {
         addDataToMap({
           datasets: [
             {
-              info: {label: 'Municipalities', id: 'municipalities'},
+              info: {label: 'Provincias', id: 'provinces'},
               data: await processGeojson(data)
             }
           ],
@@ -562,7 +441,7 @@ class App extends Component {
               mapLegend: { show: false },
             }
           },
-          config: municipalitiesConfig
+          config: provinciaConfig
         })
       )
       .then((e)=>{
@@ -580,7 +459,6 @@ class App extends Component {
       });
 
     });
-    */
   }
 
   _toggleCloudModal = () => {
@@ -608,14 +486,14 @@ class App extends Component {
       // https://uber.github.io/react-map-gl/#/Documentation/api-reference/interactive-map
       const map = mapbox.getMap();
       map.on('zoomend', e => {
-        // console.log(`Map ${index} zoom level: ${e.target.style.z}`);
+        console.log(`Map ${index} zoom level: ${e.target.style.z}`);
       });
     }
   };
 
   render() {
-    //this._getMapboxRef();
-    
+    //this.props.dispatch(visStateUpdaters.layerClickUpdater((e)=> console.log(e)));
+
     const customTheme = {
       sidePanelBg: '#fff',
       titleTextColor: '#000000',
@@ -734,7 +612,7 @@ class App extends Component {
           <div className="layer-prov" style={{ backgroundImage: `url('/assets/img/previewSide.png')`, backgroundSize: 'cover', zIndex: 0, height: '80%', position: 'absolute', right: '10px', top: '10px', width: '290px' }}></div>
           {
             showSidepanel &&
-            <CustomTooltipControl layerHoverProp={distritoNational} frozen={showSidepanel}/> 
+            <CustomTooltipControl layerHoverProp={distritoNational} frozen={showSidepanel} /> 
           }
           
           <Steps

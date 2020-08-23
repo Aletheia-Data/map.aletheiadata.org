@@ -1,0 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Raleway:wght@300;400;500;600;700&display=swap');
+
+body{
+    font-family: 'Raleway', sans-serif;
+}
+
+h2,h3{
+    font-family: 'Poppins', sans-serif;
+    color: #000 !important;
+}
+
+p{
+    font-family: 'Raleway', sans-serif;
+}
+
+/* TODO: MOVE TO COMPONENT CSS */
+.bm-cross-button span{
+    position: absolute;
+    top: 2px;
+    right: 0px;
+}
+
+.introjs-helperLayer.mapProvHighlightClass{
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+}

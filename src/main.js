@@ -28,6 +28,9 @@ import store from './store';
 import App from './App.js';
 import {buildAppRoutes} from './utils/routes';
 
+// import pages
+import Homepage from './Homepage';
+
 const history = syncHistoryWithStore(browserHistory, store);
 
 const appRoute = buildAppRoutes(App);
@@ -35,6 +38,10 @@ const appRoute = buildAppRoutes(App);
 const Root = () => (
   <Provider store={store}>
     <Router history={history}>
+      {/*
+      // todo: unlock after landing
+      <Route path="/" exact component={Homepage}></Route>
+      */}
       <Route path="/" component={App}>
         {appRoute}
       </Route>
