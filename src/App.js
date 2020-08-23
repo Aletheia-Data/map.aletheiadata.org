@@ -54,24 +54,9 @@ const KeplerGl = require('kepler.gl/components').injectComponents([
 //import sampleGeojsonConfig from './data/sample-geojson-config';
 //
 // config
-import AdminLevel4Config from './data/AdminLevel4-config';
-// cities
-import Provincies from './data/map/provincies.js';
-/*
-import Cities1 from './data/map/cities1';
-import Cities2 from './data/map/cities2';
-import Cities3 from './data/map/cities3';
-import Cities4 from './data/map/cities4';
-import Cities5 from './data/map/cities5';
-import Cities6 from './data/map/cities6';
-import Cities7 from './data/map/cities7';
-*/
-
-//import sampleH3Data, {config as h3MapConfig} from './data/sample-hex-id-csv';
-//import sampleS2Data, {config as s2MapConfig, dataId as s2DataId} from './data/sample-s2-data';
-//import sampleAnimateTrip from './data/sample-animate-trip-data';
-//import sampleIconCsv, {config as savedMapConfig} from './data/sample-icon-csv';
-import {addDataToMap, addNotification} from 'kepler.gl/actions';
+import provinciaConfig from './data/AdminLevel4-config';
+import municipalitiesConfig from './data/municipalities-config';
+import {addDataToMap, addNotification, onMapClick} from 'kepler.gl/actions';
 import {processCsvData, processGeojson} from 'kepler.gl/processors';
 /* eslint-enable no-unused-vars */
 
@@ -106,6 +91,187 @@ const GlobalStyle = styled.div`
     text-decoration: none;
     color: ${props => props.theme.labelColor};
   }
+
+  .map-control{
+    display: none
+  }
+
+  .settings-panel{
+    border-radius: 10px;
+    z-index: 1;
+    background: #fff;
+    width: 100px;
+    position: absolute;
+    bottom: 0;
+    padding: 10px;
+    margin: 15px;
+    box-shadow: rgba(0, 0, 0, 0.12) 0px 8px 20px, rgba(0, 0, 0, 0.1) 0px 2px 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .settings-panel-logo{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+  }
+
+  .settings-panel-logo img{
+    width: 60px;
+    z-index: 1;
+  }
+
+  .settings-panel-content{}
+  
+  .settings-panel-footer{
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    display: flex;
+    margin-bottom: 15px;
+  }
+
+  .settings-panel-footer img{
+    width: 30px;
+    height: auto;
+    opacity: 0.7;
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+  }
+
+  .settings-panel-footer img:hover{
+    opacity: 1;
+  }
+
+  .settings-scale, .settings-home{
+    border-radius: 10px;
+    z-index: 1;
+    background: #fff;
+    position: absolute;
+    bottom: 0;
+    padding: 10px;
+    margin: 15px;
+    box-shadow: rgba(0, 0, 0, 0.12) 0px 8px 20px, rgba(0, 0, 0, 0.1) 0px 2px 5px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-direction: column;
+    left: 120px;
+    height: auto;
+    width: 200px;
+    text-align: center;
+  }
+
+  .settings-scale .settings-panel-scale-container{
+    display: flex;
+    border-radius: 6px;
+    overflow: hidden;
+  }
+
+  .settings-scale span{
+    font-size: 10px;
+    color: #277479;
+    font-weight: bold;
+    padding-bottom: 5px;
+  }
+
+  .settings-scale .settings-panel-scale{
+    width: 15%;
+    height: 20px;
+  }
+
+  .settings-panel-scale-container span{
+    padding: 0px 5px;
+    font-size: 23px;
+    line-height: 19px;
+  }
+
+  .settings-panel-scale-container span:first-child{
+    font-size: 38px;
+    padding: 0 4px;
+  }
+
+  .settings-home{
+    width: 60px;
+    height: 62px;
+    left: 340px;
+  }
+
+  .settings-home img{
+    height: 100%;
+    width: 40px;
+  }
+
+  .loader {
+    width: 250px;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+    font-family: helvetica, arial, sans-serif;
+    text-transform: uppercase;
+    font-weight: 900;
+    color: #397f85;
+    letter-spacing: 0.2em;
+  }
+  .loader::before, .loader::after {
+    content: "";
+    display: block;
+    width: 15px;
+    height: 15px;
+    background: #397f85;
+    position: absolute;
+    -webkit-animation: load .7s infinite alternate ease-in-out;
+            animation: load .7s infinite alternate ease-in-out;
+  }
+  .loader::before {
+    top: 0;
+  }
+  .loader::after {
+    bottom: 0;
+  }
+  
+  @-webkit-keyframes load {
+    0% {
+      left: 0;
+      height: 30px;
+      width: 15px;
+    }
+    50% {
+      height: 8px;
+      width: 40px;
+    }
+    100% {
+      left: 235px;
+      height: 30px;
+      width: 15px;
+    }
+  }
+  
+  @keyframes load {
+    0% {
+      left: 0;
+      height: 30px;
+      width: 15px;
+    }
+    50% {
+      height: 8px;
+      width: 40px;
+    }
+    100% {
+      left: 235px;
+      height: 30px;
+      width: 15px;
+    }
+  }
+  
+
 `;
 
 class App extends Component {
@@ -363,51 +529,59 @@ class App extends Component {
     );
   }
 
-  /*
-  _loadH3HexagonData() {
-    // load h3 hexagon
-    this.props.dispatch(
-      addDataToMap({
-        datasets: [
-          {
-            info: {
-              label: 'H3 Hexagons V2',
-              id: 'h3-hex-id'
-            },
-            data: processCsvData(sampleH3Data)
-          }
-        ],
-        config: h3MapConfig,
-        options: {
-          keepExistingConfig: true
-        }
-      })
-    );
-  }
-  */
+  async _municipalities(prov) {
+    console.log(prov);
+    /*
+    let search = `https://s3.amazonaws.com/map.aletheiadata.org/maps/provinces/${prov}.json`;
+    await fetch(search, {
+      mode: 'cors',
+      cache: 'no-cache',
+      headers: {
+        'Access-Control-Allow-Origin':'*',
+        "Content-Type": "application/json"
+      }
+    })
+    .then(res => res.json() )
+    .then(async data =>{
+      console.log(data);
+      // load geojson
+      this.props.dispatch(
+        addDataToMap({
+          datasets: [
+            {
+              info: {label: 'Municipalities', id: 'municipalities'},
+              data: await processGeojson(data)
+            }
+          ],
+          options: {
+            keepExistingConfig: false,
+            readOnly: true,
+            mapControls: {
+              toggle3d: { show: false },
+              splitMap: { show: false },
+              mapLegend: { show: false },
+            }
+          },
+          config: municipalitiesConfig
+        })
+      )
+      .then((e)=>{
+        setTimeout(() => {
+          this.setState({
+            isLoading: false
+          });  
+        }, 1500);
 
-  /*
-  _loadS2Data() {
-    // load s2
-    this.props.dispatch(
-      addDataToMap({
-        datasets: [
-          {
-            info: {
-              label: 'S2 Data',
-              id: s2DataId
-            },
-            data: processCsvData(sampleS2Data)
-          }
-        ],
-        config: s2MapConfig,
-        options: {
-          keepExistingConfig: true
-        }
-      })
-    );
+        setTimeout(() => {
+          this.setState({
+            stepsEnabled: true
+          });  
+        }, 2000);
+      });
+
+    });
+    */
   }
-  */
 
   _toggleCloudModal = () => {
     // TODO: this lives only in the demo hence we use the state for now
@@ -418,10 +592,17 @@ class App extends Component {
   };
 
   _getMapboxRef = (mapbox, index) => {
+    
     if (!mapbox) {
       // The ref has been unset.
       // https://reactjs.org/docs/refs-and-the-dom.html#callback-refs
       // console.log(`Map ${index} has closed`);
+      mapbox = document.getElementById('map');
+      console.log(mapbox);
+      const map = mapbox.getMap();
+      map.on('zoomend', e => {
+        console.log(`Map ${index} zoom level: ${e.target.style.z}`);
+      });
     } else {
       // We expect an InteractiveMap created by KeplerGl's MapContainer.
       // https://uber.github.io/react-map-gl/#/Documentation/api-reference/interactive-map
@@ -433,6 +614,101 @@ class App extends Component {
   };
 
   render() {
+    //this._getMapboxRef();
+    
+    const customTheme = {
+      sidePanelBg: '#fff',
+      titleTextColor: '#000000',
+      sidePanelHeaderBg: '#f7f7F7',
+      subtextColorActive: '#2473bd'
+    };
+
+    const {
+      stepsEnabled,
+      steps,
+      initialStep,
+      hintsEnabled,
+      hints,
+      showSidepanel
+    } = this.state;
+
+    const mapStyles = [
+      {
+        id: 'my_dark_map',
+        label: 'Dark Streets 9',
+        url: 'mapbox://styles/mapbox/dark-v9',
+        //icon: `${apiHost}/styles/v1/mapbox/dark-v9/static/-122.3391,37.7922,9.19,0,0/400x300?access_token=${accessToken}&logo=false&attribution=false`,
+        layerGroups: [
+          {
+            slug: 'label',
+            filter: ({id}) => id.match(/(?=(label|place-|poi-))/),
+            defaultVisibility: true
+          },
+          {
+            // adding this will keep the 3d building option
+            slug: '3d building',
+            filter: () => false,
+            defaultVisibility: false
+          }
+        ]
+      }
+    ];
+    //console.log(this.props);
+    if (!this.state.isLoading){
+      setTimeout(() => {
+        this.setState({
+          destroyLoader: true
+        })
+      }, 1500);
+    }
+
+    let colorsScale = [
+      "#C22E00",
+      "#D0532B",
+      "#DD7755",
+      "#EB9C80",
+      "#F8C0AA",
+      "#BAE1E2",
+      "#8CCED1",
+      "#5DBABF",
+      "#2FA7AE",
+      "#00939C"
+    ]
+
+    //this.props.layerHoverProp.data[0].properties;
+    let distritoNational = {
+      data: [
+        {
+          properties: {
+            ADM0_EN: "Dominican Republic",
+            ADM0_ES: "República Dominicana",
+            ADM0_PCODE: "DO",
+            ADM1_ES: "Región Cibao Sur",
+            ADM1_PCODE: "DO04",
+            ADM1_REF: "Region Cibao Sur",
+            ADM2_ES: "Provincia Monseñor Nouel",
+            ADM2_PCODE: "DO0402",
+            ADM2_REF: "Provincia Monsenor Nouel",
+            FID: 13,
+            Name: "Dominican Republic",
+            TOT_VOTANTES: 151796,
+            altitudeMode: "clampToGround",
+            begin: null,
+            description: "Provincia Monsenor Nouel",
+            drawOrder: null,
+            end: null,
+            extrude: 0,
+            icon: null,
+            index: 12,
+            snippet: "",
+            tessellate: -1,
+            timestamp: null,
+            visibility: -1,
+          }
+        }
+      ]
+    }
+
     return (
       <ThemeProvider theme={theme}>
         <GlobalStyle
@@ -451,34 +727,130 @@ class App extends Component {
           >
             <Announcement onDisable={this._disableBanner} />
           </Banner>
-          <div
-            style={{
-              transition: 'margin 1s, height 1s',
-              position: 'absolute',
-              width: '100%',
-              height: '100%',
-              left: 0,
-              top: 0
-            }}
-          >
-            <AutoSizer>
-              {({height, width}) => (
-                <KeplerGl
-                  mapboxApiAccessToken={AUTH_TOKENS.MAPBOX_TOKEN}
-                  id="map"
-                  /*
-                   * Specify path to keplerGl state, because it is not mount at the root
-                   */
-                  getState={keplerGlGetState}
-                  width={width}
-                  height={height}
-                  cloudProviders={CLOUD_PROVIDERS}
-                  onExportToCloudSuccess={onExportFileSuccess}
-                  onLoadCloudMapSuccess={onLoadCloudMapSuccess}
-                />
-              )}
-            </AutoSizer>
+
+          <div className="map-prov" style={{ width: '100%', height: '100%', position: 'absolute', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+            <img className="map-prov-img" style={{ width: 137, position: 'relative', left: '-87px', top: '-86px'}} src={'/assets/img/mapPreview.png'}></img>
           </div>
+          <div className="layer-prov" style={{ backgroundImage: `url('/assets/img/previewSide.png')`, backgroundSize: 'cover', zIndex: 0, height: '80%', position: 'absolute', right: '10px', top: '10px', width: '290px' }}></div>
+          {
+            showSidepanel &&
+            <CustomTooltipControl layerHoverProp={distritoNational} frozen={showSidepanel}/> 
+          }
+          
+          <Steps
+            enabled={stepsEnabled}
+            steps={steps}
+            initialStep={initialStep}
+            onComplete={(e)=>{
+              console.log(e);
+              this.setState({
+                showSidepanel: false,
+                hintsEnabled: true
+              })
+            }}
+            onExit={(e)=>{
+              console.log(e);
+              this.setState({
+                showSidepanel: false,
+                hintsEnabled: true
+              })
+            }}
+          />
+
+          <div className={'settings-panel'}>
+            <div className={'settings-panel-logo'}>
+              <a href={'https://aletheiadata.org'} target="_blank">
+                <img src={'/assets/img/aletheiadata.svg'} /> 
+              </a>
+            </div>
+            <div className={'settings-panel-content'}></div>
+            <div className={'settings-panel-footer'}>
+              <Divider style={{width: '100%'}} />
+              <img src={'/assets/img/mail.svg'} onClick={this._toggleSettings} /> 
+            </div>
+             <Modal 
+              show={this.state.showSettings} 
+              size={'xs'}
+              style={{ textAlign: 'center' }} 
+              onHide={this._toggleSettings}>
+              <Modal.Header>
+                <Modal.Title><img style={{ marginTop: '10px' }} src={'/assets/img/aletheiadata.svg'} /></Modal.Title>
+              </Modal.Header>
+              <Modal.Body style={{ height: '100%', padding: 0 }} >
+                {/* <b>Contact Info:</b> <a href='mailto:aletheiadata@gmail.com'>aletheiadata@gmail.com</a> */}
+                <ContactForm />
+              </Modal.Body>
+              <Modal.Footer>
+                <span>v0.0.2</span>
+              </Modal.Footer>
+            </Modal>
+          </div>
+          <div className={'settings-scale'}>
+            <span>Densidad de Votos Emitidos</span>
+            <div className={'settings-panel-scale-container'}>
+              <span>-</span>
+              {
+                colorsScale.map(color => {
+                  return (
+                    <div key={`color_${color}`} style={{ backgroundColor: color }} className={'settings-panel-scale'}></div>
+                  )
+                })
+              }
+              <span>+</span>
+            </div>
+          </div>
+          <div className={'settings-home'}>
+            <img src={'/assets/img/magnification.svg'} style={{ cursor: 'pointer' }} onClick={()=>{ /* window.location.href = '/' */ this._loadSampleData() }} />   
+          </div>
+          <div style={{
+            transition: 'opacity 1s ease-in-out',
+            position: 'absolute',
+            width: '100%',
+            height: '100%',
+            left: 0,
+            top: 0,
+            zIndex: 9999,
+            backgroundColor: '#fff',
+            display: this.state.destroyLoader ? 'none' : 'flex',
+            opacity: this.state.isLoading ? 1 : 0,
+            justifyContent: 'center',
+            alignItems: 'center'
+          }}>
+            <div className="loader">Loading...</div>
+          </div>
+          <div
+              style={{
+                transition: 'margin 1s, height 1s',
+                position: 'absolute',
+                width: '100%',
+                height: '100%',
+                left: 0,
+                top: 0
+              }}
+            >
+              <AutoSizer>
+                {({height, width}) => {
+                  return(
+                    <KeplerGl
+                      mapboxApiAccessToken={AUTH_TOKENS.MAPBOX_TOKEN}
+                      id="map"
+                      /*
+                      * Specify path to keplerGl state, because it is not mount at the root
+                      */
+                      //onViewStateChange={(e) => console.log(e) }
+                      mapStyles={mapStyles}
+                      theme={customTheme}
+                      getState={keplerGlGetState}
+                      width={width}
+                      height={height}
+                      cloudProviders={CLOUD_PROVIDERS}
+                      onExportToCloudSuccess={onExportFileSuccess}
+                      onLoadCloudMapSuccess={onLoadCloudMapSuccess}
+                    />
+                  )
+                }}
+              </AutoSizer>
+            </div>
         </GlobalStyle>
       </ThemeProvider>
     );
