@@ -495,6 +495,9 @@ class CustomTooltipControl extends React.Component {
         case 'Provincia San Cristóbal':
           name = "Provincia San Cristobal"
           break;
+        case 'Provincia Monseñor Nouel':
+          name = "Provincia Monsenor Nouel"
+          break;
       
         default:
           break;
