@@ -28,11 +28,11 @@ const config = {
       "filters": [],
       "layers": [
         {
-          "id": "e2isjjy",
+          "id": "e2isjje",
           "type": "geojson",
           "config": {
             "dataId": "municipalities",
-            "label": "Municipalities",
+            "label": "municipalities",
             "color": [
               255,
               203,
@@ -121,7 +121,10 @@ const config = {
             ]
           },
           "visualChannels": {
-            "colorField": null,
+            "colorField": {
+              "name": "TOT_VOTANTES",
+              "type": "integer"
+            },
             "colorScale": "quantile",
             "sizeField": null,
             "sizeScale": "linear",
@@ -137,21 +140,25 @@ const config = {
       "interactionConfig": {
         "tooltip": {
           "fieldsToShow": {
-            "h1cl1vwec": [
+            "08hch1cog": [
               {
-                "name": "type",
+                "name": "Name",
                 "format": null
-              }
-            ],
-            "m2el8hqd5": [
+              },
               {
-                "name": "type",
+                "name": "description",
                 "format": null
-              }
-            ],
-            "7d6p19fao": [
+              },
               {
-                "name": "type",
+                "name": "FID",
+                "format": null
+              },
+              {
+                "name": "ADM0_EN",
+                "format": null
+              },
+              {
+                "name": "ADM0_ES",
                 "format": null
               }
             ]
