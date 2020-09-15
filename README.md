@@ -27,3 +27,13 @@ export MapboxAccessToken=<your_mapbox_token>
 ```sh
 npm start
 ```
+
+#### To do
+
+```sh
+- [X] Add Provinces
+- [X] Add Sidebar
+- [X] Add API Aletheia
+- [ ] Tooltip on Provinces (tooltip-control)
+- [ ] Add Municipalies
+```
