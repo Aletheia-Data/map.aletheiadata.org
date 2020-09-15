@@ -586,7 +586,7 @@ class CustomTooltipControl extends React.Component {
       if (type == 'click'){
           return (
               <div className={'button-container'} key={`button_${text}`}>
-                  <button onClick={()=>this.getMunicipality(this.state.currentSelection)}>{text}</button>
+                  <button className={'disabled'} onClick={()=>{ /* this.getMunicipality(this.state.currentSelection) */ }}>{text}</button>
               </div>
           )
       } 

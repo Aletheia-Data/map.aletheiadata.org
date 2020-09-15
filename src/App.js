@@ -659,7 +659,7 @@ class App extends Component {
                 <ContactForm />
               </Modal.Body>
               <Modal.Footer>
-                <span>v0.0.2</span>
+                <span>v0.0.3</span>
               </Modal.Footer>
             </Modal>
           </div>
