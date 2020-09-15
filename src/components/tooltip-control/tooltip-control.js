@@ -19,7 +19,18 @@
 // THE SOFTWARE.
 
 import React, {useState} from 'react';
+import {connect} from 'react-redux';
+// import action and forward dispatcher
+import {forwardTo} from 'kepler.gl/actions';
+import {
+  loadSample
+} from '../../actions';
+
 import styled from 'styled-components';
+// config
+import municipalitiesConfig from '../../data/municipalities-config';
+import {addDataToMap } from 'kepler.gl/actions';
+import { processGeojson, removeLayerData} from 'kepler.gl/processors';
 import {LayerHoverInfoFactory} from 'kepler.gl/components';
 
 import InfoPanel from '../info-panel-control/info-panel-control';
@@ -431,6 +442,128 @@ class CustomTooltipControl extends React.Component {
           loading: true
         })
       });
+      
+
+    }
+
+    getMunicipality = async (prov) => {
+      this.setState({
+        loadingMunicipality: true
+      })
+      console.log(prov);
+  
+      /*
+      const revProv = prov.ADM2_ES.split('Provincia ');
+      if (revProv[1]){
+        name = revProv[1];
+      } else {
+        name = revProv[0];
+      }
+      */
+  
+      let name = prov.ADM2_ES;
+      console.log(name);
+      
+      switch (name) {
+        case 'Provincia Sánchez Ramírez':
+          name = "provincia sanchez ramirez"
+          break;
+        case 'Provincia San José de Ocoa':
+          name = "Provincia San Jose de Ocoa"
+          break;
+        case 'Provincia Santiago Rodríguez':
+          name = "Provincia Santiago Rodriguez"
+          break;
+        case 'Provincia Baoruco':
+          name = "Provincia Baoruco"
+          break;
+        case 'Provincia Elías Piña':
+          name = "Provincia Elias Pina"
+          break;
+        case 'Provincia Dajabón':
+          name = "Provincia Dajabon"
+          break;
+        case 'Provincia María Trinidad Sánchez':
+          name = "Provincia Maria Trinidad Sanchez"
+          break;
+        case 'Provincia Samaná':
+          name = "Provincia Samana"
+          break;
+        case 'Provincia San Pedro de Macorís':
+          name = "Provincia San Pedro de Macoris"
+          break;
+        case 'Provincia San Cristóbal':
+          name = "Provincia San Cristobal"
+          break;
+        case 'Provincia Monseñor Nouel':
+          name = "Provincia Monsenor Nouel"
+          break;
+      
+        default:
+          break;
+      }
+  
+      name = name.toLowerCase();
+      name = name.replace(/\s/g, "-");
+      console.log(name);
+  
+      // GET CONGRESUAL
+      let search = `https://s3.amazonaws.com/map.aletheiadata.org/maps/provinces/${name}.json`;
+      
+      await fetch(search, {
+        mode: 'cors'
+      })
+      .then(res => {
+        if (!res.ok) {
+            throw new Error("HTTP status " + res.status);
+        }
+        return res.json();
+      })
+      .then(data =>{
+        
+        console.log('done: ', data);
+        this.setState({
+          loadingMunicipality: false
+        })
+        
+        this.props.dispatch(
+          addDataToMap({
+            datasets: [
+              {
+                info: {
+                  label: 'Municipalities', id: 'municipalities'
+                },
+                data: processGeojson(data)
+              }
+            ],
+            options: {
+              keepExistingConfig: false,
+              readOnly: true,
+              mapControls: {
+                toggle3d: { show: false },
+                splitMap: { show: false },
+                mapLegend: { show: false },
+              }
+            },
+            config: municipalitiesConfig
+          })
+        )
+        .then((e)=>{
+          setTimeout(() => {
+            this.setState({
+              loadingMunicipality: false
+            });  
+          }, 1500);
+        });
+        
+        
+      })
+      .catch(err => {
+        console.log(err);
+        this.setState({
+          loadingMunicipality: false
+        })
+      });
 
     }
 
@@ -453,7 +586,7 @@ class CustomTooltipControl extends React.Component {
       if (type == 'click'){
           return (
               <div className={'button-container'} key={`button_${text}`}>
-                  <button className={'disabled'}>{text}</button>
+                  <button className={'disabled'} onClick={()=>{ /* this.getMunicipality(this.state.currentSelection) */ }}>{text}</button>
               </div>
           )
       } 
@@ -463,7 +596,7 @@ class CustomTooltipControl extends React.Component {
       if (this.props.frozen && this.props.layerHoverProp){
         //console.log(this.props.layerHoverProp);
         const dataLayer = this.props.layerHoverProp.data[0].properties;
-        // if clicked
+        // if province clicked
         if (
           this.state.currentSelection.ADM2_PCODE != dataLayer.ADM2_PCODE
         ){
@@ -596,4 +729,12 @@ class CustomTooltipControl extends React.Component {
     }
 };
 
-export default CustomTooltipControl;
+const mapStateToProps = state => state
+const mapDispatchToProps = (dispatch, props) => ({
+ dispatch
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+ )(CustomTooltipControl);

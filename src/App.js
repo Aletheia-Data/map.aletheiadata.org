@@ -59,6 +59,7 @@ const KeplerGl = require('kepler.gl/components').injectComponents([
 
 // config
 import provinciaConfig from './data/AdminLevel4-config';
+import municipalitiesConfig from './data/municipalities-config';
 import {addDataToMap, addNotification, onMapClick} from 'kepler.gl/actions';
 import {processCsvData, processGeojson} from 'kepler.gl/processors';
 /* eslint-enable no-unused-vars */
@@ -155,7 +156,7 @@ const GlobalStyle = styled.div`
     opacity: 1;
   }
 
-  .settings-scale{
+  .settings-scale, .settings-home{
     border-radius: 10px;
     z-index: 1;
     background: #fff;
@@ -201,6 +202,17 @@ const GlobalStyle = styled.div`
   .settings-panel-scale-container span:first-child{
     font-size: 38px;
     padding: 0 4px;
+  }
+
+  .settings-home{
+    width: 60px;
+    height: 62px;
+    left: 340px;
+  }
+
+  .settings-home img{
+    height: 100%;
+    width: 40px;
   }
 
   .loader {
@@ -458,10 +470,17 @@ class App extends Component {
   };
 
   _getMapboxRef = (mapbox, index) => {
+    
     if (!mapbox) {
       // The ref has been unset.
       // https://reactjs.org/docs/refs-and-the-dom.html#callback-refs
       // console.log(`Map ${index} has closed`);
+      mapbox = document.getElementById('map');
+      console.log(mapbox);
+      const map = mapbox.getMap();
+      map.on('zoomend', e => {
+        console.log(`Map ${index} zoom level: ${e.target.style.z}`);
+      });
     } else {
       // We expect an InteractiveMap created by KeplerGl's MapContainer.
       // https://uber.github.io/react-map-gl/#/Documentation/api-reference/interactive-map
@@ -590,7 +609,7 @@ class App extends Component {
           <div className="map-prov" style={{ width: '100%', height: '100%', position: 'absolute', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
             <img className="map-prov-img" style={{ width: 137, position: 'relative', left: '-87px', top: '-86px'}} src={'/assets/img/mapPreview.png'}></img>
           </div>
-          <div className="layer-prov" style={{ backgroundImage: `url('/assets/img/previewSide.png')`, backgroundSize: 'cover', zIndex: 0, height: '80%', position: 'absolute', right: '10px', top: '10px', width: '290px' }}></div>
+          <div className="layer-prov" style={{ backgroundImage: `url('/assets/img/previewSide.png')`, backgroundSize: '100%', zIndex: 0, height: '80%', position: 'absolute', right: '10px', top: '10px', width: '290px' }}></div>
           {
             showSidepanel &&
             <CustomTooltipControl layerHoverProp={distritoNational} frozen={showSidepanel} /> 
@@ -640,7 +659,7 @@ class App extends Component {
                 <ContactForm />
               </Modal.Body>
               <Modal.Footer>
-                <span>v0.0.2</span>
+                <span>v0.0.3</span>
               </Modal.Footer>
             </Modal>
           </div>
@@ -651,12 +670,15 @@ class App extends Component {
               {
                 colorsScale.map(color => {
                   return (
-                    <div style={{ backgroundColor: color }} className={'settings-panel-scale'}></div>
+                    <div key={`color_${color}`} style={{ backgroundColor: color }} className={'settings-panel-scale'}></div>
                   )
                 })
               }
               <span>+</span>
             </div>
+          </div>
+          <div className={'settings-home'}>
+            <img src={'/assets/img/magnification.svg'} style={{ cursor: 'pointer' }} onClick={()=>{ /* window.location.href = '/' */ this._loadSampleData() }} />   
           </div>
           <div style={{
             transition: 'opacity 1s ease-in-out',
@@ -672,7 +694,7 @@ class App extends Component {
             justifyContent: 'center',
             alignItems: 'center'
           }}>
-            <div class="loader">Loading...</div>
+            <div className="loader">Loading...</div>
           </div>
           <div
               style={{
@@ -693,7 +715,7 @@ class App extends Component {
                       /*
                       * Specify path to keplerGl state, because it is not mount at the root
                       */
-                      onViewStateChange={(e) => console.log(e) }
+                      //onViewStateChange={(e) => console.log(e) }
                       mapStyles={mapStyles}
                       theme={customTheme}
                       getState={keplerGlGetState}

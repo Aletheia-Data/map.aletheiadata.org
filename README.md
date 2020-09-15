@@ -1,6 +1,6 @@
-# Demo App 
+# MAP ALETHEIA DATA 
 
-This is the src code of kepler.gl demo app. You can copy this folder out and run it locally.
+This is the src code of MAP Aletheia Data.
 
 #### 1. Install
 
