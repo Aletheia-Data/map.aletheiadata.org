@@ -36,6 +36,7 @@ import {LayerHoverInfoFactory} from 'kepler.gl/components';
 import InfoPanel from '../info-panel-control/info-panel-control';
 import InfoPanelProfile from '../info-panel-control/info-panel-profile-control';
 import InfoPanelPresidencial from '../info-panel-control/info-panel-presidencial-control';
+import InfoPanelMunicipality from '../info-panel-control/info-panel-municipality-control';
 
 import { slide as SidePanel } from 'react-burger-menu';
 import ContentLoader from "react-content-loader";
@@ -91,9 +92,13 @@ const StyledMapControlOverlay = styled.div`
     transition: background-color 0.3s ease-out;
   }
 
-  .button-container button.disabled, .button-container button:hover {
+  .button-container button.disabled{
     background-color: #adbdbf;
     color: #0000004f;
+  }
+
+  .button-container button:hover {
+    background-color: #658f92;
   }
 `;
 
@@ -361,6 +366,14 @@ class CustomTooltipControl extends React.Component {
       })
       console.log(prov);
 
+      if (prov.ADM4_REF){
+        this.getDataMunicipality(prov)
+      } else {
+        this.getDataProv(prov)
+      }
+    }
+
+    getDataProv = async (prov) =>{
       const revProv = prov.ADM2_ES.split('Provincia ');
       let name;
       if (revProv[1]){
@@ -442,13 +455,98 @@ class CustomTooltipControl extends React.Component {
           loading: true
         })
       });
-      
+    }
 
+    getDataMunicipality = async (mun) =>{
+      const revProv = mun.ADM3_ES.split('Municipio ');
+      
+      let name;
+      if (revProv[1]){
+        name = revProv[1];
+      } else {
+        name = revProv[0];
+      }
+      console.log(name);
+      
+      console.log(revProv);
+      //name = revProv;
+      switch (name) {
+        case 'Sánchez Ramírez':
+          name = "SANCHEZ RAMIREZ"
+          break;
+        case 'San José de Ocoa':
+          name = "SAN JOSE DE OCOA"
+          break;
+        case 'Santiago Rodríguez':
+          name = "SANTIAGO RODRIGUEZ"
+          break;
+        case 'Baoruco':
+          name = "BAHORUCO"
+          break;
+        case 'Elías Piña':
+          name = "ELIAS PIÑA"
+          break;
+        case 'Dajabón':
+          name = "DAJABON"
+          break;
+        case 'María Trinidad Sánchez':
+          name = "MARIA TRINIDAD SANCHEZ"
+          break;
+        case 'Samaná':
+          name = "SAMANA"
+          break;
+        case 'San Pedro de Macorís':
+          name = "SAN PEDRO DE MACORIS"
+          break;
+        case 'San Cristóbal':
+          name = "SAN CRISTOBAL"
+          break;
+      
+        default:
+          break;
+      }
+
+      const totalPresidencial = this._getTotal(name,"PRESIDENCIAL");
+      const totalSenaduria = this._getTotal(name,"SENADURIA");
+      const totalDiputacion = this._getTotal(name,"DIPUTACION");
+      //console.log(totalValidsVotes, totalIssuedVotes);
+
+      // GET CONGRESUAL
+      let search = `https://api.aletheiadata.org/v1/jce/elecciones/2020?query=municipio&value=${name}`;
+
+      console.log(search);
+
+      await fetch(search, {
+        mode: 'cors'
+      })
+      .then(res => {
+        if (!res.ok) {
+            throw new Error("HTTP status " + res.status);
+        }
+        return res.json();
+      })
+      .then(data =>{
+        console.log('done: ', data);
+        console.log('muni: ', data[0]);
+        this.setState({
+          profiles: data,
+          loading: false,
+          municipality_candidates: [data[0]]
+        })
+        
+      })
+      .catch(err => {
+        console.log(err);
+        this.setState({
+          loading: true
+        })
+      });
     }
 
     getMunicipality = async (prov) => {
       this.setState({
-        loadingMunicipality: true
+        loadingMunicipality: true,
+        loading: true
       })
       console.log(prov);
   
@@ -586,7 +684,7 @@ class CustomTooltipControl extends React.Component {
       if (type == 'click'){
           return (
               <div className={'button-container'} key={`button_${text}`}>
-                  <button className={'disabled'} onClick={()=>{ /* this.getMunicipality(this.state.currentSelection) */ }}>{text}</button>
+                  <button onClick={()=>{ this.getMunicipality(this.state.currentSelection) }}>{text}</button>
               </div>
           )
       } 
@@ -596,8 +694,17 @@ class CustomTooltipControl extends React.Component {
       if (this.props.frozen && this.props.layerHoverProp){
         //console.log(this.props.layerHoverProp);
         const dataLayer = this.props.layerHoverProp.data[0].properties;
+        //console.log(this.state.currentSelection);
         // if province clicked
         if (
+          this.state.currentSelection.ADM4_REF && this.state.currentSelection.ADM4_REF != dataLayer.ADM4_REF
+        ){
+          this.state.currentSelection = dataLayer,
+          this.state.seeMoreProfiles = 0,
+          this.state.isOpen = true;
+          console.log(dataLayer);
+          this.getData(dataLayer);
+        } else if (
           this.state.currentSelection.ADM2_PCODE != dataLayer.ADM2_PCODE
         ){
           this.state.currentSelection = dataLayer,
@@ -628,7 +735,18 @@ class CustomTooltipControl extends React.Component {
                   className={'slider-more-profile'}
                   style={{ backgroundColor: '#fff', height: '100%', width: '100%' }}>
                     <div>
-                      <InfoPanel 
+                      {
+                        this.state.municipality_candidates && this.state.municipality_candidates.length > 0 &&
+                        <InfoPanelMunicipality
+                        data={this.state.currentSelection} 
+                        cabinet={this.getPresidencial()} 
+                        profiles={this.state.profiles} 
+                        municipality_candidates={this.state.municipality_candidates} 
+                        _toogleSlide={(e)=>this._toogleSlide(e)} />
+                      }
+                      {
+                        this.state.totalPresidencial &&
+                        <InfoPanel 
                         data={this.state.currentSelection} 
                         cabinet={this.getPresidencial()} 
                         profiles={this.state.profiles} 
@@ -636,25 +754,40 @@ class CustomTooltipControl extends React.Component {
                         totalSenaduria={this.state.totalSenaduria} 
                         totalDiputacion={this.state.totalDiputacion} 
                         _toogleSlide={(e)=>this._toogleSlide(e)} />
+                      }
                     </div>
                     <div>
-                      <InfoPanelProfile 
+                      {
+                        this.state.municipality_candidates &&
+                        <p>test 2</p>
+                      }
+                      {
+                        this.state.totalPresidencial &&
+                        <InfoPanelProfile 
                         data={this.state.currentSelection} 
                         profiles={this.state.profiles} 
                         totalSenaduria={this.state.totalSenaduria} 
                         totalDiputacion={this.state.totalDiputacion} 
                         _toogleSlide={(e)=>this._toogleSlide(e)} />
+                      }
                     </div>
                     <div>
-                      <InfoPanelPresidencial 
+                      {
+                        this.state.municipality_candidates &&
+                        <p>test 3</p>
+                      }
+                      {
+                        this.state.totalPresidencial &&
+                        <InfoPanelPresidencial 
                         totalPresidencial={this.state.totalPresidencial} 
                         presidencial={this.getPresidencial()} 
                         cabinet={this.getCabinet()} 
                         _toogleSlide={(e)=>this._toogleSlide(e)} />
+                      }
                     </div>
                   </AwesomeSlider>
                   <div className={'info-button-container'}>
-                    <Whisper
+                    {/* <Whisper
                         trigger="hover"
                         placement={'top'}
                         speaker={
@@ -663,8 +796,9 @@ class CustomTooltipControl extends React.Component {
                             </Tooltip>
                         }
                     >
-                        { this._button('Ver municipios', `click`) }
-                    </Whisper>
+                        
+                    </Whisper> */}
+                    { this._button('Ver municipios', `click`) }
                   </div>
                 </div>
               }

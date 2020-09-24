@@ -68,6 +68,8 @@ const BannerHeight = 48;
 const BannerKey = `banner-${FormLink}`;
 const keplerGlGetState = state => state.demo.keplerGl;
 
+import Loading from './components/loading';
+
 // import default style
 import 'rsuite/dist/styles/rsuite-default.css';
 
@@ -614,6 +616,8 @@ class App extends Component {
             showSidepanel &&
             <CustomTooltipControl layerHoverProp={distritoNational} frozen={showSidepanel} /> 
           }
+
+          <Loading show={ this.state.isLoading } />
           
           <Steps
             enabled={stepsEnabled}
@@ -677,8 +681,8 @@ class App extends Component {
               <span>+</span>
             </div>
           </div>
-          <div className={'settings-home'}>
-            <img src={'/assets/img/magnification.svg'} style={{ cursor: 'pointer' }} onClick={()=>{ /* window.location.href = '/' */ this._loadSampleData() }} />   
+          <div className={'settings-home'} style={{ boxShadow: this.state.isLoading ? 'inset rgba(0,0,0,0.12) 0px 3px 18px, inset rgba(0,0,0,0.1) 0px 1px 3px' : '' }}>
+            <img src={'/assets/img/home.svg'} style={{ cursor: 'pointer' }} onClick={()=>{ /* window.location.href = '/' */ this._loadSampleData() }} />   
           </div>
           <div style={{
             transition: 'opacity 1s ease-in-out',
