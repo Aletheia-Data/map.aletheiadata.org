@@ -28,6 +28,19 @@ export MapboxAccessToken=<your_mapbox_token>
 npm start
 ```
 
+
+## Contributing
+
+Las pull request son bienvenidas. Para cambios importantes, abra primero un (issue)[https://github.com/EnzoVezzaro/map.aletheiadata.org/issues/new] para discutir qué le gustaría cambiar.
+
+Por favor asegúrese de hacer las pruebas correspondondientes.
+
+
+## Gitpod
+
+[![Gitpod ready-to-code](https://img.shields.io/badge/Gitpod-ready--to--code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/EnzoVezzaro/map.aletheiadata.org)
+
+
 ## License
 
 MIT License
