@@ -66,3 +66,8 @@ export const AUTH_TOKENS = {
   EXPORT_MAPBOX_TOKEN: process.env.MapboxExportToken, // eslint-disable-line
   CARTO_CLIENT_ID: process.env.CartoClientId // eslint-disable-line
 };
+
+export const RAPID_API = {
+  RAPID_API_HOST: process.env.RapidApiHost,
+  RAPID_API_KEY: process.env.RapidApiKey,
+};
