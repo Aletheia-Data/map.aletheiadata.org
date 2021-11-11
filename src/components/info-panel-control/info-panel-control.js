@@ -173,8 +173,7 @@ const _members = ((data, type, func, section)=>{
             </Whisper>
         )
     } else if (type == 'items'){
-        data = data._source;
-        //console.log(data);
+        //data = data._source;
         let img = getProfileImg(data ? data.NOMBRE_COMPLETO : null);
 
         return (

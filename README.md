@@ -28,7 +28,6 @@ export MapboxAccessToken=<your_mapbox_token>
 npm start
 ```
 
-
 ## Contributing
 
 Las pull request son bienvenidas. Para cambios importantes, abra primero un (issue)[https://github.com/EnzoVezzaro/map.aletheiadata.org/issues/new] para discutir qué le gustaría cambiar.
