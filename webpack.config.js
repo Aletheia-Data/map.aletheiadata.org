@@ -83,7 +83,9 @@ const CONFIG = {
       'MapboxAccessToken',
       'DropboxClientId',
       'MapboxExportToken',
-      'CartoClientId'
+      'CartoClientId',
+      'RapidApiHost',
+      'RapidApiKey'
     ]),
     new CopyPlugin({
       patterns: [

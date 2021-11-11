@@ -47,6 +47,8 @@ import { Tooltip, Whisper } from 'rsuite';
 
 import Prov_totals from '../../data/tot-votes-2020';
 
+import { RAPID_API } from '../../constants/default-settings';
+
 const TooltipControl = LayerHoverInfoFactory();
 
 const axios = require('axios').default;
@@ -164,6 +166,7 @@ class CustomTooltipControl extends React.Component {
         seeMoreProfiles: 0,
         loading: true
       }
+      
     }
 
     handleStateChange = (sta) => {
@@ -416,7 +419,7 @@ class CustomTooltipControl extends React.Component {
       // GET CONGRESUAL
       var options = {
         method: 'GET',
-        url: 'https://aletheia2.p.rapidapi.com/v2/jce/csv/ipfs/bafkreihnz64hv7sjkvasttihblvnw22zymw54bwy2y6tiz5dzfccv5onnq',
+        url: `https://${RAPID_API.RAPID_API_HOST}/v2/jce/csv/ipfs/bafkreihnz64hv7sjkvasttihblvnw22zymw54bwy2y6tiz5dzfccv5onnq`,
         params: {
           limit: '10', 
           info: 'false', 
@@ -424,8 +427,8 @@ class CustomTooltipControl extends React.Component {
           value: name
         },
         headers: {
-          'x-rapidapi-host': 'aletheia2.p.rapidapi.com',
-          'x-rapidapi-key': '6d34f1d3bdmsh86a59ade51655a3p1e3748jsn3f36019317a8'
+          'x-rapidapi-host': RAPID_API.RAPID_API_HOST,
+          'x-rapidapi-key': RAPID_API.RAPID_API_KEY
         }
       };
 
