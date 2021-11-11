@@ -49,6 +49,8 @@ import Prov_totals from '../../data/tot-votes-2020';
 
 const TooltipControl = LayerHoverInfoFactory();
 
+const axios = require('axios').default;
+
 const StyledMapControlOverlay = styled.div`
   position: absolute;
   top: 0px;
@@ -412,37 +414,37 @@ class CustomTooltipControl extends React.Component {
       //console.log(totalValidsVotes, totalIssuedVotes);
 
       // GET CONGRESUAL
-      let search = `https://api.aletheiadata.org/v1/jce/elecciones/2020/congresuales/?query=PROVINCIA&value=${name}`;
-
-      console.log(search);
-
-      await fetch(search, {
-        mode: 'cors'
-      })
-      .then(res => {
-        if (!res.ok) {
-            throw new Error("HTTP status " + res.status);
+      var options = {
+        method: 'GET',
+        url: 'https://aletheia2.p.rapidapi.com/v2/jce/csv/ipfs/bafkreihnz64hv7sjkvasttihblvnw22zymw54bwy2y6tiz5dzfccv5onnq',
+        params: {
+          limit: '10', 
+          info: 'false', 
+          fields: 'PROVINCIA', 
+          value: name
+        },
+        headers: {
+          'x-rapidapi-host': 'aletheia2.p.rapidapi.com',
+          'x-rapidapi-key': '6d34f1d3bdmsh86a59ade51655a3p1e3748jsn3f36019317a8'
         }
-        return res.json();
-      })
-      .then(data =>{
-        console.log('done: ', data);
-        this.setState({
-          profiles: data,
-          loading: false,
-          totalPresidencial: totalPresidencial,
-          totalSenaduria: totalSenaduria,
-          totalDiputacion: totalDiputacion,
-        })
+      };
+
+      const self = this;
+      await axios.request(options).then(function (response) {
+        console.log('done: ', response.data);
         
-      })
-      .catch(err => {
-        console.log(err);
-        this.setState({
+        self.state.profiles = response.data.body;
+        self.state.loading = false;
+        self.state.totalPresidencial = totalPresidencial;
+        self.state.totalSenaduria = totalSenaduria;
+        self.state.totalDiputacion = totalDiputacion;
+
+      }).catch(function (error) {
+        console.log(error);
+        self.setState({
           loading: true
         })
       });
-      
 
     }
 
@@ -508,6 +510,7 @@ class CustomTooltipControl extends React.Component {
       console.log(name);
   
       // GET CONGRESUAL
+      // TODO: move to ipfs
       let search = `https://s3.amazonaws.com/map.aletheiadata.org/maps/provinces/${name}.json`;
       
       await fetch(search, {
